@@ -1,12 +1,15 @@
 <?php
 
-use Drupal\migrate\Plugin\MigrationInterface;
-use Drupal\migrate\Plugin\MigrateSourceInterface;
-use Drupal\migrate\Row;
 use Drupal\Component\Utility\Html;
+use Drupal\migrate\Plugin\MigrateSourceInterface;
+use Drupal\migrate\Plugin\MigrationInterface;
+use Drupal\migrate\Row;
 
 /**
  * Implements hook_migrate_prepare_row().
+ *
+ * Get the Book page that is the old Group landing page and take it's alias and
+ * apply it to the new group alias.
  */
 function og_to_group_migrate_prepare_row(Row $row, MigrateSourceInterface $source, MigrationInterface $migration) {
   switch ($migration->id()) {
@@ -24,8 +27,9 @@ function og_to_group_migrate_prepare_row(Row $row, MigrateSourceInterface $sourc
       if (strcmp('/', $group_book_alias)) {
         $title = $row->getSourceProperty('title');
         $clean_title = Html::cleanCssIdentifier($title);
-        $alias = '/'. strtolower($clean_title);
-      } else {
+        $alias = '/' . strtolower($clean_title);
+      }
+      else {
         $alias = '/' . $group_book_alias;
       }
       $row->setSourceProperty('alias', $alias);
