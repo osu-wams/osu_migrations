@@ -5,11 +5,12 @@ namespace Drupal\og_to_group\Plugin\migrate\source;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
-use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
  * Drupal 7 OG Membership source from Database, Filtered.
  *
+ * Migrate Source Plugin to query Drupal 7 and load a filtered set of group
+ * memberships filtering based on the group role.
  * @MigrateSource(
  *   id = "d7_og_membership_filtered",
  *   source_module = "og"
@@ -23,7 +24,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  *     - author
  * @endcode
  */
-class OgMembershipFiltered extends DrupalSqlBase {
+class OgMembershipFiltered extends OgMembership {
 
   /**
    * List of Group Roles used to filter membership on.
@@ -40,40 +41,20 @@ class OgMembershipFiltered extends DrupalSqlBase {
     $this->groupRoles = $configuration['roles_name'];
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public function getIds() {
-    return [
-      'id' => [
-        'type' => 'integer',
-      ],
-    ];
-  }
 
   /**
    * {@inheritDoc}
+   *
+   * Join roles and user roles on OG Memberships to filter relationships to
+   * users who have the provided roles.
    */
   public function query() {
-    $query = $this->select('og_membership', 'ogm');
-    $query->fields('ogm', ['id', 'etid', 'gid']);
+    $query = parent::query();
     $query->innerJoin('og_users_roles', 'ogur', 'ogm.gid = ogur.gid');
     $query->innerJoin('og_role', 'ogr', 'ogur.rid = ogr.rid');
-    $query->condition('ogm.entity_type', 'user', '=');
     $query->condition('ogr.name', $this->groupRoles, 'IN');
     $query->distinct(TRUE);
     return $query;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function fields() {
-    return [
-      'id' => $this->t('The Group Membership ID'),
-      'etid' => $this->t('The Target Entity ID'),
-      'gid' => $this->t('The Group ID'),
-    ];
   }
 
 }

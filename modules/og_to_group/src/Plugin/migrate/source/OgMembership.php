@@ -7,6 +7,9 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 /**
  * Drupal 7 OG Membership source from Database.
  *
+ * Migrate Source plugin to query Drupal 7 and load all user relationships for
+ * group membership.
+ *
  * @MigrateSource(
  *   id = "d7_og_membership",
  *   source_module = "og"
@@ -32,6 +35,8 @@ class OgMembership extends DrupalSqlBase {
 
   /**
    * {@inheritDoc}
+   *
+   * Query the OG Membership table and grab only user relationships.
    */
   public function query() {
     $query = $this->select('og_membership', 'ogm');
