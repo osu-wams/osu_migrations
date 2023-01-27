@@ -11,6 +11,7 @@ use Drupal\migrate\Plugin\MigrationInterface;
  *
  * Migrate Source Plugin to query Drupal 7 and load a filtered set of group
  * memberships filtering based on the group role.
+ *
  * @MigrateSource(
  *   id = "d7_og_membership_filtered",
  *   source_module = "og"
@@ -40,7 +41,6 @@ class OgMembershipFiltered extends OgMembership {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $migration, $state, $entity_type_manager);
     $this->groupRoles = $configuration['roles_name'];
   }
-
 
   /**
    * {@inheritDoc}
