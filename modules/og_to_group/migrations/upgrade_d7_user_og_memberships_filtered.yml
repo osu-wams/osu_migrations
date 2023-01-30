@@ -1,0 +1,47 @@
+langcode: en
+status: true
+dependencies: { }
+id: upgrade_d7_user_og_memberships_filtered
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7 OG'
+  - 'OSU Groups'
+migration_group: insert_group
+label: 'Insert Group Membership'
+source:
+  plugin: d7_og_membership_filtered
+  roles_name:
+    - group manager
+    - group author
+process:
+  label: etid
+  type:
+    plugin: default_value
+    default_value: basic_group-group_membership
+  group_roles:
+    plugin: default_value
+    default_value: basic_group-content_author
+  gid:
+    - plugin: migration_lookup
+      migration: upgrade_d7_node_og_group
+      no_stub: true
+      source: gid
+    - plugin: skip_on_empty
+      method: row
+      message: 'uid is missing'
+  entity_id:
+    - plugin: migration_lookup
+      migration: upgrade_d7_users_with_roles
+      no_stub: true
+      source: etid
+    - plugin: skip_on_empty
+      method: row
+      message: 'uid is missing'
+destination:
+  plugin: 'entity:group_content'
+migration_dependencies:
+  required:
+    - upgrade_d7_users_with_roles
+    - upgrade_d7_node_og_group

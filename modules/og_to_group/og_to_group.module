@@ -1,0 +1,38 @@
+<?php
+
+use Drupal\Component\Utility\Html;
+use Drupal\migrate\Plugin\MigrateSourceInterface;
+use Drupal\migrate\Plugin\MigrationInterface;
+use Drupal\migrate\Row;
+
+/**
+ * Implements hook_migrate_prepare_row().
+ *
+ * Get the Book page that is the old Group landing page and take it's alias and
+ * apply it to the new group alias.
+ */
+function og_to_group_migrate_prepare_row(Row $row, MigrateSourceInterface $source, MigrationInterface $migration) {
+  switch ($migration->id()) {
+    case 'upgrade_d7_node_og_group':
+      $group_name = $row->getSourceProperty('title');
+      $group_book_id = $source->getDatabase()
+        ->query('select [nid] from {node} where [title] = :title and type = :type', [
+          ':title' => $group_name,
+          ':type' => 'book',
+        ])->fetchField();
+      $group_book_alias = $source->getDatabase()
+        ->query('select [alias] from {url_alias} where [source] = :alias', [
+          ':alias' => 'node/' . $group_book_id,
+        ])->fetchField();
+      if (strcmp('/', $group_book_alias)) {
+        $title = $row->getSourceProperty('title');
+        $clean_title = Html::cleanCssIdentifier($title);
+        $alias = '/' . strtolower($clean_title);
+      }
+      else {
+        $alias = '/' . $group_book_alias;
+      }
+      $row->setSourceProperty('alias', $alias);
+      break;
+  }
+}
