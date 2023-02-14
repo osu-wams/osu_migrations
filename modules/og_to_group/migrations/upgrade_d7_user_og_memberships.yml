@@ -11,7 +11,7 @@ migration_tags:
 migration_group: insert_group
 label: 'Insert Group Membership'
 source:
-  plugin: d7_og_membership
+  plugin: d7_og_membership_user
 process:
   label: etid
   type:
@@ -27,7 +27,7 @@ process:
       source: gid
     - plugin: skip_on_empty
       method: row
-      message: 'uid is missing'
+      message: 'gid is missing'
   entity_id:
     - plugin: migration_lookup
       migration: upgrade_d7_users_with_roles

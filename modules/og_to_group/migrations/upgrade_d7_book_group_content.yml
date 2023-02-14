@@ -1,28 +1,25 @@
 langcode: en
 status: true
 dependencies: { }
-id: upgrade_d7_user_og_memberships_filtered
+id: upgrade_d7_book_group_content
 class: Drupal\migrate\Plugin\Migration
 field_plugin_method: null
 cck_plugin_method: null
 migration_tags:
+  - 'Drupal 7'
   - 'Drupal 7 OG'
   - 'OSU Groups'
-migration_group: insert_group
-label: 'Insert Group Membership'
+migration_group: nodes
+label: 'Migrate Book content from d7 into Group content'
 source:
-  plugin: d7_og_membership_user
-  role_name:
-    - group manager
-    - group author
+  plugin: d7_og_membership_content
+  node_type:
+    - book
 process:
   label: etid
   type:
     plugin: default_value
-    default_value: basic_group-group_membership
-  group_roles:
-    plugin: default_value
-    default_value: basic_group-content_author
+    default_value: basic_group-group_node-page
   gid:
     - plugin: migration_lookup
       migration: upgrade_d7_node_og_group
@@ -30,18 +27,17 @@ process:
       source: gid
     - plugin: skip_on_empty
       method: row
-      message: 'uid is missing'
+      message: 'gid is missing'
   entity_id:
     - plugin: migration_lookup
-      migration: upgrade_d7_users_with_roles
+      migration: upgrade_d7_node_book
       no_stub: true
       source: etid
     - plugin: skip_on_empty
       method: row
-      message: 'uid is missing'
+      message: 'node missing.'
 destination:
   plugin: 'entity:group_content'
 migration_dependencies:
   required:
-    - upgrade_d7_users_with_roles
     - upgrade_d7_node_og_group

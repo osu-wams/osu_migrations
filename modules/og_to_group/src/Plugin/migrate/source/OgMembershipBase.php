@@ -5,25 +5,12 @@ namespace Drupal\og_to_group\Plugin\migrate\source;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
- * Drupal 7 OG Membership source from Database.
- *
- * Migrate Source plugin to query Drupal 7 and load all user relationships for
- * group membership.
- *
- * @MigrateSource(
- *   id = "d7_og_membership",
- *   source_module = "og"
- * )
- *
- * @code
- * source:
- *   plugin: d7_og_membership
- * @endcode
+ * Base OG Migration class.
  */
-class OgMembership extends DrupalSqlBase {
+class OgMembershipBase extends DrupalSqlBase {
 
   /**
-   * {@inheritDoc}
+   * @inheritDoc
    */
   public function getIds() {
     return [
@@ -34,20 +21,18 @@ class OgMembership extends DrupalSqlBase {
   }
 
   /**
-   * {@inheritDoc}
-   *
-   * Query the OG Membership table and grab only user relationships.
+   * @inheritDoc
    */
   public function query() {
     $query = $this->select('og_membership', 'ogm');
     $query->fields('ogm', ['id', 'etid', 'gid']);
-    $query->condition('ogm.entity_type', 'user');
     $query->distinct();
+
     return $query;
   }
 
   /**
-   * {@inheritDoc}
+   * @inheritDoc
    */
   public function fields() {
     return [
