@@ -1,0 +1,34 @@
+id: paragraph_2_col_left__to__layout_builder
+label: Drupal 7 paragraph_2_col Paragraphs
+migration_group: paragraphs_to_layout_builder
+dependencies:
+  enforced:
+    module:
+      - osu_migrations
+      - paragraphs_to_layout_builder
+
+source:
+  plugin: d7_paragraphs_item
+  bundle: paragraph_2_col
+  key: migrate
+process:
+  type:
+    plugin: default_value
+    default_value: 'paragraph_block'
+  body: field_p_2_col_left_main
+  field_styles:
+    plugin: class_list
+    source: field_p_2_col_styles
+  info:
+    plugin: default_value
+    default_value: 'Migrated d7 paragraph paragraph_2_col'
+  reusable:
+    plugin: default_value
+    default_value: 0
+
+destination:
+  plugin: entity:block_content
+
+migration_dependencies:
+  required: {  }
+  optional: {  }
