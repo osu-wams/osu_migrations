@@ -40,6 +40,7 @@ process:
       - field_profile_middle_name
       - field_profile_last_name
       - field_profile_biography
+      - field_profile_image
 destination:
   plugin: 'entity:node'
 migration_dependencies:
