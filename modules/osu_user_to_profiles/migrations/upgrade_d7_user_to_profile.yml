@@ -6,6 +6,22 @@ class: Drupal\migrate\Plugin\Migration
 field_plugin_method: null
 cck_plugin_method: null
 migration_tags:
-  - 'Drupal 7 OG'
+  - 'OSU Drupal Profile'
 migration_group: insert_users
 label: 'Filtered User Accounts'
+source:
+  plugin: d7_user
+process:
+  nid: uid
+  title:
+    - plugin: get
+      source: name
+  field_profile_email:
+    - plugin: get
+      source: mail
+  type:
+    plugin: default_value
+    default_value: osu_profile
+destination:
+  plugin: 'entity:node'
+

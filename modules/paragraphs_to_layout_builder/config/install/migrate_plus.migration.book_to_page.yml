@@ -41,7 +41,7 @@ process:
 
 destination:
   bundle: page
-
+migration_dependencies:
   required:
     - paragraph_1_col_clean__to__layout_builder
     - paragraph_1_col__to__layout_builder
