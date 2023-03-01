@@ -77,11 +77,19 @@ class ParagraphsLayout extends LayoutBase {
           } else {
             $migration_ids[$map[$type]] = "blb_region_col_1";
           }
-          // iterate through migration_ids creating components for each block and attatching to section
-          foreach ($migration_ids as $id => $row) {
-            $migrationItem = new LayoutMigrationItem($type, $item['value'], $delta, $id);
-            $component = $this->createComponent($migrationItem, $section, $row);
-            $section->appendComponent($component);
+          // iterate through migration_ids creating components for each block and attaching to section
+          foreach ($migration_ids as $migration_id => $row) {
+            $migrationItem = new LayoutMigrationItem($type, $item['value'], $delta, $migration_id);
+            $components = $this->createComponent($migrationItem, $section, $row);
+
+            // limitations on menu migrations means we don't know what section type to use until now
+            if ($components[0]->get('configuration')['id'] == 'inline_block:osu_menu_bar_item') {
+              $section = $this->createSection('bootstrap_layout_builder:blb_col_' . sizeof($components), []);
+            }
+
+            foreach ($components as $component) {
+              $section->appendComponent($component);
+            }
           }
 
           $sections[] = $section;
