@@ -1,13 +1,13 @@
 langcode: en
 status: true
+id: content
+label: Nodes
+description: 'A container for migrating Node entities'
 dependencies:
   enforced:
     module:
       - paragraphs_to_layout_builder
       - osu_migrations
-id: content
-label: Nodes
-description: 'A container for migrating Node entities'
 source_type: 'Drupal 7'
 module: null
 shared_configuration:

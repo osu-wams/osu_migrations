@@ -6,7 +6,11 @@ dependencies:
     module:
       - osu_migrations
       - paragraphs_to_layout_builder
-
+migration_tags:
+  - Drupal 7
+  - Content
+  - Layout content
+  - OSU
 source:
   plugin: d7_paragraphs_item
   bundle: paragraph_3_col

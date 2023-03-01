@@ -1,3 +1,5 @@
+langcode: en
+status: true
 id: paragraph_1_col__to__layout_builder
 label: Drupal 7 paragraph_1_col Paragraphs
 migration_group: paragraphs_to_layout_builder
@@ -6,7 +8,11 @@ dependencies:
     module:
       - osu_migrations
       - paragraphs_to_layout_builder
-
+migration_tags:
+  - Drupal 7
+  - Content
+  - Layout content
+  - OSU
 source:
   plugin: d7_paragraphs_item
   bundle: paragraph_1_col
@@ -28,5 +34,5 @@ destination:
   plugin: entity:block_content
 
 migration_dependencies:
-  required: {  }
-  optional: {  }
+  required: { }
+  optional: { }

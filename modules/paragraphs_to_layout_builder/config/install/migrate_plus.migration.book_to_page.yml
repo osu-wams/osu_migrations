@@ -1,17 +1,18 @@
 langcode: en
 status: true
+id: book_to_page
+label: 'Page Content Migration'
+migration_group: content
 dependencies:
   enforced:
     module:
       - paragraphs_to_layout_builder
       - osu_migrations
-id: book_to_page
 migration_tags:
-  - 'Drupal 7'
+  - Drupal 7
   - Content
-  - 'Layout content'
-migration_group: content
-label: 'Page Content Migration'
+  - Layout content
+  - OSU
 source:
   plugin: d7_node
   node_type: book
