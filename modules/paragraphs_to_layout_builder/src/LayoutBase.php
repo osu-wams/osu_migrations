@@ -241,10 +241,42 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
     // get block and set any additional settings on component or section as needed
     $block_revision_id = $this->blockContentStorage->getLatestRevisionId($block_id);
     $block = \Drupal\block_content\Entity\BlockContent::load($block_id);
+
+    if ($item->getMigrationId() == 'paragraph_menu__to__layout_builder') {
+      return $this->handleMenuItems($block);
+    }
+
     $additional = $this->getAdditionalBlockSettings($block, $row, $item);
     $this->setAdditionalSectionSettings($section, $block, $item);
 
-    return $this->createSectionComponent($block_type, $block_revision_id, $item->getDelta(), $row, $additional);
+    return [$this->createSectionComponent($block_type, $block_revision_id, $item->getDelta(), $row, $additional)];
+  }
+
+  /**
+   * Additional blocks need to be queried for menu items
+   *
+   * @param \Drupal\block\Entity\Block $block
+   *   The block containing IDs of the menu item blocks
+   * @param \Drupal\paragraphs_to_layout_builder\LayoutMigrationItem $item
+   *   A migration item instance.
+   *
+   * @return array
+   *   layout builder block settings array
+   */
+  protected function handleMenuItems($block) {
+    $block_ids = explode(',', $block->body->value);
+    $components = [];
+    foreach ($block_ids as $index => $block_id) {
+      $query = $this->db->select('block_content_field_data', 'b')
+      ->fields('b', ['type'])
+      ->condition('b.id', $block_id, '=');
+      $block_type = $query->execute()->fetchField();
+      $block_revision_id = $this->blockContentStorage->getLatestRevisionId($block_id);
+      $block = \Drupal\block_content\Entity\BlockContent::load($block_id);
+      $row = 'blb_region_col_' . ($index + 1);
+      $components[] = $this->createSectionComponent($block_type, $block_revision_id, 0, $row, []);
+    }
+    return $components;
   }
 
   /**
@@ -371,6 +403,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   public function lookupBlock($migration_id, $id) {
     $source = [$id];
     $block_ids = $this->migrateLookup->lookup($migration_id, $source);
+
     if (empty($block_ids)) {
       throw new LayoutMigrationMissingBlockException(
         sprintf('Unable to find related migrated block for source id %s in migration %s', $id, $migration_id),
@@ -431,6 +464,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       "paragraph_1_col_clean" => "bootstrap_layout_builder:blb_col_1",
       "paragraph_1_col" => "bootstrap_layout_builder:blb_col_1",
       "paragraph_divider" => "bootstrap_layout_builder:blb_col_1",
+      "paragraph_menu" => "bootstrap_layout_builder:blb_col_3",
       "paragraph_2_col" => "bootstrap_layout_builder:blb_col_2",
       "paragraph_3_col" => "bootstrap_layout_builder:blb_col_3"
     );
