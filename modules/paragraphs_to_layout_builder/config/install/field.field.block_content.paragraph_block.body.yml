@@ -7,10 +7,6 @@ dependencies:
     - field.storage.block_content.body
   module:
     - text
-  enforced:
-    module:
-      - paragraphs_to_layout_builder
-      - osu_migrations
 id: block_content.paragraph_block.body
 field_name: body
 entity_type: block_content

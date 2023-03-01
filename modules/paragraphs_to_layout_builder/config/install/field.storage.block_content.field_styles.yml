@@ -5,10 +5,6 @@ dependencies:
   module:
     - block_content
     - text
-  enforced:
-    module:
-      - paragraphs_to_layout_builder
-      - osu_migrations
 id: block_content.field_styles
 field_name: field_styles
 entity_type: block_content
