@@ -12,6 +12,13 @@ migration_tags:
 migration_group: insert_group
 label: 'Insert Group Membership'
 source:
+  # Suppose we only want a limited set of User memberships we can provide a roles_name and a list of roles to filter
+  # the list of users down to.
+  #
+  # plugin: d7_og_membership_user
+  # role_name:
+  #   - group manager
+  #   - group author
   plugin: d7_og_membership_user
 process:
   label: etid
