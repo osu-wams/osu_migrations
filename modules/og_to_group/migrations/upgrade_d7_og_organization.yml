@@ -1,7 +1,7 @@
 langcode: en
 status: true
 dependencies: { }
-id: upgrade_d7_node_og_group
+id: upgrade_d7_node_og_organization
 class: Drupal\migrate\Plugin\Migration
 field_plugin_method: null
 cck_plugin_method: null
@@ -10,23 +10,16 @@ migration_tags:
   - OSU Groups
   - OSU
 migration_group: insert_group
-label: 'Insert OG Group'
+label: 'Insert Organization Tags that match the Groups.'
 source:
   plugin: d7_node
   node_type: group
 process:
-  type:
-    plugin: default_value
-    default_value: basic_group
-  id: nid
-  uid:
-    plugin: default_value
-    default_value: 1
-  label: title
-  path/pathauto:
+  name: title
+  parent:
     plugin: default_value
     default_value: 0
-  path/alias: alias
 destination:
-  plugin: 'entity:group'
+  plugin: 'entity:taxonomy_term'
+  default_bundle: osu_organization
 migration_dependencies: { }
