@@ -12,7 +12,10 @@ label: 'First Name field for profiles'
 source:
   plugin: d7_user_profile_osu_employee
 process:
-  nid: uid
+  nid:
+    - plugin: migration_lookup
+      migration: upgrade_d7_user_to_profile
+      source: uid
   field_profile_office_phone:
     - plugin: get
       source: phone_office_value
@@ -34,6 +37,16 @@ process:
   field_profile_address/country_code:
     - plugin: default_value
       default_value: 'US'
+  field_osu_organizations:
+    - plugin: skip_on_empty
+      source: department
+      method: process
+      message: 'No Department Set.'
+    - plugin: entity_generate
+      entity_type: taxonomy_term
+      value_key: name
+      bundle_key: vid
+      bundle: osu_organization
   type:
     plugin: default_value
     default_value: osu_profile

@@ -12,7 +12,10 @@ label: 'First Name field for profiles'
 source:
   plugin: d7_user_profile_osu_person
 process:
-  nid: uid
+  nid:
+    - plugin: migration_lookup
+      migration: upgrade_d7_user_to_profile
+      source: uid
   field_profile_first_name:
     - plugin: get
       source: first_name_value

@@ -37,6 +37,8 @@ class UserProfileOsuEmployee extends DrupalSqlBase {
     $query = $this->select('profile', 'p');
     $query->fields('p', ['pid', 'uid']);
     $query->leftJoin('field_data_phone_office', 'fdphone', 'fdphone.entity_id = p.pid');
+    $query->leftJoin('field_data_affiliated_with', 'fdaw', 'fdaw.entity_id = p.pid');
+    $query->leftJoin('field_data_department_preferred_name', 'fddpn', 'fddpn.entity_id = fdaw.affiliated_with_target_id');
     $query->leftJoin('field_data_building_and_room', 'fdbar', 'fdbar.entity_id = p.pid');
     $query->innerJoin('field_data_office_location', 'fdol', 'fdol.entity_id = fdbar.building_and_room_value');
     $query->leftJoin('field_data_building_location', 'fdbl', 'fdbl.entity_id = fdol.office_location_target_id');
@@ -46,6 +48,7 @@ class UserProfileOsuEmployee extends DrupalSqlBase {
     $query->leftJoin('field_data_location_state', 'fdlas', 'fdlas.entity_id = fdbl.building_location_target_id');
     $query->leftJoin('field_data_location_zip', 'fdlaz', 'fdlaz.entity_id = fdbl.building_location_target_id');
     $query->addField('fdphone', 'phone_office_value');
+    $query->addField('fddpn', 'department_preferred_name_value', 'department');
     $query->addField('fdlao', 'location_address_one_value');
     $query->addField('fdlat', 'location_address_two_value');
     $query->addField('fdlac', 'location_city_value');
@@ -64,6 +67,7 @@ class UserProfileOsuEmployee extends DrupalSqlBase {
       'pid' => $this->t('The Profile ID'),
       'uid' => $this->t('The User ID'),
       'phone_office_value' => $this->t('The Office Phone Number'),
+      'department' => $this->t('The Org the user belongs to'),
       'location_address_one_value' => $this->t('The First line of the address'),
       'location_address_two_value' => $this->t('The Second line of the address'),
       'location_city_value' => $this->t('The City'),
