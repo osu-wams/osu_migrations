@@ -58,3 +58,5 @@ destination:
 migration_dependencies:
   required:
     - upgrade_d7_user_to_profile
+  optional:
+    - upgrade_d7_node_og_organization
