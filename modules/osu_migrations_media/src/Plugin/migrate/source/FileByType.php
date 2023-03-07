@@ -19,7 +19,9 @@ class FileByType extends File {
         $query = parent::query();
 
         // Filter by file type, if configured.
-        if (isset($this->configuration['type']));
+        if (isset($this->configuration['type'])) {
+            $query->condition('f.type', $this->configuration['type']);
+        }
 
         // Get the alt text, if configured.
         if (isset($this->configuration['get_alt'])) {
