@@ -20,6 +20,9 @@ class FileByType extends File {
 
         // Filter by file type, if configured.
         if (isset($this->configuration['type'])) {
+            // I don't think this will be sufficient.
+            // It seems to me, that we need a subroutine parsing through video assets to determine
+            // 1) local video, 2) remote video, and 3) Kalture|media.o.e
             $query->condition('f.type', $this->configuration['type']);
         }
 
