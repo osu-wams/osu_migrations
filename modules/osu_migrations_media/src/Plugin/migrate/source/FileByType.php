@@ -5,7 +5,7 @@ use Drupal\file\Plugin\migrate\source\d7\File;
 
 /**
  * Drupal 7 file source (optionally filtered by type) from database.
- * 
+ *
  * @MigrateSource(
  *  id = "d7_file_by_type",
  *  source_module = "file"

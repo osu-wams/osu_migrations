@@ -8,7 +8,9 @@ migration_tags:
   - OSU
 source:
   plugin: d7_file_by_type
-  scheme: public
+  scheme:
+    - youtube
+    - vimeo
   type: video
   constants:
     # The tool configuring this migration must set source_base_path. It
