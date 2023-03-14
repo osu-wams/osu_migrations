@@ -464,6 +464,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       "paragraph_1_col_clean" => "bootstrap_layout_builder:blb_col_1",
       "paragraph_1_col" => "bootstrap_layout_builder:blb_col_1",
       "paragraph_divider" => "bootstrap_layout_builder:blb_col_1",
+      "paragraph_accordion" => "bootstrap_layout_builder:blb_col_1",
       "paragraph_menu" => "bootstrap_layout_builder:blb_col_3",
       "paragraph_2_col" => "bootstrap_layout_builder:blb_col_2",
       "paragraph_3_col" => "bootstrap_layout_builder:blb_col_3"
