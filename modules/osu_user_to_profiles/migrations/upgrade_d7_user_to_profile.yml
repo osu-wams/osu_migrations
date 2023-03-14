@@ -13,16 +13,18 @@ label: 'Filtered User Accounts'
 source:
   plugin: d7_user
 process:
-  nid: uid
-  title:
-    - plugin: get
-      source: name
-  field_profile_email:
-    - plugin: get
-      source: mail
+  title: name
+  field_profile_email: mail
   type:
     plugin: default_value
     default_value: osu_profile
+  uid:
+    - plugin: migration_lookup
+      migration: upgrade_d7_users_with_roles
+      source: uid
+      no_stub: true
+    - plugin: default_value
+      default_value: 1
 destination:
   plugin: 'entity:node'
 
