@@ -1,5 +1,4 @@
 id: upgrade_d7_media_local_video
-#class: Drupal\osu_migrations_media\Plugin\migrate\source\FileByType
 label: Media Local Video
 audit: true
 migration_tags:

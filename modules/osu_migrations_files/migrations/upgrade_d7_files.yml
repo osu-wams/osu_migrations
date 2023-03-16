@@ -35,11 +35,10 @@ source:
     #
     # See the configuration for the source_full_path property in the process
     # section below.
-    source_base_path: 'https://health.oregonstate.edu'
+    source_base_path: '/var/www/html/docroot'
 process:
   # If you are using this file to build a custom migration consider removing
   # the fid field to allow incremental migrations.
-#  fid: fid
   filename: filename
   source_full_path:
     - plugin: concat
