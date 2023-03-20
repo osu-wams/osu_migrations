@@ -6,3 +6,4 @@ core_version_requirement: ^9 || ^10
 
 dependencies:
   - osu_migrations:osu_migrations
+  - osu_migrations_files:osu_migrations_files
