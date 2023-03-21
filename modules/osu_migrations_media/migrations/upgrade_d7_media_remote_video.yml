@@ -38,20 +38,13 @@ source:
     # section below.
     source_base_path: '/var/www/html/docroot'
 process:
-  field_media_oembed_video/target_id:
-    -
-      plugin: migration_lookup
-      migration: upgrade_d7_files
-      source: fid
-    -
-      plugin: skip_on_empty
-      method: row
-  field_media_oembed_video/display:
-    plugin: default_value
-    default_value: 1
+  field_media_oembed_video:
+    - plugin: media_remote_video
+      source: uri
   status: status
   created: timestamp
   changed: timestamp
+  uid: uid
 destination:
   plugin: entity:media
   default_bundle: remote_video
