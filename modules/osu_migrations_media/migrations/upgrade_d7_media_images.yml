@@ -55,6 +55,7 @@ process:
   status: status
   created: timestamp
   changed: timestamp
+  uid: uid
 destination:
   plugin: entity:media
   default_bundle: image
