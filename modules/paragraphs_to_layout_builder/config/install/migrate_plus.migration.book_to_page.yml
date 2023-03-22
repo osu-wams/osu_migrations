@@ -40,8 +40,8 @@ process:
     plugin: get
     source:
       '@paragraphs_temp'
-
 destination:
+  plugin: 'entity:node'
   bundle: page
 migration_dependencies:
   required:
