@@ -12,6 +12,7 @@ migration_tags:
   - Drupal 7
   - Content
   - Layout content
+  - OSU Paragraphs
   - OSU
 source:
   plugin: d7_paragraphs_item
@@ -23,6 +24,10 @@ process:
     default_value: 'paragraph_block'
   body: field_p_1_col_main
   field_styles: field_p_1_col_styles
+  # Use the entity_background process plugin to get the new media image id and background style.
+  field_eb_background_fc:
+    plugin: entity_background
+    source: eb_background
   info:
     plugin: default_value
     default_value: 'Migrated d7 paragraph paragraph_1_col'
@@ -34,5 +39,5 @@ destination:
   plugin: entity:block_content
 
 migration_dependencies:
-  required: { }
-  optional: { }
+  required: [ ]
+  optional: [ ]
