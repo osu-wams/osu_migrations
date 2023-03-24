@@ -12,25 +12,29 @@ migration.
 
 ## Migrations:
 
-### User Accounts
+Migrations need to be run in a specific order.
 
-`drush migrate:import --tag='OSU Accounts'`
-This runs every migration require to bring in user accounts and their CAS account linking.
+1. ### User Accounts
 
-### Files
+   This runs every migration require to bring in user accounts and their CAS account linking.
 
-`drush migrate:import upgrade_d7_files`
+   `drush migrate:import --tag='OSU Accounts'`
 
-### Media
+2. ### Files
+   Migrate all the known File Entities.
 
-`drush migrate:import --tag='OSU Media'`
+   `drush migrate:import upgrade_d7_files`
 
-### Paragraphs to Layout Builder
+3. ### Media
+   Migrate all the Media entities.
 
-#### Run all the Paragraphs to LB migrations first.
+   `drush migrate:import --tag='OSU Media'`
 
-`drush migrate:import --tag='OSU Paragraphs'`
+4. ### Paragraphs to Layout Builder
+   Paragraphs to Layout Builder migration requires two steps:
 
-#### Run all the content migrations that used Paragraphs.
+    1. #### Run all the Paragraphs to LB migrations first.
+       `drush migrate:import --tag='OSU Paragraphs'`
 
-`drush migrate:import --tag='Layout content' --force`
+    3. #### Run all the content migrations that used Paragraphs.
+       `drush migrate:import --tag='Layout content' --force`
