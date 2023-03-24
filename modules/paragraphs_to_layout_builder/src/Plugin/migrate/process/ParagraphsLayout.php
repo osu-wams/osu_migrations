@@ -2,6 +2,7 @@
 
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
+use Drupal\migrate\MigrateException;
 use Drupal\paragraphs_to_layout_builder\LayoutBase;
 use Drupal\paragraphs_to_layout_builder\LayoutMigrationItem;
 use Drupal\paragraphs_to_layout_builder\LayoutMigrationMissingBlockException;
