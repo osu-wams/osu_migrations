@@ -405,6 +405,31 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
         ],
       ];
     }
+    elseif ($item->getType() == 'paragraph_2_col' &&
+      $block->hasField('field_eb_background_fc') &&
+      $block->get('field_eb_background_fc')->value !== NULL) {
+      $mid = $block->get('field_eb_background_fc')->value;
+      $additional = [
+        'bootstrap_styles' => [
+          'block_style' => [
+            'background' => [
+              'background_type' => 'image',
+            ],
+            'background_media' => [
+              'image' => [
+                'media_id' => $mid,
+              ],
+            ],
+            'background_options' => [
+              'background_position' => 'center',
+              'background_repeat' => 'no-repeat',
+              'background_attachment' => 'not_fixed',
+              'background_size' => 'cover',
+            ],
+          ],
+        ],
+      ];
+    }
     elseif ($item->getType() == 'paragraph_1_col') {
       // 1 column text alignments
       $alignment = 'bs-text-center';
