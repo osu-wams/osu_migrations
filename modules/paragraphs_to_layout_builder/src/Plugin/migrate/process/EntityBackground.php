@@ -17,8 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Entity Background Process plugin.
  *
  * @MigrateProcessPlugin(
- *   id = "entity_background",
- *
+ *   id = "entity_background"
  * )
  */
 class EntityBackground extends ProcessPluginBase implements ContainerFactoryPluginInterface {
