@@ -2,24 +2,19 @@
 
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
-use Drupal\Component\Uuid\UuidInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\migrate\Annotation\MigrateProcessPlugin;
+use Drupal\migrate\MigrateException;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
-use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
-use Drupal\paragraphs_to_layout_builder\LayoutBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Process Plugin to update background images from Entity Background Field
- * Collection
+ * Entity Background Process plugin.
  *
  * @MigrateProcessPlugin(
  *   id = "entity_background",
@@ -29,20 +24,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class EntityBackground extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**
+   * The database connection object.
+   *
    * @var \Drupal\Core\Database\Connection
    */
   private Connection $migrateDb;
 
   /**
+   * The Drupal migrate lookup service.
+   *
    * @var \Drupal\migrate\MigrateLookupInterface
    */
   private MigrateLookupInterface $migrateLookup;
 
   /**
-   * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
-   * @param \Drupal\migrate\MigrateLookupInterface $migrateLookup
+   * {@inheritDoc}
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrateLookupInterface $migrateLookup) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -53,8 +49,8 @@ class EntityBackground extends ProcessPluginBase implements ContainerFactoryPlug
   /**
    * {@inheritDoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition,) {
-    return new static($configuration, $pluginId, $pluginDefinition, $container->get('migrate.lookup')
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static($configuration, $plugin_id, $plugin_definition, $container->get('migrate.lookup')
     );
   }
 
@@ -70,7 +66,7 @@ class EntityBackground extends ProcessPluginBase implements ContainerFactoryPlug
     $eb_bg_type = $query->execute()->fetchField();
     $eb_selection = '';
     switch ($eb_bg_type) {
-      // Normal Image
+      // Normal Image.
       case 'group_eb_image':
         $image_query = $this->migrateDb->select('field_data_field_eb_image', 'fdfebi');
         $image_query->fields('fdfebi', ['field_eb_image_fid']);
@@ -78,6 +74,7 @@ class EntityBackground extends ProcessPluginBase implements ContainerFactoryPlug
         $image_fid = [$image_query->execute()->fetchField()];
         $eb_selection = 'image';
         break;
+
       // Parallax Image.
       case 'group_eb_parallax':
         $parallax_query = $this->migrateDb->select('field_data_field_eb_parallax_image', 'fdfebpi');
@@ -92,7 +89,14 @@ class EntityBackground extends ProcessPluginBase implements ContainerFactoryPlug
     }
     if (!is_null($image_fid)) {
       // If we got an id perform a lookup and return the new media id.
-      $media_id = $this->migrateLookup->lookup('upgrade_d7_media_images', $image_fid);
+      try {
+        $media_id = $this->migrateLookup->lookup('upgrade_d7_media_images', $image_fid);
+      }
+      catch (PluginException $e) {
+        return NULL;
+      }
+      catch (MigrateException $e) {
+      }
       return reset($media_id)['mid'] . ",$eb_selection";
     }
     return $value;

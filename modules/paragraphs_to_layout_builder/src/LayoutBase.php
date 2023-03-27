@@ -2,7 +2,6 @@
 
 namespace Drupal\paragraphs_to_layout_builder;
 
-use Drupal\block_content\Entity\BlockContent;
 use Drupal\Component\Uuid\UuidInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
@@ -17,6 +16,7 @@ use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionComponent;
+use Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -102,14 +102,14 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    */
   public static function create(ContainerInterface $container,
     array $configuration,
-    $pluginId,
-    $pluginDefinition,
+    $plugin_id,
+    $plugin_definition,
     MigrationInterface $migration = NULL
   ) {
     return new static(
       $configuration,
-      $pluginId,
-      $pluginDefinition,
+      $plugin_id,
+      $plugin_definition,
       $container->get('uuid'),
       $container->get('database'),
       $container->get('entity_type.manager'),
@@ -119,10 +119,10 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   }
 
   /**
-   * Maps paragraph bundle type to bootstrap layout builder section type
+   * Maps paragraph bundle type to bootstrap layout builder section type.
    *
    * @param string $paragraphType
-   *   Name of the paragraph bundle
+   *   Name of the paragraph bundle.
    *
    * @return string
    *   Name of the layout builder section
@@ -155,13 +155,13 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    *   The created section.
    */
   public function createSection($layout, array $components = [], array $settings = []) {
-    // get default section settings and merge with passed in settings
+    // Get default section settings and merge with passed in settings.
     $settings = $settings + $this->getDefaultSectionSettings($layout);
     return new Section($layout, $settings, $components);
   }
 
   /**
-   * Gets default section settings for the given $layout
+   * Gets default section settings for the given $layout.
    *
    * @param string $layout
    *   The layout template id to use for this section.
@@ -243,18 +243,18 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    * @param \Drupal\paragraphs_to_layout_builder\LayoutMigrationItem $item
    *   A migration item instance.
    * @param \Drupal\layout_builder\Section $section
-   *   The layout builder section this block will be applied to
+   *   The layout builder section this block will be applied to.
    * @param string $row
    *   The region the component belongs within.
    *
-   * @return \Drupal\layout_builder\SectionComponent
+   * @return \Drupal\layout_builder\SectionComponent[]
    *   A Layout Builder SectionComponent.
    *
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    * @throws \Drupal\migrate\MigrateException
-   * @throws \Drupal\paragraphs_to_layout_builder\LayoutMigrationMissingBlockException
+   * @throws \Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException
    */
-  public function createComponent(LayoutMigrationItem $item, $section, $row = 'blb_region_col_1') {
+  public function createComponent(LayoutMigrationItem $item, Section $section, $row = 'blb_region_col_1') {
     $block_id = $this->lookupBlock($item->getMigrationId(), $item->getId());
 
     $query = $this->db->select('block_content_field_data', 'b')
@@ -265,14 +265,17 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       throw new MigrateException(sprintf('An unknown error occurred trying to find the block type from migration item type %s with id %s.', $item->getType(), $item->getId()));
     }
 
-    // get block and set any additional settings on component or section as needed
+    // Get block and set any additional settings on component
+    // or section as needed.
     $block_revision_id = $this->blockContentStorage->getLatestRevisionId($block_id);
-    $block = BlockContent::load($block_id);
+
+    /** @var \Drupal\block_content\Entity\BlockContent $block */
+    $block = $this->entityTypeManager->getStorage('block_content')
+      ->load($block_id);
 
     if ($item->getMigrationId() == 'paragraph_menu__to__layout_builder') {
       return $this->handleMenuItems($block);
     }
-
     $additional = $this->getAdditionalBlockSettings($block, $row, $item);
     $this->setAdditionalSectionSettings($section, $block, $item);
 
@@ -292,7 +295,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    *
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    * @throws \Drupal\migrate\MigrateException
-   * @throws \Drupal\paragraphs_to_layout_builder\LayoutMigrationMissingBlockException
+   * @throws \Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException
    */
   public function lookupBlock($migration_id, $id) {
     $source = [$id];
@@ -308,12 +311,10 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   }
 
   /**
-   * Additional blocks need to be queried for menu items
+   * Additional blocks need to be queried for menu items.
    *
-   * @param \Drupal\block\Entity\Block $block
-   *   The block containing IDs of the menu item blocks
-   * @param \Drupal\paragraphs_to_layout_builder\LayoutMigrationItem $item
-   *   A migration item instance.
+   * @param \Drupal\block_content\Entity\BlockContent $block
+   *   The block containing IDs of the menu item blocks.
    *
    * @return array
    *   layout builder block settings array
@@ -327,7 +328,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
         ->condition('b.id', $block_id, '=');
       $block_type = $query->execute()->fetchField();
       $block_revision_id = $this->blockContentStorage->getLatestRevisionId($block_id);
-      $block = BlockContent::load($block_id);
+      //      $block = BlockContent::load($block_id);
       $row = 'blb_region_col_' . ($index + 1);
       $components[] = $this->createSectionComponent($block_type, $block_revision_id, $row, [], 0);
     }
@@ -346,12 +347,12 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    * @param array $additional
    *   The region of the layout the component will reside in.
    * @param int $weight
-   *   additional section settings
+   *   Additional section settings.
    *
    * @return \Drupal\layout_builder\SectionComponent
    *   Returns the layout builder section component that gets added.
    */
-  public function createSectionComponent($block_type, $block_latest_revision_id, $row, $additional, $weight = 0) {
+  public function createSectionComponent($block_type, $block_latest_revision_id, $row, array $additional, $weight = 0) {
     return SectionComponent::fromArray([
       'uuid' => $this->uuid->generate(),
       'region' => $row,
@@ -371,10 +372,10 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   }
 
   /**
-   * Gets additional settings applied to the block based on field_styles
+   * Gets additional settings applied to the block based on field_styles.
    *
-   * @param \Drupal\block\Entity\Block $block
-   *   The block we need settings for
+   * @param \Drupal\block_content\Entity\BlockContent $block
+   *   The block we need settings for.
    * @param string $row
    *   The region the component belongs within.
    * @param \Drupal\paragraphs_to_layout_builder\LayoutMigrationItem $item
@@ -383,9 +384,9 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    * @return array
    *   layout builder block settings array
    */
-  protected function getAdditionalBlockSettings($block, $row, $item) {
+  protected function getAdditionalBlockSettings($block, string $row, LayoutMigrationItem $item) {
     $additional = [];
-    // Set a default padding
+    // Set a default padding.
     $additional['bootstrap_styles']['block_style']['padding']['class'] = 'p-3';
     if ($block->field_styles && (
         ($row == 'blb_region_col_1' && str_contains($block->field_styles->value, 'black-bg-left'))
@@ -514,16 +515,16 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   }
 
   /**
-   * Some blocks need to set additional settings on the section
+   * Some blocks need to set additional settings on the section.
    *
    * @param \Drupal\layout_builder\Section $section
-   *   The layout builder section this block will be applied to
-   * @param \Drupal\block\Entity\Block $block
-   *   The block we get settings from
+   *   The layout builder section this block will be applied to.
+   * @param \Drupal\block_content\Entity\BlockContent $block
+   *   The block we get settings from.
    * @param \Drupal\paragraphs_to_layout_builder\LayoutMigrationItem $item
    *   A migration item instance.
    */
-  protected function setAdditionalSectionSettings($section, $block, $item) {
+  protected function setAdditionalSectionSettings(Section $section, $block, LayoutMigrationItem $item) {
     $settings = $section->getLayoutSettings();
     if ($item->getType() === 'paragraph_1_col_clean') {
       // 1 column margin settings
@@ -562,17 +563,17 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       }
     }
     elseif ($item->getType() == 'paragraph_divider') {
-      // default settings for dividers
+      // Default settings for dividers.
       $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
       $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-100'];
 
       /* TODO: Other divider colors
       if (str_contains($block->field_styles->value, 'black')) {
-        $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
+      $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
       }
-      */
+       */
 
-      // divider thickness
+      // Divider thickness.
       if (str_contains($block->field_styles->value, 'medium')) {
         $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-200'];
       }
@@ -615,7 +616,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    *
    * @param \Drupal\migrate\MigrateExecutableInterface $migrateExecutable
    *   The current migration executable.
-   * @param \Drupal\paragraphs_to_blocks\LayoutMigrationMissingBlockException $e
+   * @param \Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException $e
    *   The exception thrown when unable to find a block.
    */
   protected function handleMissingBlockException(MigrateExecutableInterface $migrateExecutable, LayoutMigrationMissingBlockException $e) {

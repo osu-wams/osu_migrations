@@ -5,7 +5,7 @@ namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 use Drupal\migrate\MigrateException;
 use Drupal\paragraphs_to_layout_builder\LayoutBase;
 use Drupal\paragraphs_to_layout_builder\LayoutMigrationItem;
-use Drupal\paragraphs_to_layout_builder\LayoutMigrationMissingBlockException;
+use Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
 
@@ -39,7 +39,7 @@ class ParagraphsLayout extends LayoutBase {
    *   The destination property currently worked on. This is only used together
    *   with the $row above.
    *
-   * @return \Drupal\layout_builder\Section
+   * @return \Drupal\layout_builder\Section[]
    *   A Layout Builder Section object populated with Section Components.
    *
    * @throws \Drupal\Component\Plugin\Exception\PluginException
@@ -66,26 +66,28 @@ class ParagraphsLayout extends LayoutBase {
           $sectionType = $this->getSectionType($type);
           $section = $this->createSection($sectionType, []);
 
-          // map migration IDs to their layout builder region
+          // Map migration IDs to their layout builder region.
           $migration_ids = [];
           if ($type == "paragraph_2_col") {
             $migration_ids[$map['paragraph_2_col_left']] = "blb_region_col_1";
             $migration_ids[$map['paragraph_2_col_right']] = "blb_region_col_2";
-          }else if ($type == "paragraph_3_col") {
+          }
+          elseif ($type == "paragraph_3_col") {
             $migration_ids[$map['paragraph_3_col_left']] = "blb_region_col_1";
             $migration_ids[$map['paragraph_3_col_center']] = "blb_region_col_2";
             $migration_ids[$map['paragraph_3_col_right']] = "blb_region_col_3";
-          } else {
+          }
+          else {
             $migration_ids[$map[$type]] = "blb_region_col_1";
           }
-          // iterate through migration_ids creating components for each block and attaching to section
+          // Iterate through migration_ids creating components for each block and attaching to section.
           foreach ($migration_ids as $migration_id => $row) {
             $migrationItem = new LayoutMigrationItem($type, $item['value'], $delta, $migration_id);
             $components = $this->createComponent($migrationItem, $section, $row);
 
-            // limitations on menu migrations means we don't know what section type to use until now
+            // Limitations on menu migrations means we don't know what section type to use until now.
             if ($components[0]->get('configuration')['id'] == 'inline_block:osu_menu_bar_item') {
-              $section = $this->createSection('bootstrap_layout_builder:blb_col_' . sizeof($components), []);
+              $section = $this->createSection('bootstrap_layout_builder:blb_col_' . count($components), []);
             }
 
             foreach ($components as $component) {
@@ -94,7 +96,8 @@ class ParagraphsLayout extends LayoutBase {
           }
 
           $sections[] = $section;
-        } catch (LayoutMigrationMissingBlockException $e) {
+        }
+        catch (LayoutMigrationMissingBlockException $e) {
           $this->handleMissingBlockException($migrate_executable, $e);
           continue;
         }
@@ -126,4 +129,5 @@ class ParagraphsLayout extends LayoutBase {
     }
     return $types[$id];
   }
+
 }

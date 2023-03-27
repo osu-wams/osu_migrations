@@ -38,7 +38,7 @@ class LayoutMigrationItem {
    *
    * @var string
    */
-  protected $migration_id;
+  protected $migrationId;
 
   /**
    * LayoutMigrationItem constructor.
@@ -49,16 +49,22 @@ class LayoutMigrationItem {
    *   The paragraph id.
    * @param string $delta
    *   The paragraph field item delta.
-   * @param string $migration
+   * @param string $migration_id
    *   The migration related to this item.
    */
   public function __construct($type, $id, $delta, $migration_id) {
     $this->type = $type;
     $this->id = $id;
     $this->delta = $delta;
-    $this->migration_id = $migration_id;
+    $this->migrationId = $migration_id;
   }
 
+  /**
+   * Gets the id property.
+   *
+   * @return int
+   *   The id property.
+   */
   public function getId() {
     return $this->id;
   }
@@ -70,7 +76,7 @@ class LayoutMigrationItem {
    *   The migration_id property.
    */
   public function getMigrationId() {
-    return $this->migration_id;
+    return $this->migrationId;
   }
 
   /**
@@ -92,4 +98,5 @@ class LayoutMigrationItem {
   public function getType() {
     return $this->type;
   }
+
 }
