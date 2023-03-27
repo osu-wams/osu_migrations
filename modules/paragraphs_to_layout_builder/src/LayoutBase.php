@@ -276,7 +276,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
     $additional = $this->getAdditionalBlockSettings($block, $row, $item);
     $this->setAdditionalSectionSettings($section, $block, $item);
 
-    return [$this->createSectionComponent($block_type, $block_revision_id, $item->getDelta(), $row, $additional)];
+    return [$this->createSectionComponent($block_type, $block_revision_id, $row, $additional, $item->getDelta())];
   }
 
   /**
@@ -329,7 +329,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       $block_revision_id = $this->blockContentStorage->getLatestRevisionId($block_id);
       $block = BlockContent::load($block_id);
       $row = 'blb_region_col_' . ($index + 1);
-      $components[] = $this->createSectionComponent($block_type, $block_revision_id, 0, $row, []);
+      $components[] = $this->createSectionComponent($block_type, $block_revision_id, $row, [], 0);
     }
     return $components;
   }
@@ -341,17 +341,17 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    *   The block type machine name to embed as an inline block for.
    * @param int|string $block_latest_revision_id
    *   The numeric block content revision id.
-   * @param int $weight
-   *   The weight of the component.
    * @param string $row
-   *   The region of the layout the component will reside in.
+   *   The weight of the component.
    * @param array $additional
+   *   The region of the layout the component will reside in.
+   * @param int $weight
    *   additional section settings
    *
    * @return \Drupal\layout_builder\SectionComponent
    *   Returns the layout builder section component that gets added.
    */
-  public function createSectionComponent($block_type, $block_latest_revision_id, $weight = 0, $row, $additional) {
+  public function createSectionComponent($block_type, $block_latest_revision_id, $row, $additional, $weight = 0) {
     return SectionComponent::fromArray([
       'uuid' => $this->uuid->generate(),
       'region' => $row,
