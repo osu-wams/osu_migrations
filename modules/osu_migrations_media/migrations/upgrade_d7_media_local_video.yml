@@ -3,7 +3,6 @@ label: Media Local Video
 audit: true
 migration_tags:
   - Drupal 7
-  - Content
   - OSU Media
   - OSU
 source:
