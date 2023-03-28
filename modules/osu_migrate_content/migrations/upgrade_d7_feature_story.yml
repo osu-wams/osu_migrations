@@ -14,7 +14,15 @@ source:
 process:
   nid: nid
   title: title
-  body: body
+  body:
+    - plugin: sub_process
+      source: body
+      process:
+        value: value
+        summary: summary
+        format:
+          plugin: default_value
+          default_value: 'full_html'
   uid:
     - plugin: migration_lookup
       migration: upgrade_d7_users_with_roles

@@ -20,17 +20,12 @@ Migrations need to be run in a specific order.
 
    `drush migrate:import --tag='OSU Accounts'`
 
-2. ### Files
-   Migrate all the known File Entities.
-
-   `drush migrate:import upgrade_d7_files`
-
-3. ### Media
-   Migrate all the Media entities.
+2. ### Media
+   Migrate all the Files and Media entities.
 
    `drush migrate:import --tag='OSU Media'`
 
-4. ### Paragraphs to Layout Builder
+3. ### Paragraphs to Layout Builder
    Paragraphs to Layout Builder migration requires two steps:
 
     1. #### Run all the Paragraphs to LB migrations first.

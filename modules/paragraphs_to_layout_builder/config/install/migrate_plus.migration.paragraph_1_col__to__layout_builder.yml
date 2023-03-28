@@ -22,7 +22,14 @@ process:
   type:
     plugin: default_value
     default_value: 'paragraph_block'
-  body: field_p_1_col_main
+  body:
+    - plugin: sub_process
+      source: field_p_1_col_main
+      process:
+        value: value
+        format:
+          plugin: default_value
+          default_value: 'full_html'
   field_styles: field_p_1_col_styles
   # Use the entity_background process plugin to get the new media image id and background style.
   field_eb_background_fc:

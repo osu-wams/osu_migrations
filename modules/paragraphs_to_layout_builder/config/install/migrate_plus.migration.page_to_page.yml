@@ -46,6 +46,9 @@ process:
     plugin: get
     source:
       '@paragraphs_temp'
+  type:
+    plugin: default_value
+    default_value: page
 destination:
   plugin: 'entity:node'
   bundle: page
