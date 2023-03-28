@@ -428,6 +428,26 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
             ],
           ],
         ],
+        'component_attributes' => [
+          "block_attributes" => [
+            "id" => "",
+            "class" => "h-100",
+            "style" => "",
+            "data" => "",
+          ],
+          "block_title_attributes" => [
+            "id" => "",
+            "class" => "",
+            "style" => "",
+            "data" => "",
+          ],
+          "block_content_attributes" => [
+            "id" => "",
+            "class" => "",
+            "style" => "",
+            "data" => "",
+          ],
+        ],
       ];
     }
     elseif ($item->getType() == 'paragraph_1_col') {
