@@ -628,6 +628,11 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
 
       $section->setLayoutSettings($settings);
     }
+    elseif ($item->getType() == 'paragraph_2_col') {
+      // Set two-columns to a min of 400px similar to the d7 of 450.
+      $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
+      $section->setLayoutSettings($settings);
+    }
   }
 
   /**
