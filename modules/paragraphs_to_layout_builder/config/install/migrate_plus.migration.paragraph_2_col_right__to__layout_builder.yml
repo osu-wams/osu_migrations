@@ -20,15 +20,18 @@ process:
   type:
     plugin: default_value
     default_value: 'paragraph_block'
-  body: field_p_2_col_right_main
+  body:
+    - plugin: sub_process
+      source: field_p_2_col_right_main
+      process:
+        value: value
+        format:
+          plugin: default_value
+          default_value: 'full_html'
   field_eb_background_fc:
-    plugin: sub_process
+    plugin: file_background
     source: field_p_2_col_right_bg
-    process:
-      target_id:
-        plugin: migration_lookup
-        migration: upgrade_d7_media_images
-        source: fid
+    custom_source_lookup: upgrade_d7_media_images
   field_styles:
     plugin: class_list
     source: field_p_2_col_styles
