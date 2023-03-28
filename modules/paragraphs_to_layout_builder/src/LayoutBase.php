@@ -426,6 +426,9 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
               'background_attachment' => 'not_fixed',
               'background_size' => 'cover',
             ],
+            'min_height' => [
+              'class' => 'osu-min-h-400',
+            ],
           ],
         ],
         'component_attributes' => [
@@ -629,6 +632,14 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       $section->setLayoutSettings($settings);
     }
     elseif ($item->getType() == 'paragraph_2_col') {
+      if ($block->field_styles->value !== NULL &&
+        (str_contains($block->field_styles->value, 'black-bg-left') ||
+          str_contains($block->field_styles->value, 'black-bg-right'))) {
+        $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+        $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-2';
+        $settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
+      }
+
       // Set two-columns to a min of 400px similar to the d7 of 450.
       $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
       $section->setLayoutSettings($settings);
