@@ -2,17 +2,15 @@
 
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
-use Drupal\block_content\Entity\BlockContent;
 use Drupal\paragraphs_to_layout_builder\LayoutBase;
 use Drupal\migrate\MigrateExecutableInterface;
-use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
 
 use Drupal\paragraphs\Entity\Paragraph;
 
 /**
- * Custom plugin for handling paragraph accordion items from d7
- * 
+ * Custom plugin for handling paragraph accordion items from d7.
+ *
  * @MigrateProcessPlugin(
  *   id = "accordion_item",
  *   handle_multiples = TRUE
@@ -20,7 +18,7 @@ use Drupal\paragraphs\Entity\Paragraph;
  */
 class AccordionItem extends LayoutBase {
 
-   /**
+  /**
    * {@inheritDoc}
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
@@ -29,7 +27,7 @@ class AccordionItem extends LayoutBase {
 
     $d7_accordions = $this->getAccordionItems($accordionItemIds);
 
-    // create accordion items using title and body from d7
+    // Create accordion items using title and body from d7.
     $paragraph_items = [];
     foreach ($d7_accordions as $accordion) {
       $paragraph_items[] = Paragraph::create([
@@ -39,24 +37,34 @@ class AccordionItem extends LayoutBase {
       ]);
     }
 
-    // create accordion section and attach accordion items
+    // Create accordion section and attach accordion items.
     $paragraph_section = Paragraph::create([
       'type' => 'osu_accordion_section',
       'field_p_accordion_heading' => $headerText,
-      'field_osu_paragraph_item' => $paragraph_items
+      'field_osu_paragraph_item' => $paragraph_items,
     ]);
 
-    // return accordion section which gets attached to the block created by the migration
+    // Return accordion section which gets attached to the block created by the
+    // migration.
     return $paragraph_section;
   }
 
+  /**
+   * Query Migration source database for all Paragraph Accordion Bundles.
+   *
+   * @param mixed $value
+   *   The id of the paragraph.
+   *
+   * @return \Drupal\Core\Database\StatementInterface|null
+   *   A prepared statement, or NULL if the query is not valid.
+   */
   private function getAccordionItems($value) {
     $entity_ids = [];
     $revision_ids = [];
     foreach ($value as $id) {
       $entity_ids[] = $id['value'];
       $revision_ids[] = $id['revision_id'];
-    } 
+    }
 
     $query = $this->migrateDb->select('field_data_field_p_accordion_group_title', 'title');
     $query->leftJoin(
@@ -72,4 +80,5 @@ class AccordionItem extends LayoutBase {
 
     return $results;
   }
+
 }

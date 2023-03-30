@@ -1,7 +1,7 @@
 langcode: en
 status: true
-id: book_to_page
-label: 'Book Page Content Migration'
+id: page_to_page
+label: 'Basic Page Content Migration'
 migration_group: content
 dependencies:
   enforced:
@@ -15,7 +15,7 @@ migration_tags:
   - OSU
 source:
   plugin: d7_node
-  node_type: book
+  node_type: page
   constants:
     # map paragraph types on pages to their corresponding migration filenames
     map:

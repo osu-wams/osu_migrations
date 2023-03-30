@@ -10,6 +10,7 @@ migration_tags:
   - Drupal 7
   - Content
   - Layout content
+  - OSU Paragraphs
   - OSU
 source:
   plugin: d7_paragraphs_item
@@ -19,7 +20,14 @@ process:
   type:
     plugin: default_value
     default_value: 'paragraph_block'
-  body: field_p_1_col_clean_main
+  body:
+    - plugin: sub_process
+      source: field_p_1_col_clean_main
+      process:
+        value: value
+        format:
+          plugin: default_value
+          default_value: 'full_html'
   field_styles: field_p_1_col_clean_margin
   info:
     plugin: default_value
@@ -32,5 +40,5 @@ destination:
   plugin: entity:block_content
 
 migration_dependencies:
-  required: {  }
-  optional: {  }
+  required: [  ]
+  optional: [  ]

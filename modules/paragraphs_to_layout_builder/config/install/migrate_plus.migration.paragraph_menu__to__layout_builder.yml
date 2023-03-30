@@ -10,6 +10,7 @@ migration_tags:
   - Drupal 7
   - Content
   - Layout content
+  - OSU Paragraphs
   - OSU
 source:
   plugin: d7_paragraphs_item

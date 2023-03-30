@@ -6,7 +6,12 @@ dependencies:
     module:
       - osu_migrations
       - paragraphs_to_layout_builder
-
+migration_tags:
+  - Drupal 7
+  - Content
+  - Layout content
+  - OSU Paragraphs
+  - OSU
 source:
   plugin: d7_paragraphs_item
   bundle: paragraph_accordion
@@ -17,7 +22,7 @@ process:
     default_value: 'osu_accordion'
   field_osu_paragraph_item:
     plugin: accordion_item
-    source: 
+    source:
       - field_p_accordion_header
       - field_p_accordion_group
   field_p_accordion_heading: field_p_accordion_header
