@@ -64,7 +64,7 @@ class FileBackground extends ProcessPluginBase implements ContainerFactoryPlugin
       return NULL;
     }
     catch (MigrateException $e) {
-
+      throw $e;
     }
     return reset($destination_fid)['mid'];
   }

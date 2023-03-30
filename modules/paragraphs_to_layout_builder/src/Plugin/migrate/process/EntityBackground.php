@@ -94,6 +94,7 @@ class EntityBackground extends ProcessPluginBase implements ContainerFactoryPlug
         return NULL;
       }
       catch (MigrateException $e) {
+        throw $e;
       }
       return reset($media_id)['mid'] . ",$eb_selection";
     }
