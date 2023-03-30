@@ -401,6 +401,12 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
             'text_color' => [
               'class' => 'osu-text-bucktoothwhite',
             ],
+            'padding' => [
+              'class' => 'p-3',
+            ],
+            'margin' => [
+              'class' => 'm-1',
+            ],
           ],
         ],
       ];
