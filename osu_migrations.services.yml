@@ -1,0 +1,5 @@
+services:
+  osu_migrations.migrate_db:
+    class: Drupal\Core\Database\Connection
+    factory: Drupal\Core\Database\Database::getConnection
+    arguments: [ default, migrate ]

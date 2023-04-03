@@ -5,5 +5,6 @@ package: OSU
 core_version_requirement: ^9 || ^10
 
 dependencies:
+  - redirect:redirect
   - migrate_plus:migrate_plus
   - osu_migrations:osu_migrations
