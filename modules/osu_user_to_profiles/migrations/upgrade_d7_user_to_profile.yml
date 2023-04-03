@@ -9,7 +9,7 @@ migration_tags:
   - OSU Drupal Profile
   - OSU
 migration_group: insert_users
-label: 'Filtered User Accounts'
+label: 'User Accounts'
 source:
   plugin: d7_user
 process:
