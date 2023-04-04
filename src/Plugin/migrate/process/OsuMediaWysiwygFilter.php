@@ -149,7 +149,7 @@ class OsuMediaWysiwygFilter extends ProcessPluginBase implements ContainerFactor
    * @throws \Drupal\migrate\MigrateException
    */
   private function getEmbedCode(array $embedMetadata) {
-    if (empty($embedMetadata['id']) || empty($embedMetadata['drupal-media'])) {
+    if (empty($embedMetadata['id']) || empty($embedMetadata['view_mode'])) {
       return NULL;
     }
     // Get the New media ID, could be in any one of these migration.
