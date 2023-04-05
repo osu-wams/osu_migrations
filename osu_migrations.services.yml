@@ -3,3 +3,7 @@ services:
     class: Drupal\Core\Database\Connection
     factory: Drupal\Core\Database\Database::getConnection
     arguments: [ default, migrate ]
+
+  osu_migrations.osu_media_embed:
+    class: Drupal\osu_migrations\OsuMediaEmbed
+    arguments: ['@migrate.lookup', '@entity_type.manager']

@@ -2,11 +2,18 @@
 
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
-use Drupal\paragraphs_to_layout_builder\LayoutBase;
+use Drupal\Component\Uuid\UuidInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\migrate\MigrateExecutableInterface;
+use Drupal\migrate\MigrateLookupInterface;
+use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Row;
-
+use Drupal\osu_migrations\OsuMediaEmbed;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\paragraphs_to_layout_builder\LayoutBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Custom plugin for handling paragraph accordion items from d7.
@@ -17,6 +24,38 @@ use Drupal\paragraphs\Entity\Paragraph;
  * )
  */
 class AccordionItem extends LayoutBase {
+
+  /**
+   * The OSU Media Embed Service.
+   *
+   * @var \Drupal\osu_migrations\OsuMediaEmbed
+   */
+  private OsuMediaEmbed $osuMediaEmbed;
+
+  /**
+   * {@inheritDoc}
+   */
+  public function __construct(array $configuration, $pluginId, $pluginDefinition, UuidInterface $uuid, Connection $db, EntityTypeManagerInterface $entityTypeManager, ConfigFactoryInterface $configFactory, MigrateLookupInterface $migrateLookup, OsuMediaEmbed $osuMediaEmbed) {
+    parent::__construct($configuration, $pluginId, $pluginDefinition, $uuid, $db, $entityTypeManager, $configFactory, $migrateLookup);
+    $this->osuMediaEmbed = $osuMediaEmbed;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = NULL) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('uuid'),
+      $container->get('database'),
+      $container->get('entity_type.manager'),
+      $container->get('config.factory'),
+      $container->get('migrate.lookup'),
+      $container->get('osu_migrations.osu_media_embed')
+    );
+  }
 
   /**
    * {@inheritDoc}
@@ -30,10 +69,15 @@ class AccordionItem extends LayoutBase {
     // Create accordion items using title and body from d7.
     $paragraph_items = [];
     foreach ($d7_accordions as $accordion) {
+      // Get the current value.
+      $bodyValue = $accordion->field_p_accordion_group_content_value;
+      // Pass it to our service to get the new embed value.
+      $transformedEmbedCode = $this->osuMediaEmbed->transformEmbedCode($bodyValue);
+
       $paragraph_items[] = Paragraph::create([
         'type' => 'osu_accordion_item',
         'field_p_accordion_title' => $accordion->field_p_accordion_group_title_value,
-        'field_p_accordion_body' => $accordion->field_p_accordion_group_content_value,
+        'field_p_accordion_body' => $transformedEmbedCode,
       ]);
     }
 
