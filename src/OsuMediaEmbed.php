@@ -5,7 +5,6 @@ namespace Drupal\osu_migrations;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\migrate\MigrateLookupInterface;
-use LogicException;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
@@ -46,15 +45,19 @@ class OsuMediaEmbed {
    * Parse the string and replace the old fid embed with the new media embed.
    *
    * @param string $value
+   *   The Body value to check for and replace the Drupal 7 Embed Code.
    *
-   * @return array|string|string[]|null
+   * @return string
+   *   The full processed body value with either the new embed code or
+   *   unchanged.
+   *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\migrate\MigrateException
    */
   public function transformEmbedCode(string $value) {
-    // Find our old encoded data and save it a capture group called tag_info
+    // Find our old encoded data and save it a capture group called tag_info.
     $pattern = '/\[\[\s*(?<tag_info>\{.+\})\s*\]\]/sU';
     // If we can use associative array use it.
     if (defined(JsonDecode::class . '::ASSOCIATIVE')) {
@@ -104,7 +107,7 @@ class OsuMediaEmbed {
       catch (NotEncodableValueException $e) {
         return $matches[0];
       }
-      catch (LogicException $e) {
+      catch (\LogicException $e) {
         return $matches[0];
       }
     }, $value);
@@ -119,6 +122,7 @@ class OsuMediaEmbed {
    *
    * @return string|null
    *   Either return the new media embed code or null.
+   *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException

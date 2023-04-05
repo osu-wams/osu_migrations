@@ -10,7 +10,7 @@ use Drupal\osu_migrations\OsuMediaEmbed;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Process Plugin to transform Drupal 7 embed to Drupal 9
+ * Process Plugin to transform Drupal 7 embed to Drupal 9.
  *
  * @MigrateProcessPlugin(
  *   id = "osu_media_wysiwyg_filter"
@@ -24,7 +24,6 @@ class OsuMediaWysiwygFilter extends ProcessPluginBase implements ContainerFactor
    * @var \Drupal\osu_migrations\OsuMediaEmbed
    */
   private OsuMediaEmbed $osuMediaEmbed;
-
 
   /**
    * {@inheritDoc}
