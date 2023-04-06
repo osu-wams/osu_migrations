@@ -24,7 +24,9 @@ process:
     - plugin: sub_process
       source: field_p_3_col_left_main
       process:
-        value: value
+        value:
+          plugin: osu_media_wysiwyg_filter
+          source: value
         format:
           plugin: default_value
           default_value: 'full_html'

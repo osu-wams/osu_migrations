@@ -34,7 +34,9 @@ process:
     - plugin: sub_process
       source: body
       process:
-        value: value
+        value:
+          plugin: osu_media_wysiwyg_filter
+          source: value
         summary: summary
         format:
           plugin: default_value
@@ -67,4 +69,9 @@ migration_dependencies:
     - paragraph_divider__to__layout_builder
     - paragraph_menu__to__layout_builder
     - paragraph_accordion__to__layout_builder
-  optional: [ ]
+  optional:
+    - upgrade_d7_media_audio
+    - upgrade_d7_media_documents
+    - upgrade_d7_media_kaltura
+    - upgrade_d7_media_local_video
+    - upgrade_d7_media_remote_video

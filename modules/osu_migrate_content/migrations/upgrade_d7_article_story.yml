@@ -18,7 +18,9 @@ process:
     - plugin: sub_process
       source: body
       process:
-        value: value
+        value:
+          plugin: osu_media_wysiwyg_filter
+          source: value
         summary: summary
         format:
           plugin: default_value
