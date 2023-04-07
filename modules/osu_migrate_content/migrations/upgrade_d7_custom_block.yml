@@ -15,7 +15,9 @@ process:
   'body/format':
     plugin: default_value
     default_value: 'full_html'
-  'body/value': body
+  'body/value':
+    plugin: osu_media_wysiwyg_filter
+    source: body
 destination:
   plugin: entity:block_content
   default_bundle: basic
