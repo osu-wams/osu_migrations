@@ -24,8 +24,12 @@ Migrations need to be run in a specific order.
    Migrate all the Files and Media entities.
 
    `drush migrate:import --tag='OSU Media'`
+3. ### Blocks
+   Migrate all custom blocks and where they were placed.
 
-3. ### Paragraphs to Layout Builder
+   `drush migrate:import --tag='OSU Block'`
+
+4. ### Paragraphs to Layout Builder
    Paragraphs to Layout Builder migration requires two steps:
 
     1. #### Run all the Paragraphs to LB migrations first.
