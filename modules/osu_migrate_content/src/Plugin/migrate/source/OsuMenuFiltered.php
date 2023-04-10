@@ -5,6 +5,7 @@ namespace Drupal\osu_migrate_content\Plugin\migrate\source;
 use Drupal\system\Plugin\migrate\source\Menu;
 
 /**
+ * Custom Source Plugin to filter out book-toc- menus.
  *
  * @MigrateSource(
  *   id = "menu_filtered",
