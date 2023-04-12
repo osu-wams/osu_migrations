@@ -57,6 +57,9 @@ process:
   comment: comment
   promote: promote
   sticky: sticky
+  path/pathauto:
+    plugin: default_value
+    default_value: 0
 destination:
   plugin: 'entity:node'
 migration_dependencies:
