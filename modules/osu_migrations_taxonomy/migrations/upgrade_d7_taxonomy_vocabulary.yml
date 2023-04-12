@@ -1,6 +1,7 @@
-id: d7_taxonomy_vocabulary
+id: upgrade_d7_taxonomy_vocabulary
 label: Drupal 7 taxonomy vocabularies
 migration_tags:
+  - Drupal 7
   - OSU Taxonomy
   - OSU
 source:
@@ -23,7 +24,7 @@ process:
   label: name
   name: name
   description: description
-  hierarchy: hierachy
+  hierarchy: hierarchy
   weight: weight
 destination:
   plugin: entity:taxonomy_vocabulary

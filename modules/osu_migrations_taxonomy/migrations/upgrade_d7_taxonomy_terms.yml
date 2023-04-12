@@ -1,7 +1,8 @@
-id: d7_taxonomy_terms
+id: upgrade_d7_taxonomy_terms
 label: Taxonomy terms
 audit: true
 migration_tags:
+  - Drupal 7
   - OSU Taxonomy
   - OSU
 deriver: Drupal\taxonomy\Plugin\migrate\D7TaxonomyTermDeriver
@@ -13,7 +14,7 @@ process:
   tid: tid
   vid:
     plugin: migration_lookup
-    migration: d7_taxonomy_vocabulary
+    migration: upgrade_d7_taxonomy_vocabulary
     source: vid
   name: name
   'description/value': description
@@ -26,7 +27,7 @@ process:
       source: parent
     -
       plugin: migration_lookup
-      migration: d7_taxonomy_terms
+      migration: upgrade_d7_taxonomy_terms
   parent:
     plugin: default_value
     default_value: 0
@@ -38,6 +39,6 @@ destination:
   plugin: entity:taxonomy_term
 migration_dependencies:
   required:
-    - d7_taxonomy_vocabulary
-  optional:
-    - d7_field_instance
+    - upgrade_d7_taxonomy_vocabulary
+#  optional:
+#    - d7_field_instance
