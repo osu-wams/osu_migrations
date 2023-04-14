@@ -141,6 +141,9 @@ class OsuMediaEmbed {
       'upgrade_d7_media_local_video',
       'upgrade_d7_media_remote_video',
     ], [$embedMetadata['id']]);
+    if (empty($newMid)) {
+      return NULL;
+    }
     // Lookup returns a nested array, we only need the id.
     $newMid = reset($newMid)['mid'];
     /** @var \Drupal\media\Entity\Media $mediaEntity */

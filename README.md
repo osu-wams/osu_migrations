@@ -24,10 +24,9 @@ Migrations need to be run in a specific order.
    Migrate all the Files and Media entities.
 
    `drush migrate:import --tag='OSU Media'`
-3. ### Blocks
-   Migrate all custom blocks and where they were placed.
 
-   `drush migrate:import --tag='OSU Block'`
+3. ### Taxonomy Tags
+   `drush migrate:import --tag='OSU Taxonomy'`
 
 4. ### Paragraphs to Layout Builder
    Paragraphs to Layout Builder migration requires two steps:
@@ -35,5 +34,21 @@ Migrations need to be run in a specific order.
     1. #### Run all the Paragraphs to LB migrations first.
        `drush migrate:import --tag='OSU Paragraphs'`
 
-    3. #### Run all the content migrations that used Paragraphs.
+    2. #### Run all the content migrations that used Paragraphs.
        `drush migrate:import --tag='Layout content' --force`
+
+5. ### Feature Story/Articles to Story
+   `drush migrate:import --tag='Feature Story'`
+
+6. ### The Last content migration to run is Users to Profiles
+   `drush migrate:import --tag='OSU Drupal Profile'`
+
+7. ### Menus
+   `drush migrate:import --tag='OSU Menus'`
+
+8. ### Blocks
+   Migrate all custom blocks and where they were placed.
+
+   `drush migrate:import --tag='OSU Block'`
+9. ### Meta-tag Overrides
+   `drush migrate:import `
