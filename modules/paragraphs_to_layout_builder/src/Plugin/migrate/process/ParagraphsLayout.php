@@ -3,11 +3,13 @@
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
 use Drupal\migrate\MigrateException;
-use Drupal\paragraphs_to_layout_builder\LayoutBase;
-use Drupal\paragraphs_to_layout_builder\LayoutMigrationItem;
-use Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException;
+use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
+use Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException;
+use Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingParagraphToLayoutException;
+use Drupal\paragraphs_to_layout_builder\LayoutBase;
+use Drupal\paragraphs_to_layout_builder\LayoutMigrationItem;
 
 /**
  * Paragraphs Layout process plugin.
@@ -77,8 +79,11 @@ class ParagraphsLayout extends LayoutBase {
             $migration_ids[$map['paragraph_3_col_center']] = "blb_region_col_2";
             $migration_ids[$map['paragraph_3_col_right']] = "blb_region_col_3";
           }
-          else {
+          elseif (array_key_exists($type, $map)) {
             $migration_ids[$map[$type]] = "blb_region_col_1";
+          }
+          else {
+            throw new LayoutMigrationMissingParagraphToLayoutException($this->t('Missing custom paragraph migration for paragraph type @type.', ['@type' => $type]));
           }
           // Iterate through migration_ids creating components for each block and attaching to section.
           foreach ($migration_ids as $migration_id => $row) {
@@ -99,6 +104,13 @@ class ParagraphsLayout extends LayoutBase {
         }
         catch (LayoutMigrationMissingBlockException $e) {
           $this->handleMissingBlockException($migrate_executable, $e);
+          continue;
+        }
+        catch (LayoutMigrationMissingParagraphToLayoutException $e) {
+          $migrate_executable->saveMessage($e->getMessage(), $e->getCode());
+          if ($migrate_executable instanceof MigrateExecutable) {
+            $migrate_executable->message->display($e->getMessage());
+          }
           continue;
         }
       }
