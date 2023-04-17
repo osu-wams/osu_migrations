@@ -72,6 +72,7 @@ migration_dependencies:
     - paragraph_divider__to__layout_builder
     - paragraph_menu__to__layout_builder
     - paragraph_accordion__to__layout_builder
+    - paragraph_alert__to__layout_builder
   optional:
     - upgrade_d7_media_audio
     - upgrade_d7_media_documents

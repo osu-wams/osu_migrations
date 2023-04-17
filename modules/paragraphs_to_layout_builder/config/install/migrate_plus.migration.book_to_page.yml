@@ -29,6 +29,7 @@ source:
       paragraph_divider: 'paragraph_divider__to__layout_builder'
       paragraph_menu: 'paragraph_menu__to__layout_builder'
       paragraph_accordion: 'paragraph_accordion__to__layout_builder'
+      paragraph_alert: 'paragraph_alert__to__layout_builder'
 process:
   body:
     - plugin: sub_process
@@ -72,6 +73,7 @@ migration_dependencies:
     - paragraph_divider__to__layout_builder
     - paragraph_menu__to__layout_builder
     - paragraph_accordion__to__layout_builder
+    - paragraph_alert__to__layout_builder
   optional:
     - upgrade_d7_media_audio
     - upgrade_d7_media_documents

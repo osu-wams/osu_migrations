@@ -8,14 +8,14 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\layout_builder\Section;
+use Drupal\layout_builder\SectionComponent;
 use Drupal\migrate\MigrateException;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
-use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Plugin\MigrationInterface;
-use Drupal\layout_builder\Section;
-use Drupal\layout_builder\SectionComponent;
+use Drupal\migrate\ProcessPluginBase;
 use Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -133,6 +133,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       "paragraph_1_col" => "bootstrap_layout_builder:blb_col_1",
       "paragraph_divider" => "bootstrap_layout_builder:blb_col_1",
       "paragraph_accordion" => "bootstrap_layout_builder:blb_col_1",
+      "paragraph_alert" => "bootstrap_layout_builder:blb_col_1",
       "paragraph_menu" => "bootstrap_layout_builder:blb_col_3",
       "paragraph_2_col" => "bootstrap_layout_builder:blb_col_2",
       "paragraph_3_col" => "bootstrap_layout_builder:blb_col_3",
@@ -620,21 +621,36 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       // Default settings for dividers.
       $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
       $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-100'];
+      if ($block->get('field_styles')->value !== NULL) {
+        $block_styles_value = $block->get('field_styles')->value;
 
-      /* TODO: Other divider colors
-      if (str_contains($block->field_styles->value, 'black')) {
-      $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
-      }
-       */
+        if (str_contains($block_styles_value, 'black')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
+        }
+        elseif (str_contains($block_styles_value, 'white')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-1';
+        }
+        elseif (str_contains($block_styles_value, 'orange')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-osuorange';
+        }
+        elseif (str_contains($block_styles_value, 'gray')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-light-grey';
+        }
+        elseif (str_contains($block_styles_value, 'blue')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-moondust';
+        }
+        elseif (str_contains($block_styles_value, 'green')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-crater';
+        }
 
-      // Divider thickness.
-      if (str_contains($block->field_styles->value, 'medium')) {
-        $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-200'];
+        // Divider thickness.
+        if (str_contains($block_styles_value, 'medium')) {
+          $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-200'];
+        }
+        elseif (str_contains($block_styles_value, 'large')) {
+          $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-300'];
+        }
       }
-      elseif (str_contains($block->field_styles->value, 'large')) {
-        $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-300'];
-      }
-
       $section->setLayoutSettings($settings);
     }
     elseif ($item->getType() == 'paragraph_2_col') {
@@ -648,6 +664,29 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
 
       // Set two-columns to a min of 400px similar to the d7 of 450.
       $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
+      $section->setLayoutSettings($settings);
+    }
+    elseif ($item->getType() === 'paragraph_alert') {
+      if ($block->get('field_styles')->value !== NULL) {
+        $block_styles_value = $block->get('field_styles')->value;
+        if (str_contains($block_styles_value, 'default-light')) {
+          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-light-grey';
+        }
+        elseif (str_contains($block_styles_value, 'default-dark')) {
+          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-2';
+          $settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
+        }
+        elseif (str_contains($block_styles_value, 'info')) {
+          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-moondust';
+        }
+        elseif (str_contains($block_styles_value, 'success')) {
+          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-crater';
+        }
+      }
       $section->setLayoutSettings($settings);
     }
   }
