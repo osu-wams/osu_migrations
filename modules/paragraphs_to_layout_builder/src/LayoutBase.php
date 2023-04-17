@@ -128,18 +128,17 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    *   Name of the layout builder section
    */
   public static function getSectionType($paragraphType) {
-    $types = [
-      "paragraph_1_col_clean" => "bootstrap_layout_builder:blb_col_1",
-      "paragraph_1_col" => "bootstrap_layout_builder:blb_col_1",
-      "paragraph_divider" => "bootstrap_layout_builder:blb_col_1",
-      "paragraph_accordion" => "bootstrap_layout_builder:blb_col_1",
-      "paragraph_alert" => "bootstrap_layout_builder:blb_col_1",
-      "paragraph_menu" => "bootstrap_layout_builder:blb_col_3",
-      "paragraph_2_col" => "bootstrap_layout_builder:blb_col_2",
+    return match ($paragraphType) {
+      "paragraph_1_col_clean",
+      "paragraph_1_col",
+      "paragraph_divider",
+      "paragraph_accordion",
+      "paragraph_alert", => "bootstrap_layout_builder:blb_col_1",
       "paragraph_3_col" => "bootstrap_layout_builder:blb_col_3",
-    ];
-
-    return $types[$paragraphType];
+      "paragraph_menu" => "bootstrap_layout_builder:blb_col_4",
+      "paragraph_2_col" => "bootstrap_layout_builder:blb_col_2",
+      default => "bootstrap_layout_builder:blb_col_1"
+    };
   }
 
   /**
