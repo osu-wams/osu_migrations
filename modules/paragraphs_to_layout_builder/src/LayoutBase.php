@@ -196,7 +196,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
               'col-12',
             ],
           ],
-          'container' => 'container',
+          'container' => 'w-100',
           'remove_gutters' => '1',
         ];
 
@@ -228,7 +228,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
               'col-12',
             ],
           ],
-          'container' => 'container',
+          'container' => 'w-100',
           'remove_gutters' => '1',
         ];
 
@@ -306,6 +306,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
     $block = $this->entityTypeManager->getStorage('block_content')
       ->load($block_id);
 
+    // Menu Paragraph Bundle.
     if ($item->getMigrationId() == 'paragraph_menu__to__layout_builder') {
       return $this->handleMenuItems($block);
     }

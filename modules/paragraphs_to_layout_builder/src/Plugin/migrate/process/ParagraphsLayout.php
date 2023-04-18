@@ -92,7 +92,10 @@ class ParagraphsLayout extends LayoutBase {
 
             // Limitations on menu migrations means we don't know what section type to use until now.
             if ($components[0]->get('configuration')['id'] == 'inline_block:osu_menu_bar_item') {
-              $section = $this->createSection('bootstrap_layout_builder:blb_col_' . count($components), []);
+              $menu_section_settings = [
+                'container' => 'container',
+              ];
+              $section = $this->createSection('bootstrap_layout_builder:blb_col_' . count($components), [], $menu_section_settings);
             }
 
             foreach ($components as $component) {

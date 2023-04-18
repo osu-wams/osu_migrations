@@ -40,15 +40,23 @@ Migrations need to be run in a specific order.
 5. ### Feature Story/Articles to Story
    `drush migrate:import --tag='Feature Story'`
 
-6. ### The Last content migration to run is Users to Profiles
+6. ### Site Specific Migrations
+   Create a new module under site_migrations and name it 'osu_migrations_site' where 'site' is some short version of the
+   site working with. This will contain any configurations and migrations for this specific site that would not be
+   migrations that the rest of the distribution would go.
+
+   Enable your new module and run any of the migrations you define.
+
+7. ### Migrate the URL Aliases
+   `drush migrate:import --tag='OSU Alias'`
+
+8. ### The Last content migration to run is Users to Profiles
    `drush migrate:import --tag='OSU Drupal Profile'`
 
-7. ### Menus
+9. ### Menus
    `drush migrate:import --tag='OSU Menus'`
 
-8. ### Blocks
-   Migrate all custom blocks and where they were placed.
+10. ### Blocks
+    Migrate all custom blocks and where they were placed.
+    `drush migrate:import --tag='OSU Block'`
 
-   `drush migrate:import --tag='OSU Block'`
-9. ### Meta-tag Overrides
-   `drush migrate:import `
