@@ -53,6 +53,9 @@ process:
         plugin: migration_lookup
         migration: upgrade_d7_media_images
         source: fid
+  field_meta_tags:
+    - plugin: d7_metatag_entities
+      source: pseudo_metatag_entities
   type:
     plugin: default_value
     default_value: story

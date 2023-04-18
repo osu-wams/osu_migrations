@@ -42,6 +42,9 @@ process:
         format:
           plugin: default_value
           default_value: 'full_html'
+  field_meta_tags:
+    - plugin: d7_metatag_entities
+      source: pseudo_metatag_entities
   path/pathauto:
     plugin: default_value
     default_value: 0
