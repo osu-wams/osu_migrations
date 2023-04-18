@@ -1,0 +1,15 @@
+{
+  "name": "osu-wams/osu_migrations",
+  "description": "Drupal Migrations to upgrade from OSU Drupal 7.",
+  "minimum-stability": "stable",
+  "type": "drupal-custom-module",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Matthew Brabham",
+      "email": "matthew.brabham@oregonstate.edu"
+    }
+  ],
+  "require": {
+  }
+}
