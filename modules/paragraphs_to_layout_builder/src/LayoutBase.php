@@ -233,6 +233,39 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
           'remove_gutters' => '1',
         ];
 
+      case 'bootstrap_layout_builder:blb_col_4':
+        return [
+          'breakpoints' => [
+            'desktop' => 'blb_col_3_3_3_3',
+            'tablet' => 'blb_col_3_3_3_3',
+            'mobile' => 'blb_col_12',
+          ],
+          'layout_regions_classes' => [
+            'blb_region_col_1' => [
+              'col-lg-3',
+              'col-md-3',
+              'col-12',
+            ],
+            'blb_region_col_2' => [
+              'col-lg-3',
+              'col-md-3',
+              'col-12',
+            ],
+            'blb_region_col_3' => [
+              'col-lg-3',
+              'col-md-3',
+              'col-12',
+            ],
+            'blb_region_col_4' => [
+              'col-lg-3',
+              'col-md-3',
+              'col-12',
+            ],
+          ],
+          'container' => 'container',
+          'remove_gutters' => '1',
+        ];
+
       default:
         return [];
     }
@@ -329,7 +362,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
         ->condition('b.id', $block_id, '=');
       $block_type = $query->execute()->fetchField();
       $block_revision_id = $this->blockContentStorage->getLatestRevisionId($block_id);
-      //      $block = BlockContent::load($block_id);
+      // $block = BlockContent::load($block_id);
       $row = 'blb_region_col_' . ($index + 1);
       $components[] = $this->createSectionComponent($block_type, $block_revision_id, $row, [], 0);
     }

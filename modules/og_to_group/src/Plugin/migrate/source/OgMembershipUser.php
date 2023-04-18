@@ -15,7 +15,6 @@ namespace Drupal\og_to_group\Plugin\migrate\source;
  *
  * Examples:
  *
- *
  * @code
  * source:
  *   plugin: d7_og_membership_user
