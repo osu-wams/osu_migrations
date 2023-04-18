@@ -42,3 +42,4 @@ destination:
 migration_dependencies:
   required:
     - upgrade_d7_node_og_group
+    - book_to_page
