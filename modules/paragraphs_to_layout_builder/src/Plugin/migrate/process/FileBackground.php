@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Process plugin to just return the new fid of the file for a background.
  *
  * The migration configuration 'custom_source_lookup' is required.
+ *
  * @MigrateProcessPlugin(
  *   id = "file_background"
  * )

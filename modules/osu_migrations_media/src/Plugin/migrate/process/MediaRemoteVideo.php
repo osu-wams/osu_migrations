@@ -2,7 +2,6 @@
 
 namespace Drupal\osu_migrations_media\Plugin\migrate\process;
 
-use Drupal\migrate\Annotation\MigrateProcessPlugin;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;

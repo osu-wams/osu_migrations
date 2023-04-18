@@ -75,7 +75,7 @@ class OsuUserToProfilesSubscriber implements EventSubscriberInterface {
       $uid = $event->getRow()->getSourceProperty('uid');
       // Get the new node id of the new profile page.
       $destinationNid = $event->getDestinationIdValues()[0];
-      // load the node entity, so we can get its url.
+      // Load the node entity, so we can get its url.
       /** @var \Drupal\node\Entity\Node $destinationNode */
       $destinationNode = $this->entityTypeManager->getStorage('node')
         ->load($destinationNid);
@@ -112,11 +112,12 @@ class OsuUserToProfilesSubscriber implements EventSubscriberInterface {
    * @param \Drupal\migrate\Event\MigrateRollbackEvent $migrateRollbackEvent
    *
    * @return void
+   *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function onPostRollback(MigrateRollbackEvent $migrateRollbackEvent) {
     if ($migrateRollbackEvent->getMigration()
-        ->getPluginId() === 'upgrade_d7_user_to_profile') {
+      ->getPluginId() === 'upgrade_d7_user_to_profile') {
       /** @var \Drupal\redirect\Entity\Redirect[] $userOldRedirects */
       $userOldRedirects = $this->redirectRepository->findBySourcePath('users/%');
       foreach ($userOldRedirects as $userOldRedirect) {
