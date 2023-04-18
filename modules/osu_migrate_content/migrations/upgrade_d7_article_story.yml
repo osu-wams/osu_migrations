@@ -5,6 +5,7 @@ id: upgrade_d7_article_story
 field_plugin_method: null
 cck_plugin_method: null
 migration_tags:
+  - Drupal 7
   - Feature Story
   - OSU Content
   - OSU
