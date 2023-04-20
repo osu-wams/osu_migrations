@@ -5,8 +5,9 @@ audit: true
 migration_tags:
   - Drupal 7
   - Content
-  - OSU
   - OSU Blocks
+  - OSU Custom Blocks
+  - OSU
 source:
   plugin: d7_block_custom
 process:

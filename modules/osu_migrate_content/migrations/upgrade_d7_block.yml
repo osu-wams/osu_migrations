@@ -56,7 +56,7 @@ process:
           # 1: system_menu_block:tools
           new: views_block:who_s_new-block_1
           online: views_block:who_s_online-who_s_online_block
-    - plugin: block_plugin_id
+    - plugin: osu_block_plugin_id
     - plugin: skip_on_empty
       method: row
   theme:
@@ -132,4 +132,3 @@ destination:
 migration_dependencies:
   optional:
     - upgrade_d7_custom_block
-    - upgrade_d7_users_with_roles

@@ -28,7 +28,12 @@ Migrations need to be run in a specific order.
 3. ### Taxonomy Tags
    `drush migrate:import --tag='OSU Taxonomy'`
 
-4. ### Paragraphs to Layout Builder
+4. ### Migrate Custom Block Content
+   We need to migrate all the custom block contents first before paragraphs as we use block content in the paragraph
+   migration, and we want to ensure all the original ID's of the blocks are there first.
+
+   `drush migrate:import --tag='OSU Custom Blocks'`
+5. ### Paragraphs to Layout Builder
    Paragraphs to Layout Builder migration requires two steps:
 
     1. #### Run all the Paragraphs to LB migrations first.
@@ -37,26 +42,28 @@ Migrations need to be run in a specific order.
     2. #### Run all the content migrations that used Paragraphs.
        `drush migrate:import --tag='Layout content' --force`
 
-5. ### Feature Story/Articles to Story
+6. ### Feature Story/Articles to Story
    `drush migrate:import --tag='Feature Story'`
 
-6. ### Site Specific Migrations
+7. ### Site Specific Migrations
    Create a new module under site_migrations and name it 'osu_migrations_site' where 'site' is some short version of the
    site working with. This will contain any configurations and migrations for this specific site that would not be
    migrations that the rest of the distribution would go.
 
    Enable your new module and run any of the migrations you define.
+8. ### Migrate Groups
+   `drush migrate:import --tag='OSU Groups`
 
-7. ### Migrate the URL Aliases
+9. ### Migrate the URL Aliases
    `drush migrate:import --tag='OSU Alias'`
 
-8. ### The Last content migration to run is Users to Profiles
-   `drush migrate:import --tag='OSU Drupal Profile'`
+10. ### The Last content migration to run is Users to Profiles
+    `drush migrate:import --tag='OSU Drupal Profile'`
 
-9. ### Menus
-   `drush migrate:import --tag='OSU Menus'`
+11. ### Menus
+    `drush migrate:import --tag='OSU Menus'`
 
-10. ### Blocks
-    Migrate all custom blocks and where they were placed.
-    `drush migrate:import --tag='OSU Block'`
+12. ### Block Placement
+    Migrate all block placements.
+    `drush migrate:import --tag='OSU Blocks'`
 

@@ -5,8 +5,9 @@ migration_tags:
   - Drupal 6
   - Drupal 7
   - Configuration
-  - OSU
   - OSU Blocks
+  - OSU Custom Blocks
+  - OSU
 source:
   plugin: embedded_data
   data_rows:
