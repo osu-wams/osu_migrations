@@ -26,6 +26,7 @@ process:
         format:
           plugin: default_value
           default_value: 'full_html'
+  field_osu_story_caption: field_caption
   uid:
     - plugin: migration_lookup
       migration: upgrade_d7_users_with_roles
