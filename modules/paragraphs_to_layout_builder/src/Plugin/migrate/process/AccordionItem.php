@@ -77,7 +77,10 @@ class AccordionItem extends LayoutBase {
       $paragraph_items[] = Paragraph::create([
         'type' => 'osu_accordion_item',
         'field_p_accordion_title' => $accordion->field_p_accordion_group_title_value,
-        'field_p_accordion_body' => $transformedEmbedCode,
+        'field_p_accordion_body' => [
+          'value' => $transformedEmbedCode,
+          'format' => 'full_html',
+        ],
       ]);
     }
 
