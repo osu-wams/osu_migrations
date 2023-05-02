@@ -17,7 +17,7 @@ source:
     # configuration in this migration's process pipeline as an example.
     # If this is an Acquia Cloud site copy the files in to the sites directory and update the path to
     # /var/www/html/docroot/sites/site_fqdn/files-private/files
-    source_base_path: '/var/www/html/docroot/sites/default/files-private/files'
+    source_base_path: '/var/www/html/docroot'
 process:
   filename: filename
   source_full_path:
