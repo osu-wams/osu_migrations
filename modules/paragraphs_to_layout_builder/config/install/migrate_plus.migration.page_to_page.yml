@@ -47,13 +47,17 @@ process:
   path/pathauto:
     plugin: default_value
     default_value: 0
+  default_temp:
+    plugin: default_layout
+    bundle: page
   paragraphs_temp:
     plugin: paragraphs_layout
     source_field: field_paragraph
   layout_builder__layout:
     plugin: get
     source:
-      '@paragraphs_temp'
+      - '@default_temp'
+      - '@paragraphs_temp'
   type:
     plugin: default_value
     default_value: page
