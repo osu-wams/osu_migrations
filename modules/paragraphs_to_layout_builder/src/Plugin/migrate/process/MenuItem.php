@@ -45,7 +45,7 @@ class MenuItem extends LayoutBase {
       // Check for valid urls. Make changes as necessary.
       $url = $result->field_p_menu_link_url;
       if (UrlHelper::isValid($url)) {
-        if (!str_starts_with($url, 'http')) {
+        if (!str_starts_with($url, 'http') || !str_starts_with($url, 'mailto')) {
           if (str_starts_with($url, '/')) {
             $url = 'internal:' . $url;
           }
