@@ -54,8 +54,10 @@ Migrations need to be run in a specific order.
 8. ### Migrate Groups
    `drush migrate:import --tag='OSU Groups`
 
-9. ### Migrate the URL Aliases
+9. ### Migrate the URL Aliases and Redirects
    `drush migrate:import --tag='OSU Alias'`
+
+   `drush migrate:import --tag='OSU Redirect'`
 
 10. ### The Last content migration to run is Users to Profiles
     `drush migrate:import --tag='OSU Drupal Profile'`
