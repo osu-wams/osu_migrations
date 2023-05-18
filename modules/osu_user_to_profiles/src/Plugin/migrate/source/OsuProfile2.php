@@ -32,7 +32,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\d7\FieldableEntity;
 class OsuProfile2 extends FieldableEntity {
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function getIds() {
     return [
@@ -44,7 +44,7 @@ class OsuProfile2 extends FieldableEntity {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function query() {
     $query = $this->select('profile', 'p');
@@ -56,7 +56,7 @@ class OsuProfile2 extends FieldableEntity {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function fields() {
     return [

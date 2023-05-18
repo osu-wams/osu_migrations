@@ -10,7 +10,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 class OgMembershipBase extends DrupalSqlBase {
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function getIds() {
     return [
@@ -21,7 +21,7 @@ class OgMembershipBase extends DrupalSqlBase {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function query() {
     $query = $this->select('og_membership', 'ogm');
@@ -32,7 +32,7 @@ class OgMembershipBase extends DrupalSqlBase {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function fields() {
     return [

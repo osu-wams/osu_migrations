@@ -15,6 +15,7 @@ source:
 process:
   title: name
   field_profile_email: mail
+  status: status
   type:
     plugin: default_value
     default_value: osu_profile
