@@ -1,0 +1,17 @@
+id: upgrade_d7_context
+label: Drupal Context
+migration_tags:
+  - Drupal 7
+  - Configuration
+  - OSU Context
+  - OSU
+source:
+  plugin: osu_d7_context
+process:
+  id: id
+  label: name
+  conditions:
+    - plugin: osu_block_visibility_group_conditions
+      source: conditions
+destination:
+  plugin: entity:block_visibility_group
