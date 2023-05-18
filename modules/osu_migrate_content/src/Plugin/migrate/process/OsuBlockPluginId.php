@@ -32,10 +32,11 @@ class OsuBlockPluginId extends BlockPluginId {
             if ($lookup_result) {
               $block_id = $lookup_result[0]['id'];
               return 'block_content:' . $this->blockContentStorage->load($block_id)
-                  ->uuid();
+                ->uuid();
             }
           }
           break;
+
         default:
           break;
       }

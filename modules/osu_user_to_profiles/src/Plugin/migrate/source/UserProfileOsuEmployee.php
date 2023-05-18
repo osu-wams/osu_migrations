@@ -15,7 +15,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 class UserProfileOsuEmployee extends DrupalSqlBase {
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function getIds() {
     return [
@@ -31,7 +31,7 @@ class UserProfileOsuEmployee extends DrupalSqlBase {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function query() {
     $query = $this->select('profile', 'p');
@@ -60,7 +60,7 @@ class UserProfileOsuEmployee extends DrupalSqlBase {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function fields() {
     return [
