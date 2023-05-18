@@ -64,7 +64,7 @@ class OsuContext extends DrupalSqlBase {
   public function prepareRow(Row $row) {
     $context_status_arr = $this->variableGet('context_status', []);
     $context_name = $row->getSourceProperty('name');
-    if ($context_status_arr[$context_name] === TRUE) {
+    if (isset($context_status_arr[$context_name]) && $context_status_arr[$context_name] === TRUE) {
       $row->setSourceProperty('status', 0);
     }
     else {
