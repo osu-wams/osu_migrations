@@ -13,8 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Process Plugin to Work on Context to Block Visibility Group Conditions.
  *
  * @MigrateProcessPlugin (
- *    id = "osu_block_visibility_group_conditions",
- *   source_module = "menu"
+ *   id = "osu_block_visibility_group_conditions"
  * )
  */
 class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements ContainerFactoryPluginInterface {

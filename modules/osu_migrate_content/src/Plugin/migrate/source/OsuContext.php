@@ -54,6 +54,7 @@ class OsuContext extends DrupalSqlBase {
       'tag' => $this->t('Context tag'),
       'conditions' => $this->t('Context conditions'),
       'reactions' => $this->t('Context reactions'),
+      'condition_mode' => $this->t('The condition mode, 0 for any 1 for all'),
     ];
   }
 
@@ -61,7 +62,14 @@ class OsuContext extends DrupalSqlBase {
    * {@inheritDoc}
    */
   public function prepareRow(Row $row) {
+    $context_status_arr = $this->variableGet('context_status', []);
     $context_name = $row->getSourceProperty('name');
+    if ($context_status_arr[$context_name] === TRUE) {
+      $row->setSourceProperty('status', 0);
+    }
+    else {
+      $row->setSourceProperty('status', 1);
+    }
     $context_id = preg_replace('/-/', '_', $context_name);
     $row->setSourceProperty('id', $context_id);
     return parent::prepareRow($row);
