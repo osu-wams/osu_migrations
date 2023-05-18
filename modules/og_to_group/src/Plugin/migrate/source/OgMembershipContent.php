@@ -33,7 +33,7 @@ namespace Drupal\og_to_group\Plugin\migrate\source;
 class OgMembershipContent extends OgMembershipBase {
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function query() {
     $query = parent::query();
