@@ -8,6 +8,10 @@ migration_tags:
 source:
   plugin: osu_d7_context
 process:
+  status:
+    plugin: skip_on_empty
+    method: row
+    source: status
   id:
     - plugin: machine_name
       source: name
@@ -22,9 +26,5 @@ process:
   conditions:
     - plugin: osu_block_visibility_group_conditions
       source: conditions
-  status:
-    plugin: skip_on_empty
-    method: row
-    source: status
 destination:
   plugin: entity:block_visibility_group
