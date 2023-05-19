@@ -8,7 +8,9 @@ migration_tags:
 source:
   plugin: osu_d7_context
 process:
-  id: id
+  id:
+    - plugin: machine_name
+      source: name
   label: name
   logic:
     - plugin: static_map

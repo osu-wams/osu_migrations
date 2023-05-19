@@ -70,8 +70,6 @@ class OsuContext extends DrupalSqlBase {
     else {
       $row->setSourceProperty('status', 1);
     }
-    $context_id = preg_replace('/-/', '_', $context_name);
-    $row->setSourceProperty('id', $context_id);
     return parent::prepareRow($row);
   }
 
