@@ -62,9 +62,13 @@ class BlockVisibilityGroupsPostRowMigrate implements EventSubscriberInterface {
             ->load($newBLocks["id"]);
           $block_content->uuid();
           $region = $this->getRegion($block_config["region"]);
+          $block_id = $block_visibility_group_name . '_' . preg_replace("/[^a-z0-9_]+/", '_', $block_config["delta"]);
+          if (strlen($block_id) > 255) {
+            $block_id = substr($block_id, 0, 255);
+          }
           // Create a new block placement and save it.
           $new_block_placement = $block_storage->create([
-            'id' => $block_visibility_group_name . '_' . $block_config["delta"],
+            'id' => $block_id,
             'theme' => 'madrone',
             'plugin' => 'block_content:' . $block_content->uuid(),
             'weight' => $block_config["weight"],
@@ -105,9 +109,6 @@ class BlockVisibilityGroupsPostRowMigrate implements EventSubscriberInterface {
             ]);
             $new_block_placement->save();
           }
-        }
-        else {
-          dump($block_config);
         }
       }
     }

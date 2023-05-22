@@ -28,3 +28,8 @@ process:
       source: conditions
 destination:
   plugin: entity:block_visibility_group
+migration_dependencies:
+  required:
+    - upgrade_d7_custom_block
+  optional:
+    - d7_views_migration
