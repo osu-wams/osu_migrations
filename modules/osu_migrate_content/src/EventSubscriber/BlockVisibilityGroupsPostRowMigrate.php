@@ -8,38 +8,50 @@ use Drupal\migrate\Event\MigratePostRowSaveEvent;
 use Drupal\migrate\MigrateLookupInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * OSU Context to Block Visibility Group Event Subscriber.
+ */
 class BlockVisibilityGroupsPostRowMigrate implements EventSubscriberInterface {
 
   /**
+   * The Entity Type Manager Service.
+   *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   private EntityTypeManagerInterface $entityTypeManager;
 
   /**
+   * The Migration Lookup Service.
+   *
    * @var \Drupal\migrate\MigrateLookupInterface
    */
   private MigrateLookupInterface $migrateLookup;
 
+  /**
+   * Creates a new Event Subscriber.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
+   * @param \Drupal\migrate\MigrateLookupInterface $migrateLookup
+   *   The Migration Lookup Interface.
+   */
   public function __construct(EntityTypeManagerInterface $entityTypeManager, MigrateLookupInterface $migrateLookup) {
     $this->entityTypeManager = $entityTypeManager;
     $this->migrateLookup = $migrateLookup;
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public static function getSubscribedEvents() {
     return [MigrateEvents::POST_ROW_SAVE => 'onPostRowSave'];
   }
 
   /**
-   * @param \Drupal\migrate\Event\MigratePostRowSaveEvent $event
+   * Create the blocks and set the Visibility Group.
    *
-   * @return void
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   * @throws \Drupal\migrate\MigrateException
+   * @param \Drupal\migrate\Event\MigratePostRowSaveEvent $event
+   *   The migration import event.
    */
   public function onPostRowSave(MigratePostRowSaveEvent $event) {
     if ($event->getMigration()->getBaseId() === "upgrade_d7_context") {
@@ -55,7 +67,7 @@ class BlockVisibilityGroupsPostRowMigrate implements EventSubscriberInterface {
       if (isset($context_reactions["block"])) {
         $old_blocks = $context_reactions["block"]["blocks"];
       }
-      foreach ($old_blocks as $block_name => $block_config) {
+      foreach ($old_blocks as $block_config) {
         if ($block_config["module"] === "block") {
           $newBLocks = $this->migrateLookup->lookup('upgrade_d7_custom_block', [$block_config["delta"]])[0];
           $block_content = $this->entityTypeManager->getStorage('block_content')
@@ -113,7 +125,6 @@ class BlockVisibilityGroupsPostRowMigrate implements EventSubscriberInterface {
       }
     }
   }
-
 
   /**
    * Return the update region names.
