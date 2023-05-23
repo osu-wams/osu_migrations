@@ -86,15 +86,19 @@ class ParagraphsLayout extends LayoutBase {
             throw new LayoutMigrationMissingParagraphToLayoutException($this->t('Missing custom paragraph migration for paragraph type @type.', ['@type' => $type]));
           }
           // Iterate through migration_ids creating components for each block and attaching to section.
-          foreach ($migration_ids as $migration_id => $row) {
+          foreach ($migration_ids as $migration_id => $migration_row) {
             $migrationItem = new LayoutMigrationItem($type, $item['value'], $delta, $migration_id);
-            $components = $this->createComponent($migrationItem, $section, $row);
+            $components = $this->createComponent($migrationItem, $section, $migration_row);
 
             // Limitations on menu migrations means we don't know what section type to use until now.
             if ($components[0]->get('configuration')['id'] == 'inline_block:osu_menu_bar_item') {
-              $menu_section_settings = [
-                'container' => 'container',
-              ];
+              // Query old db to get the menu bg color option.
+              $menu_style_query = $this->migrateDb->select('field_data_field_p_menu_styles', 'fdfpms');
+              $menu_style_query->fields('fdfpms', ['field_p_menu_styles_value']);
+              $menu_style_query->condition('fdfpms.entity_id', $item['value'], 'IN');
+              $menu_bg_color = $menu_style_query->execute()->fetchField();
+
+              $menu_section_settings = $this->setMenuBgClass($menu_bg_color);
               $section = $this->createSection('bootstrap_layout_builder:blb_col_' . count($components), [], $menu_section_settings);
             }
 
@@ -143,6 +147,51 @@ class ParagraphsLayout extends LayoutBase {
       $types[$id] = $query->execute()->fetchField();
     }
     return $types[$id];
+  }
+
+  /**
+   * Set the Menu bar section options.
+   *
+   * @param string $paragraph_style
+   *
+   * @return array
+   *   Layout builder Section settings.
+   */
+  private function setMenuBgClass(string $paragraph_style) {
+    $menu_section_settings = [
+      'container' => 'container',
+      'container_wrapper' => [
+        'bootstrap_styles' => [
+          'background' => [
+            'background_type' => 'color',
+          ],
+        ],
+      ],
+    ];
+    switch ($paragraph_style) {
+      case 'menu-orange':
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-osuorange';
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
+        break;
+      case 'menu-gray':
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-light-grey';
+        break;
+      case 'menu-blue':
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-moondust';
+        break;
+      case 'menu-black':
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-2';
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
+        break;
+      case 'menu-green':
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-crater';
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
+        break;
+      default:
+        $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-default';
+        break;
+    }
+    return $menu_section_settings;
   }
 
 }
