@@ -128,12 +128,17 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    *   Name of the layout builder section
    */
   public static function getSectionType($paragraphType) {
+    /*
+     * Paragraph Types of:
+     *   paragraph_1_col_clean
+     *   paragraph_divider
+     *   paragraph_accordion
+     *   paragraph_alert
+     * all map to bootstrap_layout_builder:blb_col_1 along with any other
+     * paragraph type not listed here specifically.
+     */
     return match ($paragraphType) {
-      "paragraph_1_col_clean",
       "paragraph_1_col",
-      "paragraph_divider",
-      "paragraph_accordion",
-      "paragraph_alert", => "bootstrap_layout_builder:blb_col_1",
       "paragraph_3_col" => "bootstrap_layout_builder:blb_col_3",
       "paragraph_menu" => "bootstrap_layout_builder:blb_col_4",
       "paragraph_2_col" => "bootstrap_layout_builder:blb_col_2",
@@ -287,7 +292,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    * @throws \Drupal\migrate\MigrateException
    * @throws \Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException
    */
-  public function createComponent(LayoutMigrationItem $item, Section $section, $row = 'blb_region_col_1') {
+  public function createComponent(LayoutMigrationItem $item, Section $section, string $row = 'blb_region_col_1') {
     $block_id = $this->lookupBlock($item->getMigrationId(), $item->getId());
 
     $query = $this->db->select('block_content_field_data', 'b')
@@ -310,6 +315,22 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
     if ($item->getMigrationId() == 'paragraph_menu__to__layout_builder') {
       return $this->handleMenuItems($block);
     }
+
+    // Set column settings for 1_col
+    if ($item->getMigrationId() === 'paragraph_1_col__to__layout_builder') {
+      if ($block->get('field_styles')->value != NULL) {
+        if (str_contains($block->get('field_styles')->value, 'left')) {
+          $row = 'blb_region_col_1';
+        }
+        elseif (str_contains($block->get('field_styles')->value, 'right')) {
+          $row = 'blb_region_col_3';
+        }
+      }
+      else {
+        $row = 'blb_region_col_2';
+      }
+    }
+
     $additional = $this->getAdditionalBlockSettings($block, $row, $item);
     $this->setAdditionalSectionSettings($section, $block, $item);
 
@@ -345,6 +366,128 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   }
 
   /**
+   * Some blocks need to set additional settings on the section.
+   *
+   * @param \Drupal\layout_builder\Section $section
+   *   The layout builder section this block will be applied to.
+   * @param \Drupal\block_content\Entity\BlockContent $block
+   *   The block we get settings from.
+   * @param \Drupal\paragraphs_to_layout_builder\LayoutMigrationItem $item
+   *   A migration item instance.
+   */
+  protected function setAdditionalSectionSettings(Section $section, $block, LayoutMigrationItem $item) {
+    $settings = $section->getLayoutSettings();
+    if ($item->getType() === 'paragraph_1_col_clean') {
+      // 1 column margin settings
+      switch ($block->get('field_styles')->value) {
+        case '0':
+          $settings['container'] = 'w-100';
+          break;
+
+        case '67':
+          $settings['container'] = 'container-fluid';
+          break;
+
+        case '10':
+        case '20':
+          $settings['container'] = 'container';
+          break;
+      }
+      $section->setLayoutSettings($settings);
+    }
+    elseif ($item->getType() === 'paragraph_1_col') {
+      if ($block->get('field_eb_background_fc')->value !== NULL) {
+        $eb_fc = explode(',', $block->get('field_eb_background_fc')->value);
+        $eb_fc_id = $eb_fc[0];
+        $eb_fc_type = $eb_fc[1] === 'parallax' ? 'fixed' : 'not_fixed';
+        $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'image';
+        $settings['container_wrapper']['bootstrap_styles']['background_media']['image']['media_id'] = $eb_fc_id;
+        $settings['container_wrapper']['bootstrap_styles']['background_media']['background_options'] = [
+          'background_position' => 'center',
+          'background_repeat' => 'no-repeat',
+          'background_attachment' => $eb_fc_type,
+          'background_size' => 'cover',
+        ];
+        $settings['container_wrapper']['bootstrap_styles']['items_alignment']['class'] = 'osu-align-items-center';
+        $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
+        $section->setLayoutSettings($settings);
+      }
+    }
+    elseif ($item->getType() == 'paragraph_divider') {
+      // Default settings for dividers.
+      $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
+      $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-100'];
+      if ($block->get('field_styles')->value !== NULL) {
+        $block_styles_value = $block->get('field_styles')->value;
+
+        if (str_contains($block_styles_value, 'black')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
+        }
+        elseif (str_contains($block_styles_value, 'white')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-1';
+        }
+        elseif (str_contains($block_styles_value, 'orange')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-osuorange';
+        }
+        elseif (str_contains($block_styles_value, 'gray')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-light-grey';
+        }
+        elseif (str_contains($block_styles_value, 'blue')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-moondust';
+        }
+        elseif (str_contains($block_styles_value, 'green')) {
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-crater';
+        }
+
+        // Divider thickness.
+        if (str_contains($block_styles_value, 'medium')) {
+          $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-200'];
+        }
+        elseif (str_contains($block_styles_value, 'large')) {
+          $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-300'];
+        }
+      }
+      $section->setLayoutSettings($settings);
+    }
+    elseif ($item->getType() == 'paragraph_2_col') {
+      if ($block->get('field_styles')->value !== NULL &&
+        (str_contains($block->get('field_styles')->value, 'black-bg-left') ||
+          str_contains($block->get('field_styles')->value, 'black-bg-right'))) {
+        $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+        $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-2';
+        $settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
+      }
+
+      // Set two-columns to a min of 400px similar to the d7 of 450.
+      $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
+      $section->setLayoutSettings($settings);
+    }
+    elseif ($item->getType() === 'paragraph_alert') {
+      if ($block->get('field_styles')->value !== NULL) {
+        $block_styles_value = $block->get('field_styles')->value;
+        if (str_contains($block_styles_value, 'default-light')) {
+          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-light-grey';
+        }
+        elseif (str_contains($block_styles_value, 'default-dark')) {
+          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-2';
+          $settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
+        }
+        elseif (str_contains($block_styles_value, 'info')) {
+          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-moondust';
+        }
+        elseif (str_contains($block_styles_value, 'success')) {
+          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
+          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-crater';
+        }
+      }
+      $section->setLayoutSettings($settings);
+    }
+  }
+
+  /**
    * Additional blocks need to be queried for menu items.
    *
    * @param \Drupal\block_content\Entity\BlockContent $block
@@ -354,7 +497,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    *   layout builder block settings array
    */
   protected function handleMenuItems($block) {
-    $block_ids = explode(',', $block->body->value);
+    $block_ids = explode(',', $block->get('body')->value);
     $components = [];
     foreach ($block_ids as $index => $block_id) {
       $query = $this->db->select('block_content_field_data', 'b')
@@ -422,9 +565,9 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
     $additional = [];
     // Set a default padding.
     $additional['bootstrap_styles']['block_style']['padding']['class'] = 'p-3';
-    if ($block->field_styles && (
-        ($row == 'blb_region_col_1' && str_contains($block->field_styles->value, 'black-bg-left'))
-        || ($row == 'blb_region_col_2' && str_contains($block->field_styles->value, 'black-bg-right')))) {
+    if ($block->get('field_styles') && (
+        ($row == 'blb_region_col_1' && str_contains($block->get('field_styles')->value, 'black-bg-left'))
+        || ($row == 'blb_region_col_2' && str_contains($block->get('field_styles')->value, 'black-bg-right')))) {
       // 2 column additional settings
       $additional = [
         'bootstrap_styles' => [
@@ -494,16 +637,6 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       ];
     }
     elseif ($item->getType() == 'paragraph_1_col') {
-      // 1 column text alignments
-      $alignment = 'bs-text-center';
-      if ($block->field_styles->value != NULL) {
-        if (str_contains($block->field_styles->value, 'left')) {
-          $alignment = 'bs-text-left';
-        }
-        elseif (str_contains($block->field_styles->value, 'right')) {
-          $alignment = 'bs-text-right';
-        }
-      }
       if ($block->get('body')->value !== NULL) {
         $additional = [
           'bootstrap_styles' => [
@@ -515,7 +648,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
                 'class' => 'osu-bg-page-alt-1',
               ],
               'text_alignment' => [
-                'class' => $alignment,
+                'class' => '_none',
               ],
               'padding' => [
                 'class' => 'p-4',
@@ -600,128 +733,6 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       }
     }
     return $additional;
-  }
-
-  /**
-   * Some blocks need to set additional settings on the section.
-   *
-   * @param \Drupal\layout_builder\Section $section
-   *   The layout builder section this block will be applied to.
-   * @param \Drupal\block_content\Entity\BlockContent $block
-   *   The block we get settings from.
-   * @param \Drupal\paragraphs_to_layout_builder\LayoutMigrationItem $item
-   *   A migration item instance.
-   */
-  protected function setAdditionalSectionSettings(Section $section, $block, LayoutMigrationItem $item) {
-    $settings = $section->getLayoutSettings();
-    if ($item->getType() === 'paragraph_1_col_clean') {
-      // 1 column margin settings
-      switch ($block->field_styles->value) {
-        case '0':
-          $settings['container'] = 'w-100';
-          break;
-
-        case '67':
-          $settings['container'] = 'container-fluid';
-          break;
-
-        case '10':
-        case '20':
-          $settings['container'] = 'container';
-          break;
-      }
-      $section->setLayoutSettings($settings);
-    }
-    elseif ($item->getType() === 'paragraph_1_col') {
-      if ($block->get('field_eb_background_fc')->value !== NULL) {
-        $eb_fc = explode(',', $block->get('field_eb_background_fc')->value);
-        $eb_fc_id = $eb_fc[0];
-        $eb_fc_type = $eb_fc[1] === 'parallax' ? 'fixed' : 'not_fixed';
-        $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'image';
-        $settings['container_wrapper']['bootstrap_styles']['background_media']['image']['media_id'] = $eb_fc_id;
-        $settings['container_wrapper']['bootstrap_styles']['background_media']['background_options'] = [
-          'background_position' => 'center',
-          'background_repeat' => 'no-repeat',
-          'background_attachment' => $eb_fc_type,
-          'background_size' => 'cover',
-        ];
-        $settings['container_wrapper']['bootstrap_styles']['items_alignment']['class'] = 'osu-align-items-center';
-        $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
-        $section->setLayoutSettings($settings);
-      }
-    }
-    elseif ($item->getType() == 'paragraph_divider') {
-      // Default settings for dividers.
-      $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
-      $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-100'];
-      if ($block->get('field_styles')->value !== NULL) {
-        $block_styles_value = $block->get('field_styles')->value;
-
-        if (str_contains($block_styles_value, 'black')) {
-          $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
-        }
-        elseif (str_contains($block_styles_value, 'white')) {
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-1';
-        }
-        elseif (str_contains($block_styles_value, 'orange')) {
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-osuorange';
-        }
-        elseif (str_contains($block_styles_value, 'gray')) {
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-light-grey';
-        }
-        elseif (str_contains($block_styles_value, 'blue')) {
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-moondust';
-        }
-        elseif (str_contains($block_styles_value, 'green')) {
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-crater';
-        }
-
-        // Divider thickness.
-        if (str_contains($block_styles_value, 'medium')) {
-          $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-200'];
-        }
-        elseif (str_contains($block_styles_value, 'large')) {
-          $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-300'];
-        }
-      }
-      $section->setLayoutSettings($settings);
-    }
-    elseif ($item->getType() == 'paragraph_2_col') {
-      if ($block->field_styles->value !== NULL &&
-        (str_contains($block->field_styles->value, 'black-bg-left') ||
-          str_contains($block->field_styles->value, 'black-bg-right'))) {
-        $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
-        $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-2';
-        $settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
-      }
-
-      // Set two-columns to a min of 400px similar to the d7 of 450.
-      $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
-      $section->setLayoutSettings($settings);
-    }
-    elseif ($item->getType() === 'paragraph_alert') {
-      if ($block->get('field_styles')->value !== NULL) {
-        $block_styles_value = $block->get('field_styles')->value;
-        if (str_contains($block_styles_value, 'default-light')) {
-          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-light-grey';
-        }
-        elseif (str_contains($block_styles_value, 'default-dark')) {
-          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-2';
-          $settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
-        }
-        elseif (str_contains($block_styles_value, 'info')) {
-          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-moondust';
-        }
-        elseif (str_contains($block_styles_value, 'success')) {
-          $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
-          $settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-crater';
-        }
-      }
-      $section->setLayoutSettings($settings);
-    }
   }
 
   /**
