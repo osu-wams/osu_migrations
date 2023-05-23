@@ -10,7 +10,7 @@ use Drupal\paragraphs_to_layout_builder\LayoutBase;
  * Process plugin to get the default layout of the node type.
  *
  * Example:
- * Get the default layout for the Node Bundle Page
+ * Get the default layout for the Node Bundle Page.
  *
  * @code
  * layout_temp:

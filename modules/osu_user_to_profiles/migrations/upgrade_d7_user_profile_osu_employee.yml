@@ -19,6 +19,9 @@ process:
   field_profile_office_phone:
     - plugin: get
       source: phone_office_value
+  field_profile_primary_title:
+    - plugin: get
+      source: position
   field_profile_address/address_line1:
     - plugin: get
       source: location_address_one_value
@@ -52,6 +55,7 @@ process:
     default_value: osu_profile
     overwrite_properties:
       - field_profile_office_phone
+      - field_profile_primary_title
       - field_profile_address
 destination:
   plugin: 'entity:node'

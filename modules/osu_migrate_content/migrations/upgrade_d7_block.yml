@@ -106,7 +106,7 @@ process:
           content: content
           sidebar_first: sidebar
           sidebar_second: sidebar
-          pre_footer_100: pre_footer
+          pre_footer: pre_footer
           footer: footer
     # If mapping fails, put the block in the content region.
     default_value: content
