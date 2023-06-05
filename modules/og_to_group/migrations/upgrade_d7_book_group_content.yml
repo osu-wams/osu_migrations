@@ -2,15 +2,12 @@ langcode: en
 status: true
 dependencies: { }
 id: upgrade_d7_book_group_content
-class: Drupal\migrate\Plugin\Migration
-field_plugin_method: null
-cck_plugin_method: null
 migration_tags:
   - Drupal 7 OG
   - OSU Groups Content
   - OSU Groups
   - OSU
-migration_group: nodes
+migration_group: osu_groups
 label: 'Migrate Book content from d7 into Group content'
 source:
   plugin: d7_og_membership_content

@@ -7,6 +7,8 @@ migration_tags:
   - OSU Group Menu
   - OSU Groups
   - OSU
+migration_group: osu_groups
+label: 'Migrate book-toc menus to group menus'
 source:
   plugin: book_toc_menu_link
 process:
