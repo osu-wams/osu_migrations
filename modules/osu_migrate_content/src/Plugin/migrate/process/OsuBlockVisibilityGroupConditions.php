@@ -60,8 +60,12 @@ class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements Con
     foreach ($context_condition as $context_type => $condition) {
       switch ($context_type) {
         case "path":
-          $negatedPaths = preg_grep("/^~/", $condition["values"]);
-          $positivePaths = preg_grep("/^~/", $condition["values"], PREG_GREP_INVERT);
+          $negatedPaths = preg_replace("/^~/", '/',
+            preg_grep("/^~/", $condition["values"]));
+          // $0 matches the entire string that contains our match of not
+          // starting with a /
+          $positivePaths = preg_replace("/^[^\/]/", "/$0",
+            preg_grep("/^~/", $condition["values"], PREG_GREP_INVERT));
           if (count($positivePaths) > 0) {
             $bvg_conditions[] = [
               "id" => "request_path",
