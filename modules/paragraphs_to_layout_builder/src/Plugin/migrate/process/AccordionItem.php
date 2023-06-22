@@ -43,27 +43,9 @@ class AccordionItem extends LayoutBase {
   /**
    * {@inheritDoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = NULL) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('uuid'),
-      $container->get('database'),
-      $container->get('entity_type.manager'),
-      $container->get('config.factory'),
-      $container->get('migrate.lookup'),
-      $container->get('osu_migrations.osu_media_embed')
-    );
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
     $headerText = $value[0];
     $accordionItemIds = $value[1];
-
     $d7_accordions = $this->getAccordionItems($accordionItemIds);
 
     // Create accordion items using title and body from d7.
@@ -123,9 +105,24 @@ class AccordionItem extends LayoutBase {
     $query->fields('content', ['field_p_accordion_group_content_value']);
     $query->condition('title.entity_id', $entity_ids, 'IN');
     $query->condition('title.revision_id', $revision_ids, 'IN');
-    $results = $query->execute();
+    return $query->execute();
+  }
 
-    return $results;
+  /**
+   * {@inheritDoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = NULL) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('uuid'),
+      $container->get('database'),
+      $container->get('entity_type.manager'),
+      $container->get('config.factory'),
+      $container->get('migrate.lookup'),
+      $container->get('osu_migrations.osu_media_embed')
+    );
   }
 
 }
