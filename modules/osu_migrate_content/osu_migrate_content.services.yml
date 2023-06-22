@@ -4,3 +4,8 @@ services:
     arguments: [ '@entity_type.manager', '@migrate.lookup' ]
     tags:
       - { name: event_subscriber }
+  osu_migrate_content.node_body_migration:
+    class: Drupal\osu_migrate_content\EventSubscriber\TextAreaFormatValueMigrate
+    arguments: [ ]
+    tags:
+      - { name: event_subscriber }
