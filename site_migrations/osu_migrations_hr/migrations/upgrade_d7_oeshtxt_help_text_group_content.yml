@@ -1,23 +1,23 @@
 langcode: en
 status: true
 dependencies: { }
-id: upgrade_d7_book_group_content
+id: upgrade_d7_oeshtxt_help_text_group_content
 migration_tags:
   - Drupal 7 OG
   - OSU Groups Content
   - OSU Groups
   - OSU
 migration_group: osu_groups
-label: 'Migrate Book content from d7 into Group content'
+label: 'Migrate oeshtxt Help text content from d7 into Group content'
 source:
   plugin: d7_og_membership_content
   node_type:
-    - book
+    - oeshtxt_help_text
 process:
   label: etid
   type:
     plugin: default_value
-    default_value: basic_group-group_node-page
+    default_value: group_content_type_ded531f37429d
   gid:
     - plugin: migration_lookup
       migration: upgrade_d7_node_og_group
@@ -28,7 +28,7 @@ process:
       message: 'gid is missing'
   entity_id:
     - plugin: migration_lookup
-      migration: book_to_page
+      migration: upgrade_d7_node
       no_stub: true
       source: etid
     - plugin: skip_on_empty
@@ -39,4 +39,4 @@ destination:
 migration_dependencies:
   required:
     - upgrade_d7_node_og_group
-    - book_to_page
+    - upgrade_d7_node

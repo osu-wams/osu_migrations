@@ -61,4 +61,5 @@ migration_dependencies:
   required:
     - upgrade_d7_node_og_group
     - upgrade_d7_book_group_content
+    - upgrade_d7_page_group_content
 
