@@ -53,28 +53,30 @@ Migrations need to be run in a specific order.
    Importing the content after all the Node types, Fields, and displays modes are migrate.
 
    `drush migrate:import --tag='OSU Content' --force`
+8. ### Views
+   `drush migrate:import d7_views_migration`
 
-8. ### Site Specific Migrations
+9. ### Site Specific Migrations
    Create a new module under site_migrations and name it 'osu_migrations_site' where 'site' is some short version of the
    site working with. This will contain any configurations and migrations for this specific site that would not be
    migrations that the rest of the distribution would go.
 
    Enable your new module and run any of the migrations you define.
-9. ### Migrate Groups
-   `drush migrate:import --tag='OSU Groups`
+10. ### Migrate Groups
+`drush migrate:import --tag='OSU Groups'`
 
-10. ### Migrate the URL Aliases and Redirects
+11. ### Migrate the URL Aliases and Redirects
     `drush migrate:import --tag='OSU Alias'`
 
     `drush migrate:import --tag='OSU Redirect'`
 
-11. ### The Last content migration to run is Users to Profiles
+12. ### The Last content migration to run is Users to Profiles
     `drush migrate:import --tag='OSU Drupal Profile'`
 
-12. ### Menus
+13. ### Menus
     `drush migrate:import --tag='OSU Menus'`
 
-13. ### Block Placement
+14. ### Block Placement
     Migrate all block placements.
 
     `drush migrate:import --tag='OSU Blocks'`

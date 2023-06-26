@@ -70,30 +70,32 @@ class BlockVisibilityGroupsPostRowMigrate implements EventSubscriberInterface {
       foreach ($old_blocks as $block_config) {
         if ($block_config["module"] === "block") {
           $newBLocks = $this->migrateLookup->lookup('upgrade_d7_custom_block', [$block_config["delta"]])[0];
-          $block_content = $this->entityTypeManager->getStorage('block_content')
-            ->load($newBLocks["id"]);
-          $block_content->uuid();
-          $region = $this->getRegion($block_config["region"]);
-          $block_id = $block_visibility_group_name . '_' . preg_replace("/[^a-z0-9_]+/", '_', $block_config["delta"]);
-          if (strlen($block_id) > 255) {
-            $block_id = substr($block_id, 0, 255);
-          }
-          // Create a new block placement and save it.
-          $new_block_placement = $block_storage->create([
-            'id' => $block_id,
-            'theme' => 'madrone',
-            'plugin' => 'block_content:' . $block_content->uuid(),
-            'weight' => $block_config["weight"],
-            'region' => $region,
-            'visibility' => [
-              'condition_group' => [
-                "id" => "condition_group",
-                "negate" => FALSE,
-                "block_visibility_group" => $block_visibility_group_name,
+          if (!empty($newBLocks)) {
+            $block_content = $this->entityTypeManager->getStorage('block_content')
+              ->load($newBLocks["id"]);
+            $block_content->uuid();
+            $region = $this->getRegion($block_config["region"]);
+            $block_id = $block_visibility_group_name . '_' . preg_replace("/[^a-z0-9_]+/", '_', $block_config["delta"]);
+            if (strlen($block_id) > 255) {
+              $block_id = substr($block_id, 0, 255);
+            }
+            // Create a new block placement and save it.
+            $new_block_placement = $block_storage->create([
+              'id' => $block_id,
+              'theme' => 'madrone',
+              'plugin' => 'block_content:' . $block_content->uuid(),
+              'weight' => $block_config["weight"],
+              'region' => $region,
+              'visibility' => [
+                'condition_group' => [
+                  "id" => "condition_group",
+                  "negate" => FALSE,
+                  "block_visibility_group" => $block_visibility_group_name,
+                ],
               ],
-            ],
-          ]);
-          $new_block_placement->save();
+            ]);
+            $new_block_placement->save();
+          }
         }
         elseif ($block_config["module"] === "views") {
           $view_storage = $this->entityTypeManager->getStorage('view');
