@@ -316,7 +316,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       return $this->handleMenuItems($block);
     }
 
-    // Set column settings for 1_col
+    // Set column settings for 1_col.
     if ($item->getMigrationId() === 'paragraph_1_col__to__layout_builder') {
       if ($block->get('field_styles')->value != NULL) {
         if (str_contains($block->get('field_styles')->value, 'left')) {

@@ -173,20 +173,25 @@ class ParagraphsLayout extends LayoutBase {
         $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-osuorange';
         $menu_section_settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
         break;
+
       case 'menu-gray':
         $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-light-grey';
         break;
+
       case 'menu-blue':
         $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-moondust';
         break;
+
       case 'menu-black':
         $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-alt-2';
         $menu_section_settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
         break;
+
       case 'menu-green':
         $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-crater';
         $menu_section_settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
         break;
+
       default:
         $menu_section_settings['container_wrapper']['bootstrap_styles']['background_color']['class'] = 'osu-bg-page-default';
         break;

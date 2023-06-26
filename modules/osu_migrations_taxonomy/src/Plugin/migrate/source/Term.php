@@ -2,8 +2,8 @@
 
 namespace Drupal\osu_migrations_taxonomy\Plugin\migrate\source;
 
-use Drupal\migrate\Row;
 use Drupal\migrate\Plugin\migrate\source\SqlBase;
+use Drupal\migrate\Row;
 
 /**
  * Drupal 7 taxonomy terms source from database.

@@ -80,4 +80,3 @@ Migrations need to be run in a specific order.
     Migrate all block placements.
 
     `drush migrate:import --tag='OSU Blocks'`
-

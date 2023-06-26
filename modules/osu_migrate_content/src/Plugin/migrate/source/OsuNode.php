@@ -23,6 +23,9 @@ class OsuNode extends Node {
    */
   protected array $excludeBundle;
 
+  /**
+   *
+   */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, StateInterface $state, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler) {
     if (empty($configuration['exclude_bundle'])) {
       throw new \InvalidArgumentException('osu_d7_node missing exclude_bundle property.');

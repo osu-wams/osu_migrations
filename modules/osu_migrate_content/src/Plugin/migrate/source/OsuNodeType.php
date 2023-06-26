@@ -38,6 +38,9 @@ class OsuNodeType extends NodeType {
     $this->excludeBundle = (array) $configuration['exclude_bundle'];
   }
 
+  /**
+   *
+   */
   public function query() {
     $query = parent::query();
     if (!empty($this->excludeBundle)) {

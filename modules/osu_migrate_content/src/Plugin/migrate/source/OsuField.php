@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\field\Plugin\migrate\source\d7\Field;
 use Drupal\migrate\Plugin\MigrationInterface;
-use Drupal\migrate\Row;
 
 /**
  * Modified Field Source from Drupal 7.
@@ -32,6 +31,9 @@ class OsuField extends Field {
    */
   protected array $excludeBundles;
 
+  /**
+   *
+   */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, StateInterface $state, EntityTypeManagerInterface $entity_type_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $migration, $state, $entity_type_manager);
     $this->includeEntity = $configuration['entity_type'] ?? '';
