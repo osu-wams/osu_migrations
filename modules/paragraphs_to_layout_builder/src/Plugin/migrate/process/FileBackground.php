@@ -33,6 +33,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FileBackground extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**
+   * The Migration Lookup Interface.
+   *
    * @var \Drupal\migrate\MigrateLookupInterface
    */
   private MigrateLookupInterface $migrateLookup;
