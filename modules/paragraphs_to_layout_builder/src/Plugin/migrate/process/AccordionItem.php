@@ -46,36 +46,39 @@ class AccordionItem extends LayoutBase {
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
     $headerText = $value[0];
     $accordionItemIds = $value[1];
-    $d7_accordions = $this->getAccordionItems($accordionItemIds);
+    if (!empty($accordionItemIds)) {
+      $d7_accordions = $this->getAccordionItems($accordionItemIds);
 
-    // Create accordion items using title and body from d7.
-    $paragraph_items = [];
-    foreach ($d7_accordions as $accordion) {
-      // Get the current value.
-      $bodyValue = $accordion->field_p_accordion_group_content_value;
-      // Pass it to our service to get the new embed value.
-      $transformedEmbedCode = $this->osuMediaEmbed->transformEmbedCode($bodyValue);
+      // Create accordion items using title and body from d7.
+      $paragraph_items = [];
+      foreach ($d7_accordions as $accordion) {
+        // Get the current value.
+        $bodyValue = $accordion->field_p_accordion_group_content_value;
+        // Pass it to our service to get the new embed value.
+        $transformedEmbedCode = $this->osuMediaEmbed->transformEmbedCode($bodyValue);
 
-      $paragraph_items[] = Paragraph::create([
-        'type' => 'osu_accordion_item',
-        'field_p_accordion_title' => $accordion->field_p_accordion_group_title_value,
-        'field_p_accordion_body' => [
-          'value' => $transformedEmbedCode,
-          'format' => 'full_html',
-        ],
+        $paragraph_items[] = Paragraph::create([
+          'type' => 'osu_accordion_item',
+          'field_p_accordion_title' => $accordion->field_p_accordion_group_title_value,
+          'field_p_accordion_body' => [
+            'value' => $transformedEmbedCode,
+            'format' => 'full_html',
+          ],
+        ]);
+      }
+
+      // Create accordion section and attach accordion items.
+      $paragraph_section = Paragraph::create([
+        'type' => 'osu_accordion_section',
+        'field_p_accordion_heading' => $headerText,
+        'field_osu_paragraph_item' => $paragraph_items,
       ]);
+
+      // Return accordion section which gets attached to the block created by the
+      // migration.
+      return $paragraph_section;
     }
-
-    // Create accordion section and attach accordion items.
-    $paragraph_section = Paragraph::create([
-      'type' => 'osu_accordion_section',
-      'field_p_accordion_heading' => $headerText,
-      'field_osu_paragraph_item' => $paragraph_items,
-    ]);
-
-    // Return accordion section which gets attached to the block created by the
-    // migration.
-    return $paragraph_section;
+    return $value;
   }
 
   /**
