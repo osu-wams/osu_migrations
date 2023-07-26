@@ -38,8 +38,28 @@ process:
           plugin: migration_lookup
           migration: upgrade_d7_taxonomy_terms
           source: tid
-  field_c_spotlight: field_spotlight
-  field_c_seo_interests: field_seo_interests
+  field_c_spotlight:
+    - plugin: sub_process
+      source: field_spotlight
+      process:
+        value:
+          plugin: osu_media_wysiwyg_filter
+          source: value
+        summary: summary
+        format:
+          plugin: default_value
+          default_value: 'full_html'
+  field_c_seo_interests:
+    - plugin: sub_process
+      source: field_seo_interests
+      process:
+        value:
+          plugin: osu_media_wysiwyg_filter
+          source: value
+        summary: summary
+        format:
+          plugin: default_value
+          default_value: 'full_html'
   type:
     plugin: default_value
     default_value: osu_profile

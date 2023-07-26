@@ -60,9 +60,10 @@ process:
       source: field_opengraph_image
       process:
         target_id:
-          plugin: migration_lookup
-          migration: upgrade_d7_media_images
-          source: fid
+          - plugin: migration_lookup
+            migration: upgrade_d7_files
+            source: fid
+        alt: alt
   field_meta_tags:
     - plugin: d7_metatag_entities
       source: pseudo_metatag_entities

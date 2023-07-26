@@ -90,21 +90,23 @@ process:
           migration: upgrade_d7_media_documents
           source: fid
   field_pac_class_video:
-    - plugin: sub_process
-      source: field_pac_class_video
-      process:
-        target_id:
-          plugin: migration_lookup
-          migration: upgrade_d7_media_local_video
+    plugin: sub_process
+    source: field_pac_class_video
+    process:
+      target_id:
+        - plugin: migration_lookup
+          migration: upgrade_d7_files
           source: fid
+      alt: alt
   field_opengraph_image:
-    - plugin: sub_process
-      source: field_opengraph_image
-      process:
-        target_id:
-          plugin: migration_lookup
-          migration: upgrade_d7_media_images
+    plugin: sub_process
+    source: field_opengraph_image
+    process:
+      target_id:
+        - plugin: migration_lookup
+          migration: upgrade_d7_files
           source: fid
+      alt: alt
   field_meta_tags:
     - plugin: d7_metatag_entities
       source: pseudo_metatag_entities

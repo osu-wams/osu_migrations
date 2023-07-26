@@ -49,6 +49,7 @@ process:
     default_value: osu_profile
     overwrite_properties:
       - field_profile_address
+      - field_osu_organizations
 destination:
   plugin: 'entity:node'
 migration_dependencies:
