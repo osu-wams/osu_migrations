@@ -4,6 +4,7 @@ dependencies: { }
 id: upgrade_d7_position_profile_file_group_content
 migration_tags:
   - Drupal 7 OG
+  - HR
   - OSU Groups Content
   - OSU Groups
   - OSU

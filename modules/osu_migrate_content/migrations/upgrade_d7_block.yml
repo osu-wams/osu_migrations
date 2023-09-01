@@ -84,18 +84,6 @@ process:
           footer_thirdcolumn: footer_top
           footer_fourthcolumn: footer_top
           footer: footer_bottom
-      seven:
-        # Seven 7.x --> Claro 9.4.x
-        claro:
-          header: 'header'
-          pre_content: 'pre_content'
-          breadcrumb: 'breadcrumb'
-          highlighted: 'highlighted'
-          help: 'help'
-          content: 'content'
-          page_top: 'page_top'
-          page_bottom: 'page_bottom'
-          sidebar_first: 'sidebar_first'
       doug_fir:
         # OSU Doug Fir --> Madrone
         madrone:

@@ -22,6 +22,7 @@ Migrations need to be run in a specific order.
 
 2. ### Media
    Migrate all the Files and Media entities.
+    Ensure that you first update the `upgrade_d7_file_private.yml` file to include the correct path to the private files directory. Do not commit this change.
 
    `drush migrate:import --tag='OSU Media'`
 

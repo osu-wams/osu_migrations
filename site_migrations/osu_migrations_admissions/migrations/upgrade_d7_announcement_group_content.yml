@@ -1,24 +1,24 @@
 langcode: en
 status: true
 dependencies: { }
-id: upgrade_d7_documents_group_content
+id: upgrade_d7_announcement_group_content
 migration_tags:
   - Drupal 7 OG
-  - HR
+  - Admissions
   - OSU Groups Content
   - OSU Groups
   - OSU
 migration_group: osu_groups
-label: 'Migrate Book content from d7 into Group content'
+label: 'Migrate Announcement content from d7 into Group content'
 source:
   plugin: d7_og_membership_content
   node_type:
-    - documents
+    - announcement
 process:
   label: etid
   type:
     plugin: default_value
-    default_value: basic_group-group_node-documents
+    default_value: group_content_type_d166394efdedd
   gid:
     - plugin: migration_lookup
       migration: upgrade_d7_node_og_group
@@ -29,7 +29,7 @@ process:
       message: 'gid is missing'
   entity_id:
     - plugin: migration_lookup
-      migration: book_to_page
+      migration: page_to_page
       no_stub: true
       source: etid
     - plugin: skip_on_empty

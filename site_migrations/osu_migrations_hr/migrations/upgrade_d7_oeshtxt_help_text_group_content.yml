@@ -4,6 +4,7 @@ dependencies: { }
 id: upgrade_d7_oeshtxt_help_text_group_content
 migration_tags:
   - Drupal 7 OG
+  - HR
   - OSU Groups Content
   - OSU Groups
   - OSU

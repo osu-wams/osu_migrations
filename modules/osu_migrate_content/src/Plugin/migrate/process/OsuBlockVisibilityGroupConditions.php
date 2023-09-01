@@ -2,6 +2,7 @@
 
 namespace Drupal\osu_migrate_content\Plugin\migrate\process;
 
+use Drupal\Component\Uuid\UuidInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\migrate\MigrateExecutableInterface;
@@ -26,11 +27,19 @@ class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements Con
   private EntityStorageInterface $nodeType;
 
   /**
+   * The UUID Service.
+   *
+   * @var \Drupal\Component\Uuid\UuidInterface
+   */
+  private UuidInterface $uuid;
+
+  /**
    * {@inheritDoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityStorageInterface $nodeType) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityStorageInterface $nodeType, UuidInterface $uuid) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->nodeType = $nodeType;
+    $this->uuid = $uuid;
   }
 
   /**
@@ -41,7 +50,8 @@ class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements Con
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get("entity_type.manager")->getStorage("node_type")
+      $container->get("entity_type.manager")->getStorage("node_type"),
+      $container->get('uuid')
     );
   }
 
@@ -57,6 +67,7 @@ class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements Con
       $node_bundles[$node_name] = $node_name;
     }
     $bvg_conditions = [];
+    //@todo need to generate uuid's for each condition.
     foreach ($context_condition as $context_type => $condition) {
       switch ($context_type) {
         case "path":
@@ -67,17 +78,21 @@ class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements Con
           $positivePaths = preg_replace("/^[^\/]/", "/$0",
             preg_grep("/^~/", $condition["values"], PREG_GREP_INVERT));
           if (count($positivePaths) > 0) {
-            $bvg_conditions[] = [
+            $uuid = $this->uuid->generate();
+            $bvg_conditions[$uuid] = [
               "id" => "request_path",
               "pages" => implode("\r\n", $positivePaths),
               "negate" => FALSE,
+              "uuid" => $uuid,
             ];
           }
           if (count($negatedPaths) > 0) {
-            $bvg_conditions[] = [
+            $uuid = $this->uuid->generate();
+            $bvg_conditions[$uuid] = [
               "id" => "request_path",
               "pages" => implode("\r\n", $negatedPaths),
               "negate" => TRUE,
+              "uuid" => $uuid,
             ];
           }
           break;
@@ -90,21 +105,25 @@ class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements Con
           }
           $new_node_bundles = array_intersect($node_bundles, $old_node_bundle);
           if (count($new_node_bundles) > 0) {
-            $bvg_conditions[] = [
+            $uuid = $this->uuid->generate();
+            $bvg_conditions[$uuid] = [
               "id" => "entity_bundle:node",
               "context_mapping" => [
                 "node" => "@node.node_route_context:node",
               ],
               "negate" => FALSE,
+              "uuid" => $uuid,
               "bundles" => $new_node_bundles,
             ];
           }
           break;
 
         case "user":
-          $bvg_conditions[] = [
+          $uuid = $this->uuid->generate();
+          $bvg_conditions[$uuid] = [
             "id" => "user_role",
             "negate" => FALSE,
+            "uuid" => $uuid,
             "context_mapping" => [
               "user" => "@user.current_user_context:current_user",
             ],
@@ -115,10 +134,12 @@ class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements Con
           break;
 
         case "sitewide":
-          $bvg_conditions[] = [
+          $uuid = $this->uuid->generate();
+          $bvg_conditions[$uuid] = [
             "id" => "request_path",
             "pages" => "*",
             "negate" => FALSE,
+            "uuid" => $uuid,
           ];
           break;
       }
