@@ -124,6 +124,43 @@ class BlockVisibilityGroupsPostRowMigrate implements EventSubscriberInterface {
             $new_block_placement->save();
           }
         }
+        elseif ($block_config["module"] === 'menu') {
+          $menu_storage = $this->entityTypeManager->getStorage('menu');
+          /** @var \Drupal\system\Entity\Menu $menu_block */
+          $menu_block = $menu_storage->load($block_config['delta']);
+          $region = $this->getRegion($block_config["region"]);
+          $block_id = $block_visibility_group_name . '_' . preg_replace("/[^a-z0-9_]+/", '_', $block_config["delta"]);
+          if (strlen($block_id) > 255) {
+            $block_id = substr($block_id, 0, 255);
+          }
+          if ($menu_block !== NULL) {
+            // Create a new block placement and save it.
+            $new_block_placement = $block_storage->create([
+              'id' => $block_id,
+              'theme' => 'madrone',
+              'plugin' => 'system_menu_block:' . $block_config["delta"],
+              'weight' => $block_config["weight"],
+              'region' => $region,
+              'settings' => [
+                'id' => 'system_menu_block:' . $block_config["delta"],
+                'label' => $menu_block->get('label'),
+                'label_display' => 'visible',
+                'provider' => 'system',
+                'level' => 1,
+                'depth' => 0,
+                'expand_all_items' => FALSE,
+              ],
+              'visibility' => [
+                'condition_group' => [
+                  "id" => "condition_group",
+                  "negate" => FALSE,
+                  "block_visibility_group" => $block_visibility_group_name,
+                ],
+              ],
+            ]);
+            $new_block_placement->save();
+          }
+        }
       }
     }
   }

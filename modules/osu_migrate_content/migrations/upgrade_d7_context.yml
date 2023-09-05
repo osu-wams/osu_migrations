@@ -28,5 +28,6 @@ destination:
 migration_dependencies:
   required:
     - upgrade_d7_custom_block
+    - upgrade_d7_menu
   optional:
     - d7_views_migration
