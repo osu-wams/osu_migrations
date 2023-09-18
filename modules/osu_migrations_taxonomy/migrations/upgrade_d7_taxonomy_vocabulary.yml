@@ -2,6 +2,7 @@ id: upgrade_d7_taxonomy_vocabulary
 label: Drupal 7 taxonomy vocabularies
 migration_tags:
   - Drupal 7
+  - OSU Configuration
   - OSU Taxonomy
   - OSU
 source:

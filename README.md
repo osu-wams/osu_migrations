@@ -22,7 +22,8 @@ Migrations need to be run in a specific order.
 
 2. ### Media
    Migrate all the Files and Media entities.
-    Ensure that you first update the `upgrade_d7_file_private.yml` file to include the correct path to the private files directory. Do not commit this change.
+   Ensure that you first update the `upgrade_d7_file_private.yml` file to include the correct path to the private files
+   directory. Do not commit this change.
 
    `drush migrate:import --tag='OSU Media'`
 
@@ -57,6 +58,10 @@ Migrations need to be run in a specific order.
 8. ### Views
    `drush migrate:import d7_views_migration`
 
+   If you have a list of views ID's you only want to migrate you can do that with:
+
+   `drush migrate:import d7_views_migration --idlist=events,event_list`
+
 9. ### Site Specific Migrations
    Create a new module under site_migrations and name it 'osu_migrations_site' where 'site' is some short version of the
    site working with. This will contain any configurations and migrations for this specific site that would not be
@@ -64,6 +69,7 @@ Migrations need to be run in a specific order.
 
    Enable your new module and run any of the migrations you define.
 10. ### Migrate Groups
+
 `drush migrate:import --tag='OSU Groups'`
 
 11. ### Migrate the URL Aliases and Redirects

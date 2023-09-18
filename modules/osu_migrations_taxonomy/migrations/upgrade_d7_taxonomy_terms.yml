@@ -3,6 +3,7 @@ label: Taxonomy terms
 audit: true
 migration_tags:
   - Drupal 7
+  - OSU Taxonomy Terms
   - OSU Taxonomy
   - OSU
 deriver: Drupal\taxonomy\Plugin\migrate\D7TaxonomyTermDeriver
