@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\group_content_menu\GroupContentMenuInterface;
 use Drupal\migrate\MigrateExecutableInterface;
+use Drupal\migrate\MigrateSkipRowException;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -80,9 +81,7 @@ class OgBookMenu extends ProcessPluginBase implements ContainerFactoryPluginInte
         ->getValue()['target_id'];
       return GroupContentMenuInterface::MENU_PREFIX . $group_content_menu_id;
     }
-    else {
-      return NULL;
-    }
+    throw new MigrateSkipRowException(sprintf('No group found for Book %d Name %s', $book_id, $book_name));
   }
 
 }

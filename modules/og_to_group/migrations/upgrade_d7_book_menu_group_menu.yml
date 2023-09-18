@@ -27,9 +27,6 @@ process:
   menu_name:
     - plugin: og_book_menu
       source: menu_name
-    - plugin: skip_on_empty
-      method: row
-      message: 'No group with that book menu'
   'link/uri':
     plugin: link_uri
     source: link_path
