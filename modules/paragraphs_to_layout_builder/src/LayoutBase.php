@@ -450,6 +450,9 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
       $additional = [
         'bootstrap_styles' => [
           'block_style' => [
+            'background' => [
+              'background_type' => 'color',
+            ],
             'background_color' => [
               'class' => 'osu-bg-page-alt-2',
             ],
@@ -663,6 +666,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
     }
     elseif ($item->getType() == 'paragraph_divider') {
       // Default settings for dividers.
+      $settings['container_wrapper']['bootstrap_styles']['background']['background_type'] = 'color';
       $settings['container_wrapper']['bootstrap_styles']['background_color'] = ['class' => 'osu-bg-page-alt-2'];
       $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-100'];
       if ($block->get('field_styles')->value !== NULL) {
