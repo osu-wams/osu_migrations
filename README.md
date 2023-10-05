@@ -55,6 +55,19 @@ Migrations need to be run in a specific order.
    Importing the content after all the Node types, Fields, and displays modes are migrate.
 
    `drush migrate:import --tag='OSU Content' --force`
+
+   **Custom Content types** there will be times when fields that are accosiated to a Node Bundle use:
+
+    * File/Image reference
+    * Taxonomy Term Reference
+    * Entity Reference
+    * Text Area (other than Body field)
+
+   With these fields you will need to write a custom Migration YAML for each node type and manually set the Lookup
+   Plugins for References and use the `osu_media_wysiwyg_filter` plugin on the Text Area fields to ensure that embedded
+   media is updated to use the new Drupal embedding system. See Site [Specific Migrations](#site-specific-migrations)
+   and [Custom Content Types](#custom-content-types) for more information.
+
 8. ### Views
    `drush migrate:import d7_views_migration`
 
@@ -68,9 +81,13 @@ Migrations need to be run in a specific order.
    migrations that the rest of the distribution would go.
 
    Enable your new module and run any of the migrations you define.
+
 10. ### Migrate Groups
 
-`drush migrate:import --tag='OSU Groups'`
+    Associate different Nodes with their Groups and create menu entries.
+    `drush migrate:import --tag='OSU Groups'`
+    For Custom node Bundles that are Associated to Organic Groups in Drupal 7
+    see [Custom Content Types in Groups](#custom-content-types-in-groups)
 
 11. ### Migrate the URL Aliases and Redirects
     `drush migrate:import --tag='OSU Alias'`
@@ -87,3 +104,24 @@ Migrations need to be run in a specific order.
     Migrate all block placements.
 
     `drush migrate:import --tag='OSU Blocks'`
+
+## Custom Content Types
+
+Each Content type that has a Reference Field and/or a Text Area field (other than body) will require custom Migrations
+for the data. You can use the Migration tag `OSU Configuration` to have Drupal create the Content types and Fields. Any
+Taxonomy Term Reference, Entity Reference fields need to have their Bundles updated to match what was configured in
+Drupal 7. Inside the `site_migrations` folder you will find previous migrations that required custom migration YAML's,
+use them for examples.
+
+### Custom Content Types in Groups
+
+For Node types that were added to Organic Groups (Organic Group Content) a separate migration YAML is required to
+associate the new nodes with groups. Firstly you need to "Install" Groups on the Custom Content type. Then using the
+Machine name generated for this Group association the Migration YAML can be set to add the nodes to the Group.
+Proper order should be respected, Nodes need to be migrated first Then the group Association Migration. Check
+out `site_migrations` For examples of Group Content migration.
+
+### Custom Content Types with Paragraph Fields.
+
+If the Paragraphs Module was used on any other Node bundle other than Basic Page and Book Page you must create a custom
+YAML migration for this. Checkout the `site_migrations` folder for past migrations to use as examples.
