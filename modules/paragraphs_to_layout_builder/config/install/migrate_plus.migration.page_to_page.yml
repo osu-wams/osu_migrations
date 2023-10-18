@@ -26,7 +26,6 @@ source:
       paragraph_3_col_left: 'paragraph_3_col_left__to__layout_builder'
       paragraph_3_col_center: 'paragraph_3_col_center__to__layout_builder'
       paragraph_3_col_right: 'paragraph_3_col_right__to__layout_builder'
-      paragraph_divider: 'paragraph_divider__to__layout_builder'
       paragraph_menu: 'paragraph_menu__to__layout_builder'
       paragraph_accordion: 'paragraph_accordion__to__layout_builder'
 process:

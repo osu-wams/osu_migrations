@@ -534,6 +534,9 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
               'padding' => [
                 'class' => 'p-4',
               ],
+              'margin' => [
+                'class' => '_none',
+              ],
               'margin_left' => [
                 'class' => 'ms-4',
               ],
