@@ -67,7 +67,6 @@ class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements Con
       $node_bundles[$node_name] = $node_name;
     }
     $bvg_conditions = [];
-    //@todo need to generate uuid's for each condition.
     foreach ($context_condition as $context_type => $condition) {
       switch ($context_type) {
         case "path":
