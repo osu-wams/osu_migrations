@@ -201,8 +201,8 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
               'col-12',
             ],
           ],
-          'container' => 'w-100',
-          'remove_gutters' => '1',
+          'container' => 'container-fluid',
+          'remove_gutters' => '0',
         ];
 
       case 'bootstrap_layout_builder:blb_col_3':
@@ -442,7 +442,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   protected function getAdditionalBlockSettings($block, string $row, LayoutMigrationItem $item) {
     $additional = [];
     // Set a default padding.
-    $additional['bootstrap_styles']['block_style']['padding']['class'] = 'p-3';
+    $additional['bootstrap_styles']['block_style']['padding']['class'] = 'p-4-5';
     if ($block->bundle() === 'paragraph_block' && $block->get('field_styles') && (
         ($row == 'blb_region_col_1' && str_contains($block->get('field_styles')->value, 'black-bg-left'))
         || ($row == 'blb_region_col_2' && str_contains($block->get('field_styles')->value, 'black-bg-right')))) {
@@ -491,7 +491,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
               'background_size' => 'cover',
             ],
             'min_height' => [
-              'class' => 'osu-min-h-400',
+              'class' => 'osu-min-h-600',
             ],
           ],
         ],
@@ -633,15 +633,18 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
     $settings = $section->getLayoutSettings();
     if ($item->getType() === 'paragraph_1_col_clean') {
       // 1 column margin settings
+      $settings['container_wrapper']['bootstrap_styles']['padding']['class'] = '_none';
+      $settings['container_wrapper']['bootstrap_styles']['padding_left']['class'] = '_none';
+      $settings['container_wrapper']['bootstrap_styles']['padding_top']['class'] = 'pt-5';
+      $settings['container_wrapper']['bootstrap_styles']['padding_right']['class'] = '_none';
+      $settings['container_wrapper']['bootstrap_styles']['padding_bottom']['class'] = 'pb-5';
+      $settings['container_wrapper']['bootstrap_styles']['margin']['class'] = '_none';
       switch ($block->get('field_styles')->value) {
-        case '0':
-          $settings['container'] = 'w-100';
-          break;
-
         case '67':
           $settings['container'] = 'container-fluid';
           break;
 
+        case '0':
         case '10':
         case '20':
           $settings['container'] = 'container';
@@ -663,7 +666,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
           'background_size' => 'cover',
         ];
         $settings['container_wrapper']['bootstrap_styles']['items_alignment']['class'] = 'osu-align-items-center';
-        $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
+        $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-600'];
         $section->setLayoutSettings($settings);
       }
     }
@@ -713,8 +716,9 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
         $settings['container_wrapper']['bootstrap_styles']['text_color']['class'] = 'osu-text-bucktoothwhite';
       }
 
-      // Set two-columns to a min of 400px similar to the d7 of 450.
-      $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-400'];
+      // Set two-columns to a min of 600px.
+      $settings['container_wrapper']['bootstrap_styles']['min_height'] = ['class' => 'osu-min-h-600'];
+      $settings['container'] = 'container-fluid';
       $section->setLayoutSettings($settings);
     }
     elseif ($item->getType() === 'paragraph_alert') {
