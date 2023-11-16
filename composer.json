@@ -11,6 +11,7 @@
     }
   ],
   "scripts": {
+    "cs-checkstyle": "phpcs -q --report=checkstyle",
     "phpcs": "phpcs",
     "phpcbf": "phpcbf",
     "yaml-lint": "yaml-lint *.yml"
