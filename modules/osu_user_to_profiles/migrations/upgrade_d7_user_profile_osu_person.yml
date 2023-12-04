@@ -41,7 +41,10 @@ process:
           - plugin: migration_lookup
             migration: upgrade_d7_files
             source: fid
-        alt: alt
+        alt:
+          - plugin: default_value
+            source: alt
+            default_value: 'Profile headshot'
   type:
     plugin: default_value
     default_value: osu_profile
