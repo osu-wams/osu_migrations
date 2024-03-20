@@ -1,7 +1,7 @@
 name: OSU Migrations - University Human Resources
 type: module
 description: Contains migrations specifically for the University Human Resources Site.
-package: OSU
+package: OSU Migrations - Sites
 core_version_requirement: ^9 || ^10
 
 dependencies:

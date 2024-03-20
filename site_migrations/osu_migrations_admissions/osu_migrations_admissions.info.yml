@@ -1,7 +1,7 @@
 name: OSU Migrations - Admissions
 type: module
 description: Contains migrations specifically for the Admissions Site.
-package: OSU
+package: OSU Migrations - Sites
 core_version_requirement: ^9 || ^10
 
 dependencies:
