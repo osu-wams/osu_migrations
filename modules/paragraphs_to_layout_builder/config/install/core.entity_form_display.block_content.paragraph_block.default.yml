@@ -28,22 +28,6 @@ content:
       placeholder: ''
       show_summary: false
     third_party_settings: {  }
-  field_eb_background_fc:
-    type: string_textfield
-    weight: 28
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_styles:
-    type: text_textfield
-    weight: 2
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   info:
     type: string_textfield
     weight: 0
@@ -52,4 +36,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_eb_background_fc: true
+  field_styles: true
