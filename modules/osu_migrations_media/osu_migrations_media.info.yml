@@ -1,7 +1,7 @@
 name: OSU Migrate Media
 type: module
 description: Migrate OSU Media.
-package: OSU
+package: OSU Migrations
 core_version_requirement: ^9 || ^10
 
 dependencies:

@@ -1,6 +1,6 @@
-name: OSU Migrations - Disability Access Services
+name: OSU Migrations - Public Safety
 type: module
-description: Contains migrations specifically for the DS Site.
+description: Contains migrations specifically for the Public Safety Site.
 package: OSU Migrations - Sites
 core_version_requirement: ^9 || ^10
 

@@ -1,6 +1,6 @@
-name: OSU Migrations - University Human Resources
+name: OSU Migrations - Hatfield Marine Science Center
 type: module
-description: Contains migrations specifically for the University Human Resources Site.
+description: Contains migrations specifically for the Hatfield Marine Science Center Site.
 package: OSU Migrations - Sites
 core_version_requirement: ^9 || ^10
 
