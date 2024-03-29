@@ -127,7 +127,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
    * @return string
    *   Name of the layout builder section
    */
-  public static function getSectionType($paragraphType) {
+  public static function getSectionType(string $paragraphType): string {
     /*
      * Paragraph Types of:
      *   paragraph_1_col_clean
@@ -267,7 +267,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
             ],
           ],
           'container' => 'container',
-          'remove_gutters' => '1',
+          'remove_gutters' => '0',
         ];
 
       default:
@@ -383,7 +383,6 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
         ->condition('b.id', $block_id, '=');
       $block_type = $query->execute()->fetchField();
       $block_revision_id = $this->blockContentStorage->getLatestRevisionId($block_id);
-      // $block = BlockContent::load($block_id);
       $row = 'blb_region_col_' . ($index + 1);
       $components[] = $this->createSectionComponent($block_type, $block_revision_id, $row, [], 0);
     }
@@ -429,7 +428,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   /**
    * Gets additional settings applied to the block based on field_styles.
    *
-   * @param \Drupal\block_content\Entity\BlockContent $block
+   * @param \Drupal\block_content\Entity\BlockContent|\Drupal\Core\Block\BlockPluginInterface $block
    *   The block we need settings for.
    * @param string $row
    *   The region the component belongs within.
