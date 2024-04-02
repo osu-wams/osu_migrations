@@ -9,7 +9,7 @@ migration_tags:
   - OSU Groups
   - OSU
 migration_group: osu_groups
-label: 'Migrate News Card content from d7 into Group content'
+label: 'Migrate Curriculum content from d7 into Group content'
 source:
   plugin: d7_og_membership_content
   node_type:

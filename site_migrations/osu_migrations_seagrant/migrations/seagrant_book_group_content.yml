@@ -21,7 +21,7 @@ process:
     default_value: basic_group-group_node-page
   gid:
     - plugin: migration_lookup
-      migration: seagrant_node_og_group
+      migration: upgrade_d7_node_og_group
       no_stub: true
       source: gid
     - plugin: skip_on_empty
@@ -29,7 +29,7 @@ process:
       message: 'gid is missing'
   entity_id:
     - plugin: migration_lookup
-      migration: book_to_page
+      migration: seagrant_book_to_page
       no_stub: true
       source: etid
     - plugin: skip_on_empty
