@@ -18,7 +18,7 @@ process:
   label: etid
   type:
     plugin: default_value
-    default_value: group_content_type_3a9ff49ee73a6
+    default_value: group_content_type_b24f4b325ca49
   gid:
     - plugin: migration_lookup
       migration: upgrade_d7_node_og_group
@@ -40,4 +40,4 @@ destination:
 migration_dependencies:
   required:
     - upgrade_d7_node_og_group
-    - upgrade_d7_species_guide
+    - upgrade_d7_curriculum
