@@ -42,7 +42,7 @@ process:
       target_id:
         plugin: migration_lookup
         migration: upgrade_d7_taxonomy_terms
-        source: tid
+        source: target_id
   field_lesson_standards:
     plugin: sub_process
     source: field_lesson_standards
@@ -51,6 +51,7 @@ process:
         plugin: migration_lookup
         migration: upgrade_d7_files
         source: fid
+      description: description
   field_standards_description:
     plugin: sub_process
     source: field_standards_description
@@ -82,7 +83,7 @@ process:
       target_id:
         plugin: migration_lookup
         migration: upgrade_d7_taxonomy_terms
-        source: tid
+        source: target_id
   field_year: field_year
   field_meta_tags:
     - plugin: d7_metatag_entities
