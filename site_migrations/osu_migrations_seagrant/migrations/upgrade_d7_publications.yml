@@ -47,7 +47,7 @@ process:
       target_id:
         plugin: migration_lookup
         migration: upgrade_d7_taxonomy_terms
-        source: tid
+        source: target_id
   field_pub_theses_degree: field_pub_theses_degree
   field_pub_theses_dept: field_pub_theses_dept
   field_pub_ja_doi_num: field_pub_ja_doi_num
@@ -81,7 +81,7 @@ process:
       target_id:
         plugin: migration_lookup
         migration: upgrade_d7_taxonomy_terms
-        source: tid
+        source: target_id
   field_pub_price: field_pub_price
   field_catalog_number: field_catalog_number
   field_publication_types:
@@ -91,7 +91,7 @@ process:
       target_id:
         plugin: migration_lookup
         migration: upgrade_d7_taxonomy_terms
-        source: tid
+        source: target_id
   field_archive_link:
     plugin: field_link
     uri_scheme: 'https://'
