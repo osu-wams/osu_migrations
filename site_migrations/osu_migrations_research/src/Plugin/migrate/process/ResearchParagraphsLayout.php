@@ -44,7 +44,7 @@ class ResearchParagraphsLayout extends ParagraphsLayout {
     return match ($paragraphType) {
       "paragraph_1_col",
       "paragraph_3_col" => "bootstrap_layout_builder:blb_col_3",
-      "paragraph_menu", "grid_layout" => "bootstrap_layout_builder:blb_col_4",
+      "paragraph_menu", "par_image_grid", "grid" => "bootstrap_layout_builder:blb_col_4",
       "paragraph_2_col" => "bootstrap_layout_builder:blb_col_2",
       default => "bootstrap_layout_builder:blb_col_1"
     };
@@ -68,7 +68,7 @@ class ResearchParagraphsLayout extends ParagraphsLayout {
    * @throws \Drupal\paragraphs_to_layout_builder\Exception\LayoutMigrationMissingBlockException
    */
   public function createComponent(LayoutMigrationItem $item, Section $section, string $row = 'blb_region_col_1') {
-    if ($item->getMigrationId() == 'paragraph_grid_layout__to__layout_builder') {
+    if ($item->getMigrationId() === 'paragraph_image_grid__to__layout_builder' || $item->getMigrationId() === 'paragraph_grid__to__layout_builder') {
       $block_id = $this->lookupBlock($item->getMigrationId(), $item->getId());
       /** @var \Drupal\block_content\Entity\BlockContent $block */
       $block = $this->entityTypeManager->getStorage('block_content')
@@ -125,7 +125,7 @@ class ResearchParagraphsLayout extends ParagraphsLayout {
    *   The additional block settings.
    */
   protected function getAdditionalBlockSettings($block, string $row, LayoutMigrationItem $item) {
-    if ($item->getType() === 'grid_layout') {
+    if ($item->getType() === 'par_image_grid' || $item->getType() === 'grid') {
       return [
         'bootstrap_styles' => [
           'block_style' => [

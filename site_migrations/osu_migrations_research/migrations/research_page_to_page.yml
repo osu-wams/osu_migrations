@@ -26,8 +26,11 @@ source:
       paragraph_menu: 'paragraph_menu__to__layout_builder'
       paragraph_accordion: 'paragraph_accordion__to__layout_builder'
       paragraph_alert: 'paragraph_alert__to__layout_builder'
+      grid: 'paragraph_grid__to__layout_builder'
       par_image_grid: 'paragraph_image_grid__to__layout_builder'
 process:
+  nid: nid
+  title: title
   body:
     - plugin: sub_process
       source: body
@@ -59,6 +62,19 @@ process:
   type:
     plugin: default_value
     default_value: page
+  uid:
+    - plugin: migration_lookup
+      migration: upgrade_d7_users_with_roles
+      source: node_uid
+      no_stub: true
+    - plugin: default_value
+      default_value: 1
+  status: status
+  created: created
+  changed: changed
+  comment: comment
+  promote: promote
+  sticky: sticky
 destination:
   plugin: 'entity:node'
   bundle: page
@@ -78,6 +94,7 @@ migration_dependencies:
     - paragraph_menu__to__layout_builder
     - paragraph_accordion__to__layout_builder
     - paragraph_alert__to__layout_builder
+    - paragraph_grid__to__layout_builder
     - paragraph_image_grid_cell__to__layout_builder
     - paragraph_image_grid__to__layout_builder
   optional:

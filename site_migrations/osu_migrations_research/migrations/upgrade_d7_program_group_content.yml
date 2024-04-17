@@ -1,7 +1,7 @@
 langcode: en
 status: true
 dependencies: { }
-id: upgrade_d7_impact_story_group_content
+id: upgrade_d7_program_group_content
 migration_tags:
   - Drupal 7 OG
   - OSU Groups Content
@@ -13,12 +13,12 @@ label: 'Migrate Curriculum content from d7 into Group content'
 source:
   plugin: d7_og_membership_content
   node_type:
-    - impact_story
+    - program
 process:
   label: etid
   type:
     plugin: default_value
-    default_value: group_content_type_c379363a19328
+    default_value: basic_group-group_node-program
   gid:
     - plugin: migration_lookup
       migration: upgrade_d7_node_og_group
@@ -29,7 +29,7 @@ process:
       message: 'gid is missing'
   entity_id:
     - plugin: migration_lookup
-      migration: upgrade_d7_impact_story
+      migration: upgrade_d7_node
       no_stub: true
       source: etid
     - plugin: skip_on_empty
@@ -40,4 +40,3 @@ destination:
 migration_dependencies:
   required:
     - upgrade_d7_node_og_group
-    - upgrade_d7_impact_story

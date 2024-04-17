@@ -65,7 +65,7 @@ process:
       source: pseudo_metatag_entities
   type:
     plugin: default_value
-    default_value: curriculum
+    default_value: orin_participant
   status: status
   created: created
   changed: changed

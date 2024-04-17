@@ -1,7 +1,7 @@
 langcode: en
 status: true
 dependencies: { }
-id: upgrade_d7_impact_story
+id: upgrade_d7_sidebar_carousel
 field_plugin_method: null
 cck_plugin_method: null
 migration_tags:
@@ -11,7 +11,7 @@ migration_tags:
   - Research
 source:
   plugin: d7_node
-  node_type: impact_story
+  node_type: sidebar_carousel
 process:
   nid: nid
   title: title
@@ -33,21 +33,25 @@ process:
       no_stub: true
     - plugin: default_value
       default_value: 1
-  field_impact_photo:
+  image:
     plugin: sub_process
-    source: field_impact_photo
+    source: image
     process:
       target_id:
         plugin: migration_lookup
         migration: upgrade_d7_files
         source: fid
       alt: alt
+  field_story_link:
+    - plugin: field_link
+      uri_scheme: 'https://'
+      source: field_story_link
   field_meta_tags:
     - plugin: d7_metatag_entities
       source: pseudo_metatag_entities
   type:
     plugin: default_value
-    default_value: impact_story
+    default_value: sidebar_carousel
   status: status
   created: created
   changed: changed
