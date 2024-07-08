@@ -24,7 +24,7 @@ class OsuMigrationsShurly extends DestinationBase {
   /**
    * {@inheritDoc}
    */
-  public function import(Row $row, array $old_destination_id_values = []) {
+  public function import(Row $row, array $old_destination_id_values = []): array|bool {
     // Implement your custom import logic here.
     // This method should return an array of destination IDs if successful,
     // false on failure.
@@ -45,13 +45,18 @@ class OsuMigrationsShurly extends DestinationBase {
   /**
    * {@inheritDoc}
    */
-  public function fields() {
-    // Optional. Provide a list of available fields to map to.
-    // This could be resourced from provided CSV file, external API, etc.
-    // It should return an associative array where keys are the field/column
-    // names and values are descriptions.
-    // If this method is not provided, it's assumed all source fields can be
-    // mapped to the destination.
+  public function fields(): array {
+    return [
+      'destination' => $this->t('The destination URL'),
+      'hash' => $this->t('The hash of the ShURLy redirection.'),
+      'custom' => $this->t('Boolean to represent if the link was custom.'),
+      'created' => $this->t('timestamp the redirect was created.'),
+      'source' => $this->t('The source URL.'),
+      'uid' => $this->t('The uid of the user who created the ShURLy redirection.'),
+      'count' => $this->t('The number of clicks.'),
+      'last_used' => $this->t('Timestamp the last time the link was used.'),
+      'active' => $this->t('Boolean represents status of the link.'),
+    ];
   }
 
 }
