@@ -1,5 +1,5 @@
 # College of Liberal Arts migrations
-- Migrate all users
+- [x] Migrate all users
 - migrate all menus, this includes all book-toc- menus 
 - Need to use Paragraphs for the Program Field Collections 
   - two field collections are configured for the program content type:

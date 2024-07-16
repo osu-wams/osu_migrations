@@ -16,6 +16,7 @@ source:
     - feature_story
     - feed
     - group
+    - image_album
     - multimenu
     - navigation_grid
     - page
