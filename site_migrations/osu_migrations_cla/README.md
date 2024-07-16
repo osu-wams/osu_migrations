@@ -1,0 +1,14 @@
+# College of Liberal Arts migrations
+- Migrate all users
+- migrate all menus, this includes all book-toc- menus 
+- Need to use Paragraphs for the Program Field Collections 
+  - two field collections are configured for the program content type:
+    - field_program_options: has 26 entries on 15 nodes. 
+    - field_program_concentrations: has 2 entries on 1 node 
+- By the numbers Paragraph can be ignored the rest should be migrated
+  - Paragraph Fields live on 
+    - Page 
+    - Book 
+    - Parent Unit 
+    - Program
+- Parent Units need to be migrated
