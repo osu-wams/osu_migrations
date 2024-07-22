@@ -1,17 +1,17 @@
 langcode: en
 status: true
 dependencies: { }
-id: upgrade_d7_node_og_group
+id: upgrade_d7_node_parent_unit_group
 migration_tags:
   - Drupal 7 OG
   - OSU Groups Structure
   - OSU Groups
   - OSU
 migration_group: osu_groups
-label: 'Insert OG Group'
+label: 'Create Groups that were Parent Units'
 source:
   plugin: d7_node
-  node_type: group
+  node_type: parent_unit
 process:
   type:
     plugin: default_value

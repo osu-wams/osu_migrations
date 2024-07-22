@@ -29,8 +29,8 @@
         - Node 568, 674, 566 have program_options that did not migrate
     - [X] News, Image
     - [X] SPS Lab, Image
-    - [ ] Parent Unit
-    - 
+    - [x] Parent Unit
+      - Migrated them as groups, only have the titles to start, not many Parent units, so we'll remake the layout by hand.
 - Paragraph Bundles need migrations
   - [x] Combo
     - Views
