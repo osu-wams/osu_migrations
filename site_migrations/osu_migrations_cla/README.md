@@ -27,6 +27,8 @@
     - [ ] Program, lots of shit
         - Paragraphs need to be migrated as well for layout.
         - Node 568, 674, 566 have program_options that did not migrate
+    - [ ] Book
+      - Custom paragraph Migrations required
     - [X] News, Image
     - [X] SPS Lab, Image
     - [x] Parent Unit
@@ -37,7 +39,7 @@
     - Text area
   - [x] 1 Column no margin Image
     - Only has image field
-  - [ ] 2 Column Combo
+  - [x] 2 Column Combo
     - References the Combo paragraph
   - [x] 3 Column Image
     - Media image
