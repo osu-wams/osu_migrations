@@ -7,8 +7,8 @@ use Drupal\Core\Database\Database;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
+use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
-use Drupal\paragraphs\Plugin\migrate\process\ProcessPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class ComboBlock extends ProcessPluginBase implements ContainerFactoryPluginInterface {
+
   /**
    * The database connection object.
    *
@@ -33,6 +34,7 @@ class ComboBlock extends ProcessPluginBase implements ContainerFactoryPluginInte
    * @var \Drupal\migrate\MigrateLookupInterface
    */
   private MigrateLookupInterface $migrateLookup;
+
   /**
    * Constructs a new object of the class.
    *
