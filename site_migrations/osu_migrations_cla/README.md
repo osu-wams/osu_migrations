@@ -27,7 +27,9 @@
     - [ ] Program, lots of shit
         - Paragraphs need to be migrated as well for layout.
         - Node 568, 674, 566 have program_options that did not migrate
-    - [ ] Book
+    - [X] Book
+      - Custom paragraph Migrations required
+    - [X] Page
       - Custom paragraph Migrations required
     - [X] News, Image
     - [X] SPS Lab, Image
