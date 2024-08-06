@@ -2,10 +2,10 @@
 
 ## Custom content type migrations
 
-- [ ] Community Resource (resource)
-- [ ] Story Page
+- [x] Community Resource (resource)
+- [x] Story Page
     - [x] Program pages need to be migrated first
-- [ ] News Letter
+- [X] News Letter
 - [x] Job
 -
 
