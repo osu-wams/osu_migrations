@@ -32,7 +32,6 @@ process:
       default_value: 1
   field_job_appointment: field_job_appointment
   field_job_basis: field_job_basis
-
   body:
     - plugin: sub_process
       source: body
