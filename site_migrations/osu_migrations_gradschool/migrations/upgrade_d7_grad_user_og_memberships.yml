@@ -44,7 +44,7 @@ process:
       source: etid
     - plugin: skip_on_empty
       method: row
-      message: 'uid is missing'
+      message: 'uid derived from etid field is missing on migration upgrade_d7_users_with_roles'
 destination:
   plugin: 'entity:group_content'
 migration_dependencies:
