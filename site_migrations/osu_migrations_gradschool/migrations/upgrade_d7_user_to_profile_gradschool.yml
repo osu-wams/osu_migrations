@@ -56,6 +56,15 @@ process:
           plugin: migration_lookup
           migration: upgrade_d7_taxonomy_terms
           source: tid
+  field_profile_image:
+    - plugin: sub_process
+      source: field_staff_photo
+      process:
+        target_id:
+          - plugin: migration_lookup
+            migration: upgrade_d7_files
+            source: fid
+        alt: alt
   field_staff_position: field_staff_position
   #  field_staff_supervisor:
   #    - plugin: sub_process
