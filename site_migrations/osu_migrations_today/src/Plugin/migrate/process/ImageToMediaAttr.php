@@ -89,7 +89,7 @@ class ImageToMediaAttr extends ProcessPluginBase implements ContainerFactoryPlug
                 $field_media_image->title = $source_title;
               }
               if (empty($field_media_image->alt)) {
-                $field_media_image->alt = $source_alt ?: $source_title;
+                $field_media_image->alt = $source_alt ?: (strlen($source_title) > 512 ? substr($source_title, 0, 512) : $source_title);
               }
             }
             elseif (empty($field_media_image->alt) && !empty($source_alt)) {
