@@ -15,16 +15,6 @@ Custom Migration YAML's.
 - [X] Kudos
 - [X] Project
 
-#### Node types with Paragraph fields
-
-Listing the dependencies of the type can help you understand what needs to be configured for the migration.
-
-- [ ] New type
-    - Uses Paragraphs
-    - Uses Image
-    - Uses File Uploads
-- [x] Done type
-
 #### Group Types
 
 If a node needs to be included in a Group or be Group aware a custom migration is needed for those types other than
