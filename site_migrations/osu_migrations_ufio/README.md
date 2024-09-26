@@ -12,7 +12,7 @@ Custom Migration YAML's.
 
 - [X] Employee Spotlight
 - [x] Guidance
-- [ ] Kudos
+- [X] Kudos
 - [X] Project
 
 #### Node types with Paragraph fields
@@ -31,5 +31,4 @@ If a node needs to be included in a Group or be Group aware a custom migration i
 Basic page and Parent Unit
 
 - [x] Guidance
-- [ ] Kudos
 - [X] Project
