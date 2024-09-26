@@ -12,7 +12,8 @@ Custom Migration YAML's.
 
 - [X] Employee Spotlight
 - [x] Guidance
-- [ ] Project
+- [ ] Kudos
+- [X] Project
 
 #### Node types with Paragraph fields
 
@@ -31,4 +32,4 @@ Basic page and Parent Unit
 
 - [x] Guidance
 - [ ] Kudos
-- [ ] Project
+- [X] Project
