@@ -4,10 +4,10 @@ Contains submodules for D7 to D9 migrations
 
 ## OSU Migrations Files
 
-To properly migrate files open up the upgrade_d7_files.yml and set the source_base_path to either the public url of the
+To properly migrate files, open up the upgrade_d7_files.yml and set the source_base_path to either the public url of the
 drupal or set the file path to the root of the distro.
 
-Currently, it is set to the base of this installation so one could copy the files into the container and run the
+Currently, it is set to the base of this installation, so one could copy the files into the container and run the
 migration.
 
 ## Migrations:
@@ -32,11 +32,11 @@ Migrations need to be run in a specific order.
 
 4. ### Migrate Custom Block Content
    We need to migrate all the custom block contents first before paragraphs as we use block content in the paragraph
-   migration, and we want to ensure all the original ID's of the blocks are there first.
+   migration, and we want to ensure all the original IDs of the blocks are there first.
 
    `drush migrate:import --tag='OSU Custom Blocks'`
 5. ### Paragraphs to Layout Builder
-   Paragraphs to Layout Builder migration requires two steps:
+   Paragraphs to Layout Builder migration require two steps:
 
     1. #### Run all the Paragraphs to LB migrations first.
        `drush migrate:import --tag='OSU Paragraphs'`
@@ -52,11 +52,11 @@ Migrations need to be run in a specific order.
 
    `drush migrate:import --tag='OSU Configuration' --force`
 
-   Importing the content after all the Node types, Fields, and displays modes are migrate.
+   Importing the content after all the Node types, Fields, and displays modes are migrated.
 
    `drush migrate:import --tag='OSU Content' --force`
 
-   **Custom Content types** there will be times when fields that are accosiated to a Node Bundle use:
+   **Custom Content types** there will be times when fields that are associated with a Node Bundle use:
 
     * File/Image reference
     * Taxonomy Term Reference
@@ -71,7 +71,7 @@ Migrations need to be run in a specific order.
 8. ### Views
    `drush migrate:import d7_views_migration`
 
-   If you have a list of views ID's you only want to migrate you can do that with:
+   If you have a list of views IDs you only want to migrate, you can do that with:
 
    `drush migrate:import d7_views_migration --idlist=events,event_list`
 
@@ -86,7 +86,7 @@ Migrations need to be run in a specific order.
 
     Associate different Nodes with their Groups and create menu entries.
     `drush migrate:import --tag='OSU Groups'`
-    For Custom node Bundles that are Associated to Organic Groups in Drupal 7
+    For Custom node Bundles that are Associated to Organic Groups in Drupal 7, 
     see [Custom Content Types in Groups](#custom-content-types-in-groups)
 
 11. ### Migrate the URL Aliases and Redirects
@@ -123,5 +123,6 @@ out `site_migrations` For examples of Group Content migration.
 
 ### Custom Content Types with Paragraph Fields.
 
-If the Paragraphs Module was used on any other Node bundle other than Basic Page and Book Page you must create a custom
+If the Paragraphs Module was used on any other Node bundle other than Basic Page and _Book Page_ you must create a
+custom
 YAML migration for this. Checkout the `site_migrations` folder for past migrations to use as examples.
