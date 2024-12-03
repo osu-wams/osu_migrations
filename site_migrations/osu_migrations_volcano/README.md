@@ -24,8 +24,9 @@ Listing the dependencies of the type can help you understand what needs to be co
     - Uses Paragraphs
     - Entity reference to content
       - field_picture_with_text
-- [ ] Volcano
+- [x] Volcano
     - Paragraphs
+      - Turns out not used.
     - File
     - ER to taxonomy terms
 
