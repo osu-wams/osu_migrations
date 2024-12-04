@@ -11,9 +11,9 @@ It is recommended to create lists here for the site and update them during the m
 
 ### Example List
 
-#### Node types with Media/Files
+#### Node types with Media/Files/Entity References
 
-- [ ] News
+- [x] News
     - Entity Reference to Volcano's
 
 #### Node types with Paragraph fields
