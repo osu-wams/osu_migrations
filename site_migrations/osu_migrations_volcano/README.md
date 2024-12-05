@@ -20,7 +20,7 @@ It is recommended to create lists here for the site and update them during the m
 
 Listing the dependencies of the type can help you understand what needs to be configured for the migration.
 
-- [ ] fieldtrip_stop
+- [x] fieldtrip_stop
     - Uses Paragraphs
     - Entity reference to content
       - field_picture_with_text
@@ -34,5 +34,5 @@ Listing the dependencies of the type can help you understand what needs to be co
 
 - [x] picture_with_text
 - [x] body_with_title
-- [ ] fieldtrip_stop
-- [ ] teaser_with_text
+- [x] fieldtrip_stop
+- [x] teaser_with_text
