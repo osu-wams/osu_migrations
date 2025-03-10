@@ -2,7 +2,6 @@
 
 namespace Drupal\osu_migrations_cla\Plugin\migrate\process;
 
-use Drupal\layout_builder\Section;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
 use Drupal\paragraphs_to_layout_builder\LayoutMigrationItem;
