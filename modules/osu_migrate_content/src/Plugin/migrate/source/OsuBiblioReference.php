@@ -22,6 +22,9 @@ class OsuBiblioReference extends DrupalSqlBase {
   public function prepareRow(Row $row) {
     $nid = $row->getSourceProperty('nid');
     $vid = $row->getSourceProperty('vid');
+    $tid = $row->getSourceProperty('biblio_type');
+    $publication_type = $this->getPublicationTypeName($tid);
+    $row->setSourceProperty('biblio_type', $publication_type[0]['name']);
 
     $authors = $this->selectContributors($nid, $vid);
     $row->setSourceProperty('author', $authors);
@@ -33,25 +36,21 @@ class OsuBiblioReference extends DrupalSqlBase {
   }
 
   /**
-   * Select all contributors related to biblio entry.
+   * Retrieves the Publication name for the given type.
    *
-   * @param string $nid
-   *   Biblio node identifier.
-   * @param string $vid
-   *   Biblio node revision identifier.
+   * @param int $tid
+   *   The taxonomy ID for which publication type names are to be retrieved.
    *
    * @return array
-   *   Array of contributors data.
+   *   An array of objects containing the names of the publication types.
+   *
+   * @throws \Exception
    */
-  protected function selectContributors($nid, $vid) {
-    $query = $this->select('biblio_contributor', 'bc')
-      ->fields('bc', ['cid', 'auth_type', 'auth_category'])
-      ->orderBy('rank');
-
-    $query->condition('bc.nid', $nid);
-    $query->condition('bc.vid', $vid);
+  protected function getPublicationTypeName(int $tid): array {
+    $query = $this->select('biblio_types', 'bt')
+      ->fields('bt', ['name'])
+      ->condition('bt.tid', $tid);
     $result = $query->execute();
-
     return $result->fetchAll();
   }
 
@@ -118,21 +117,50 @@ class OsuBiblioReference extends DrupalSqlBase {
     ];
 
     return $fields;
+  }
 
+  /**
+   * Select all contributors related to biblio entry.
+   *
+   * @param int $nid
+   *   Biblio node identifier.
+   * @param int $vid
+   *   Biblio node revision identifier.
+   *
+   * @return array
+   *   Array of contributors data.
+   *
+   * @throws \Exception
+   */
+  protected function selectContributors(int $nid, int $vid): array {
+    $query = $this->select('biblio_contributor', 'bc');
+    $query->fields('bcd', ['name']);
+    $query->orderBy('rank');
+    $query->condition('bc.nid', $nid);
+    $query->condition('bc.vid', $vid);
+    $query->innerJoin('biblio_contributor_data', 'bcd', 'bc.cid = bcd.cid');
+
+    $query->condition('bc.nid', $nid);
+    $query->condition('bc.vid', $vid);
+    $result = $query->execute();
+
+    return $result->fetchAll();
   }
 
   /**
    * Select all keywords related to biblio entry.
    *
-   * @param string $nid
+   * @param int $nid
    *   Biblio node identifier.
-   * @param string $vid
+   * @param int $vid
    *   Biblio node revision identifier.
    *
    * @return array
-   *   Array of keywords data.
+   *   Array of keyword data.
+   *
+   * @throws \Exception
    */
-  protected function selectKeywords($nid, $vid) {
+  protected function selectKeywords(int $nid, int $vid): array {
     $query = $this->select('biblio_keyword', 'bk')
       ->fields('bk', ['kid']);
 
@@ -157,7 +185,6 @@ class OsuBiblioReference extends DrupalSqlBase {
         'alias' => 'b',
       ],
     ];
-
   }
 
   /**
@@ -172,7 +199,6 @@ class OsuBiblioReference extends DrupalSqlBase {
     $query->fields('n', ['title']);
 
     return $query;
-
   }
 
 }
