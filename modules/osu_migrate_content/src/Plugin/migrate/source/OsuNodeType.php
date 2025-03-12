@@ -23,12 +23,7 @@ class OsuNodeType extends NodeType {
   protected array $excludeBundle;
 
   /**
-   * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
-   * @param \Drupal\migrate\Plugin\MigrationInterface $migration
-   * @param \Drupal\Core\State\StateInterface $state
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * {@inheritDoc}
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, StateInterface $state, EntityTypeManagerInterface $entity_type_manager) {
     if (empty($configuration['exclude_bundle'])) {
