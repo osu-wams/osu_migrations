@@ -4,10 +4,13 @@ namespace Drupal\osu_migrate_content\Plugin\migrate\source;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\State\StateInterface;
+use Drupal\migrate\Annotation\MigrateSource;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\node\Plugin\migrate\source\d7\NodeType;
 
 /**
+ * The OSU Node Type source migration.
+ *
  * @MigrateSource(
  *   id = "osu_d7_node_type",
  *   source_module = "node"
@@ -23,12 +26,7 @@ class OsuNodeType extends NodeType {
   protected array $excludeBundle;
 
   /**
-   * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
-   * @param \Drupal\migrate\Plugin\MigrationInterface $migration
-   * @param \Drupal\Core\State\StateInterface $state
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * {@inheritDoc}
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, StateInterface $state, EntityTypeManagerInterface $entity_type_manager) {
     if (empty($configuration['exclude_bundle'])) {

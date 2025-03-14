@@ -5,10 +5,13 @@ namespace Drupal\osu_migrate_content\Plugin\migrate\source;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\State\StateInterface;
+use Drupal\migrate\Annotation\MigrateSource;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\node\Plugin\migrate\source\d7\Node;
 
 /**
+ * OSU Drupal 7 Node Source.
+ *
  * @MigrateSource(
  *   id = "osu_d7_node",
  *   source_module = "node"
@@ -24,7 +27,7 @@ class OsuNode extends Node {
   protected array $excludeBundle;
 
   /**
-   *
+   * {@inheritDoc}
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, StateInterface $state, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler) {
     if (empty($configuration['exclude_bundle'])) {
