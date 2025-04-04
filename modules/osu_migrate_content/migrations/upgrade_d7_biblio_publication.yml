@@ -18,6 +18,7 @@ process:
     - plugin: default_value
       default_value: publications
   nid: nid
+  vid: vid
   title: title
   uid:
     - plugin: migration_lookup
