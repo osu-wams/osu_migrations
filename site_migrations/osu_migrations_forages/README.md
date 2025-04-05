@@ -4,6 +4,10 @@ Image Album could move data into Fields on the Image Media only.
 
 ## Checklist
 
+ - [x] Image album data copied into media
+ - [x] Extra Book/Page fields imported into page
+ - [x] All custom content types done.
+
 #### Node types with Paragraph fields
 
 Listing the dependencies of the type can help you understand what needs to be configured for the migration.
