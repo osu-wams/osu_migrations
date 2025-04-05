@@ -6,6 +6,7 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\migrate\Annotation\MigrateProcessPlugin;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
 use Drupal\migrate\ProcessPluginBase;
@@ -14,6 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Combo Paragraph Bundle Process Plugin.
+ *
+ * This migration purely copies the data from image_album fields into fields
+ * on each media item referenced in the image album.
  *
  * @MigrateProcessPlugin(
  *   id = "image_album_media",
@@ -99,7 +103,6 @@ class ImageAlbumMediaProcess extends ProcessPluginBase implements ContainerFacto
    *   The transformed value to be used in the destination.
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
-    dump($row);
     foreach ($value as $val) {
       $new_fid = $this->migrateLookup->lookup('upgrade_d7_files', [$val['fid']]);
       /** @var \Drupal\media\Entity\Media[] $media */
@@ -110,8 +113,28 @@ class ImageAlbumMediaProcess extends ProcessPluginBase implements ContainerFacto
         ]);
       if (count($media) === 1) {
         $media = reset($media);
-        $media->field_media_image_type->target_id;
-        $media->field_media_affiliation->target_id;
+        $media_image_type = $row->getSourceProperty('field_photo_subject');
+        $media_image_type_target_ids = [];
+        foreach ($media_image_type as $targets) {
+          $media_image_type_targets = $targets['tid'];
+          $new_media_image_type = $this->migrateLookup->lookup('upgrade_d7_taxonomy_terms', [$media_image_type_targets]);
+          foreach ($new_media_image_type as $new_media_image_type_target) {
+            $media_image_type_target_ids[] = ['target_id' => $new_media_image_type_target['tid']];
+          }
+        }
+        $media->set('field_media_image_type', $media_image_type_target_ids);
+
+        $media_affiliation = $row->getSourceProperty('field_species_affiliation');
+        $media_affiliation__target_ids = [];
+        foreach ($media_affiliation as $targets) {
+          $media_image_affiliation_targets = $targets['target_id'];
+          $new_media_affiliation_type = $this->migrateLookup->lookup('upgrade_d7_node', [$media_image_affiliation_targets]);
+          foreach ($new_media_affiliation_type as $new_media_affiliation_type_id) {
+            $media_affiliation__target_ids[] = ['target_id' => $new_media_affiliation_type_id['nid']];
+          }
+        }
+        $media->set('field_media_affiliation', $media_affiliation__target_ids);
+        $media->save();
         return $media->get('mid')->value;
       }
     }
