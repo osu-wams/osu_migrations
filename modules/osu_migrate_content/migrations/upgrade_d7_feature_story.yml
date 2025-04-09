@@ -14,6 +14,7 @@ source:
   node_type: feature_story
 process:
   nid: nid
+  vid: vid
   title: title
   body:
     - plugin: sub_process
