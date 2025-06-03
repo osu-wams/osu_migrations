@@ -126,3 +126,6 @@ out `site_migrations` For examples of Group Content migration.
 If the Paragraphs Module was used on any other Node bundle other than Basic Page and _Book Page_ you must create a
 custom
 YAML migration for this. Checkout the `site_migrations` folder for past migrations to use as examples.
+
+@TODO
+Document process for Field Collections To paragraphs
