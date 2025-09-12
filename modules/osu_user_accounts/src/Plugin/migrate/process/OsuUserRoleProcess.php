@@ -3,6 +3,7 @@
 namespace Drupal\osu_user_accounts\Plugin\migrate\process;
 
 use Drupal\Core\Database\Database;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
@@ -12,17 +13,16 @@ use Drupal\migrate\Row;
  *
  * Get the role names from Drupal 7 and map them to our roles in New Drupal.
  * We cannot rely on role ID's being constant in Drupal 7 so we have to do this
- * in order to map roles.
- *
- * @MigrateProcessPlugin(
- *   id = "osu_user_role_map"
- * )
+ *  to map roles.
  *
  * @code
  * process:
  *   plugin: osu_user_role_map
  * @endcode
  */
+#[MigrateProcess(
+  id: 'osu_user_role_map'
+)]
 class OsuUserRoleProcess extends ProcessPluginBase {
 
   /**
@@ -37,6 +37,9 @@ class OsuUserRoleProcess extends ProcessPluginBase {
     // Loop over each name and map the roles.
     foreach ($result as $role_name) {
       switch ($role_name) {
+        case 'earl':
+          return 'earl';
+
         case 'architect':
           return 'architect';
 
@@ -48,7 +51,6 @@ class OsuUserRoleProcess extends ProcessPluginBase {
 
         case 'group user':
           return 'group_content_author';
-
       }
     }
   }

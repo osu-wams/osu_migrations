@@ -35,6 +35,7 @@ Migrations need to be run in a specific order.
    migration, and we want to ensure all the original IDs of the blocks are there first.
 
    `drush migrate:import --tag='OSU Custom Blocks'`
+
 5. ### Paragraphs to Layout Builder
    Paragraphs to Layout Builder migration require two steps:
 
@@ -86,7 +87,7 @@ Migrations need to be run in a specific order.
 
     Associate different Nodes with their Groups and create menu entries.
     `drush migrate:import --tag='OSU Groups'`
-    For Custom node Bundles that are Associated to Organic Groups in Drupal 7, 
+    For Custom node Bundles that are Associated with Organic Groups in Drupal 7,
     see [Custom Content Types in Groups](#custom-content-types-in-groups)
 
 11. ### Migrate the URL Aliases and Redirects
@@ -107,8 +108,7 @@ Migrations need to be run in a specific order.
 
 ## Custom Content Types
 
-Each Content type that has a Reference Field and/or a Text Area field (other than body) will require custom Migrations
-for the data. You can use the Migration tag `OSU Configuration` to have Drupal create the Content types and Fields. Any
+You can use the Migration tag `OSU Configuration` to have Drupal create the Content types and Fields. Any
 Taxonomy Term Reference, Entity Reference fields need to have their Bundles updated to match what was configured in
 Drupal 7. Inside the `site_migrations` folder you will find previous migrations that required custom migration YAML's,
 use them for examples.

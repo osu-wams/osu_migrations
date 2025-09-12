@@ -4,6 +4,7 @@ namespace Drupal\osu_user_accounts\Plugin\migrate\source;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\State\StateInterface;
+use Drupal\migrate\Annotation\MigrateSource;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\user\Plugin\migrate\source\d7\User;
 

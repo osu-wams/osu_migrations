@@ -5,6 +5,8 @@ id: d7_shurly
 migration_tags:
   - Drupal 7
   - ShURLy
+  - OSU ShURLy
+  - OSU
 label: "Migrate ShURLy shortened URL's"
 source:
   plugin: d7_shurly
