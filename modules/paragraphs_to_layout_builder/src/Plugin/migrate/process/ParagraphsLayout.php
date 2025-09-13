@@ -47,10 +47,11 @@ class ParagraphsLayout extends LayoutBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    * @throws \Drupal\migrate\MigrateException
    */
-  public function transform($value,
+  public function transform(
+    $value,
     MigrateExecutableInterface $migrate_executable,
     Row $row,
-    $destination_property
+    $destination_property,
   ) {
     $sourceField = $this->configuration['source_field'];
     if (!isset($sourceField)) {

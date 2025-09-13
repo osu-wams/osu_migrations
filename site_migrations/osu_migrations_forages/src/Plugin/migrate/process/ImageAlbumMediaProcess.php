@@ -6,7 +6,7 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\migrate\Annotation\MigrateProcessPlugin;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
 use Drupal\migrate\ProcessPluginBase;
@@ -18,12 +18,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * This migration purely copies the data from image_album fields into fields
  * on each media item referenced in the image album.
- *
- * @MigrateProcessPlugin(
- *   id = "image_album_media",
- *   handle_multiples = TRUE
- * )
  */
+#[MigrateProcess(
+  id: 'image_album_media',
+  handle_multiples: TRUE
+)]
 class ImageAlbumMediaProcess extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**

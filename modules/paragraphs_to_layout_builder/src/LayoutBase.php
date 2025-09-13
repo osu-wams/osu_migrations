@@ -78,14 +78,15 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   /**
    * {@inheritDoc}
    */
-  public function __construct(array $configuration,
+  public function __construct(
+    array $configuration,
     $pluginId,
     $pluginDefinition,
     UuidInterface $uuid,
     Connection $db,
     EntityTypeManagerInterface $entityTypeManager,
     configFactoryInterface $configFactory,
-    MigrateLookupInterface $migrateLookup
+    MigrateLookupInterface $migrateLookup,
   ) {
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->db = $db;
@@ -100,11 +101,12 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   /**
    * {@inheritDoc}
    */
-  public static function create(ContainerInterface $container,
+  public static function create(
+    ContainerInterface $container,
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MigrationInterface $migration = NULL
+    ?MigrationInterface $migration = NULL,
   ) {
     return new static(
       $configuration,
