@@ -2,17 +2,57 @@
 
 namespace Drupal\osu_migrations_shurly\Plugin\migrate\destination;
 
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\migrate\Attribute\MigrateDestination;
 use Drupal\migrate\Plugin\migrate\destination\DestinationBase;
+use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Row;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a ShURLy destination plugin.
- *
- * @MigrateDestination(
- *   id = "shurly"
- * )
  */
-class OsuMigrationsShurly extends DestinationBase {
+#[MigrateDestination(
+  id: 'shurly'
+)]
+class OsuMigrationsShurly extends DestinationBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  private Connection $database;
+
+  /**
+   * {@inheritDoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, $database) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $migration);
+    $this->database = $database;
+  }
+
+  /**
+   * Creates a new instance of the destination plugin.
+   *
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   * @param array $configuration
+   * @param $plugin_id
+   * @param $plugin_definition
+   * @param \Drupal\migrate\Plugin\MigrationInterface|null $migration
+   *
+   * @return \Drupal\osu_migrations_shurly\Plugin\migrate\destination\OsuMigrationsShurly|static
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, ?MigrationInterface $migration = NULL): OsuMigrationsShurly|static {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $migration,
+      $container->get('database')
+    );
+  }
 
   /**
    * {@inheritDoc}
@@ -39,7 +79,7 @@ class OsuMigrationsShurly extends DestinationBase {
     $record['last_used'] = $row->getSourceProperty('last_used');
     $record['active'] = $row->getSourceProperty('active');
 
-    return [\Drupal::database()->insert('shurly')->fields($record)->execute()];
+    return [$this->database->insert('shurly')->fields($record)->execute()];
   }
 
   /**

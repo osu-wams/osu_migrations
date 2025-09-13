@@ -2,25 +2,26 @@
 
 namespace Drupal\osu_migrations_shurly\Plugin\migrate\source;
 
+use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\migrate\Annotation\MigrateSource;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
- * Drupal 7 Migrations for ShURLy.
+ * Migrate ShURLy history.
  *
  * @MigrateSource(
- *   id = "d7_shurly",
+ *   id = "d7_shurly_history",
  *   source_module = "shurly"
  * )
  */
-class OsuMigrationsShurly extends DrupalSqlBase {
+class OsuMigrationsShurlyHistory extends DrupalSqlBase {
 
   /**
    * {@inheritDoc}
    */
   public function getIds(): array {
     return [
-      'rid' => [
+      'hid' => [
         'type' => 'integer',
       ],
     ];
@@ -29,22 +30,18 @@ class OsuMigrationsShurly extends DrupalSqlBase {
   /**
    * {@inheritDoc}
    */
-  public function query() {
-    $query = $this->select('shurly', 'shurly');
-    $query->fields('shurly', [
+  public function query(): SelectInterface {
+    $query = $this->select('shurly_history', 'shurly_history');
+    $query->fields('shurly_history', [
+      'hid',
       'rid',
-      'uid',
+      'vid',
       'source',
       'destination',
-      'hash',
-      'created',
+      'last_date',
       'count',
-      'last_used',
-      'custom',
-      'active',
     ]);
     $query->distinct();
-
     return $query;
   }
 
@@ -53,16 +50,13 @@ class OsuMigrationsShurly extends DrupalSqlBase {
    */
   public function fields(): array {
     return [
+      'hid' => $this->t('The history ID.'),
       'rid' => $this->t('The redirect ID.'),
-      'uid' => $this->t('The user ID.'),
+      'vid' => $this->t('The version ID.'),
       'source' => $this->t('The source URL.'),
       'destination' => $this->t('The destination URL.'),
-      'hash' => $this->t('The hash.'),
-      'created' => $this->t('The created date.'),
+      'last_date' => $this->t('The last date.'),
       'count' => $this->t('The count.'),
-      'last_used' => $this->t('The last used date.'),
-      'custom' => $this->t('The custom field.'),
-      'active' => $this->t('The active date.'),
     ];
   }
 
