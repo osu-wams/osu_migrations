@@ -2,6 +2,7 @@
 
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
+use Drupal\migrate\Annotation\MigrateProcessPlugin;
 use Drupal\migrate\MigrateException;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateExecutableInterface;
