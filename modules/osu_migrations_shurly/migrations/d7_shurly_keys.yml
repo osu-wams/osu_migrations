@@ -15,6 +15,4 @@ process:
   apikey: apikey
 destination:
   plugin: 'shurly_keys'
-migration_dependencies:
-  required:
-    - d7_shurly
+migration_dependencies: { }
