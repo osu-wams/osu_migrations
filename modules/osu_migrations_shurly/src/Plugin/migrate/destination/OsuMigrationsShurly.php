@@ -26,23 +26,27 @@ class OsuMigrationsShurly extends DestinationBase implements ContainerFactoryPlu
   private Connection $database;
 
   /**
-   * {@inheritDoc}
+   * Constructs a ShURLy Destination row.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param $plugin_id
+   *   The plugin ID for the plugin instance.
+   * @param $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\migrate\Plugin\MigrationInterface $migration
+   *   The migration entity.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, $database) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, Connection $database) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $migration);
     $this->database = $database;
+    $this->supportsRollback = TRUE;
   }
 
   /**
-   * Creates a new instance of the destination plugin.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
-   * @param \Drupal\migrate\Plugin\MigrationInterface|null $migration
-   *
-   * @return \Drupal\osu_migrations_shurly\Plugin\migrate\destination\OsuMigrationsShurly|static
+   * {@inheritDoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, ?MigrationInterface $migration = NULL): OsuMigrationsShurly|static {
     return new static(
@@ -69,6 +73,7 @@ class OsuMigrationsShurly extends DestinationBase implements ContainerFactoryPlu
     // This method should return an array of destination IDs if successful,
     // false on failure.
     $record = [];
+    $record['rid'] = $row->getSourceProperty('rid');
     $record['destination'] = $row->getSourceProperty('destination');
     $record['hash'] = $row->getSourceProperty('hash');
     $record['custom'] = $row->getSourceProperty('custom');
@@ -97,6 +102,15 @@ class OsuMigrationsShurly extends DestinationBase implements ContainerFactoryPlu
       'last_used' => $this->t('Timestamp the last time the link was used.'),
       'active' => $this->t('Boolean represents status of the link.'),
     ];
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function rollback(array $destination_identifier) {
+    $this->database->delete('shurly')
+      ->condition('rid', $destination_identifier['rid'])
+      ->execute();
   }
 
 }
