@@ -11,7 +11,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  *
  * @MigrateSource(
  *   id = "d7_shurly_keys",
- *   source_module = "shurly"
+ *   source_module = "shurly_service"
  * )
  */
 class OsuMigrationsShurlyKeys extends DrupalSqlBase {
@@ -21,8 +21,8 @@ class OsuMigrationsShurlyKeys extends DrupalSqlBase {
    */
   public function getIds(): array {
     return [
-      'uid' => [
-        'type' => 'integer',
+      'apikey' => [
+        'type' => 'string',
       ],
     ];
   }

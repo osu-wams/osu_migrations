@@ -25,21 +25,28 @@ class OsuMigrationsShurlyKeys extends DestinationBase implements ContainerFactor
    */
   private Connection $database;
 
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, $database) {
+  /**
+   * Construct a ShURLy API Keys Destination row.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param $plugin_id
+   *   The plugin ID for the plugin instance.
+   * @param $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\migrate\Plugin\MigrationInterface $migration
+   *   The migration entity.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, Connection $database) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $migration);
     $this->database = $database;
+    $this->supportsRollback = TRUE;
   }
 
   /**
-   * Creates a new instance of the destination plugin.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
-   * @param \Drupal\migrate\Plugin\MigrationInterface|null $migration
-   *
-   * @return \Drupal\osu_migrations_shurly\Plugin\migrate\destination\OsuMigrationsShurlyHistory|static
+   * {@inheritDoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, ?MigrationInterface $migration = NULL): OsuMigrationsShurlyHistory|static {
     return new static(
@@ -55,7 +62,12 @@ class OsuMigrationsShurlyKeys extends DestinationBase implements ContainerFactor
    * {@inheritDoc}
    */
   public function getIds(): array {
-    return ['uid' => ['type' => 'integer']];
+    return [
+      'apikey' => [
+        'type' => 'string',
+        'length' => 35,
+      ],
+    ];
   }
 
   /**
@@ -80,6 +92,15 @@ class OsuMigrationsShurlyKeys extends DestinationBase implements ContainerFactor
       'uid' => $this->t('The User ID.'),
       'apikey' => $this->t('The API Key.'),
     ];
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function rollback(array $destination_identifier) {
+    $this->database->delete('shurly_keys')
+      ->condition('apikey', $destination_identifier['apikey'])
+      ->execute();
   }
 
 }
