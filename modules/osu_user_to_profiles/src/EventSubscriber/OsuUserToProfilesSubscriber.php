@@ -24,16 +24,22 @@ class OsuUserToProfilesSubscriber implements EventSubscriberInterface {
   private Connection $migrateConnection;
 
   /**
+   * The entity type manager.
+   *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   private EntityTypeManagerInterface $entityTypeManager;
 
   /**
+   * The language manager.
+   *
    * @var \Drupal\Core\Language\LanguageManagerInterface
    */
   private LanguageManagerInterface $languageManager;
 
   /**
+   * The redirect repository.
+   *
    * @var \Drupal\redirect\RedirectRepository
    */
   private RedirectRepository $redirectRepository;
@@ -44,8 +50,11 @@ class OsuUserToProfilesSubscriber implements EventSubscriberInterface {
    * @param \Drupal\Core\Database\Connection $migrateConnection
    *   The Migrate Database Connection.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The Entity Type Manager.
    * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   The Language Manager.
    * @param \Drupal\redirect\RedirectRepository $redirectRepository
+   *   The Redirect Repository.
    */
   public function __construct(Connection $migrateConnection, EntityTypeManagerInterface $entityTypeManager, LanguageManagerInterface $languageManager, RedirectRepository $redirectRepository) {
     $this->migrateConnection = $migrateConnection;
@@ -110,12 +119,11 @@ class OsuUserToProfilesSubscriber implements EventSubscriberInterface {
    * Remove the custom redirects we made.
    *
    * @param \Drupal\migrate\Event\MigrateRollbackEvent $migrateRollbackEvent
-   *
-   * @return void
+   *   The migration rollback event.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function onPostRollback(MigrateRollbackEvent $migrateRollbackEvent) {
+  public function onPostRollback(MigrateRollbackEvent $migrateRollbackEvent): void {
     if ($migrateRollbackEvent->getMigration()
       ->getPluginId() === 'upgrade_d7_user_to_profile') {
       /** @var \Drupal\redirect\Entity\Redirect[] $userOldRedirects */

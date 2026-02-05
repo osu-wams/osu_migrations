@@ -2,21 +2,21 @@
 
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
 
 /**
- * Custom process plugin for handling class list field type in d7.
+ * Custom process plugin for handling a class list field type in d7.
  *
- * Migrations view class list as Array of Arrays, this class concats them into
- * a single string.
- *
- * @MigrateProcessPlugin(
- *   id = "class_list",
- *   handle_multiples = TRUE
- * )
+ * Migrations view a class list as Array of Arrays, this class concatenates them
+ * into a single string.
  */
+#[MigrateProcess(
+  id: 'class_list',
+  handle_multiples: TRUE
+)]
 class ClassList extends ProcessPluginBase {
 
   /**

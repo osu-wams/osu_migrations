@@ -6,7 +6,7 @@ use Drupal\Component\Uuid\UuidInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\migrate\Annotation\MigrateProcessPlugin;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
@@ -18,12 +18,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Custom plugin for handling paragraph accordion items from d7.
- *
- * @MigrateProcessPlugin(
- *   id = "accordion_item",
- *   handle_multiples = TRUE
- * )
  */
+#[MigrateProcess(
+  id: 'accordion_item',
+  handle_multiples: TRUE
+)]
 class AccordionItem extends LayoutBase {
 
   /**
@@ -75,8 +74,8 @@ class AccordionItem extends LayoutBase {
         'field_osu_paragraph_item' => $paragraph_items,
       ]);
 
-      // Return accordion section which gets attached to the block created by the
-      // migration.
+      // Return accordion section which gets attached to the block created by
+      // the migration.
       return $paragraph_section;
     }
     return $value;

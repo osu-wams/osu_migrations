@@ -6,6 +6,7 @@ use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateException;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
@@ -15,11 +16,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Entity Background Process plugin.
- *
- * @MigrateProcessPlugin(
- *   id = "entity_background"
- * )
  */
+#[MigrateProcess(
+  id: 'entity_background',
+)]
 class EntityBackground extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**

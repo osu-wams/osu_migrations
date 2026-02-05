@@ -15,14 +15,14 @@ use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 class OsuMediaEmbed {
 
   /**
-   * The migrate.lookup service.
+   * The Migrate lookup interface.
    *
    * @var \Drupal\migrate\MigrateLookupInterface
    */
   protected $lookup;
 
   /**
-   * The entity type manager.
+   * The Entity type Manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
@@ -64,7 +64,7 @@ class OsuMediaEmbed {
       $decoder = new JsonDecode([JsonDecode::ASSOCIATIVE => TRUE]);
     }
     else {
-      $decoder = new JsonDecode(TRUE);
+      $decoder = new JsonDecode();
     }
     $text = preg_replace_callback($pattern, function ($matches) use ($decoder) {
       // Find 2 or more consecutive spaces and replace it with one.

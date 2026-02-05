@@ -5,6 +5,7 @@ namespace Drupal\osu_migrate_content\Plugin\migrate\process;
 use Drupal\Component\Uuid\UuidInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
@@ -12,11 +13,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Process Plugin to Work on Context to Block Visibility Group Conditions.
- *
- * @MigrateProcessPlugin (
- *   id = "osu_block_visibility_group_conditions"
- * )
  */
+#[MigrateProcess(
+  id: 'osu_block_visibility_group_conditions'
+)]
 class OsuBlockVisibilityGroupConditions extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**

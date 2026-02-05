@@ -4,6 +4,7 @@ namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
 use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateException;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
@@ -16,20 +17,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * The migration configuration 'custom_source_lookup' is required.
  *
- * @MigrateProcessPlugin(
- *   id = "file_background"
- * )
- *
+ * @code
  * Examples:
  *   field_eb_background_fc:
  *     plugin: file_background
  *     source: field_p_2_col_left_bg
  *     custom_source_lookup: upgrade_d7_media_images
- *
- * @code
- *
  * @endcode
  */
+#[MigrateProcess(
+  id: 'file_background',
+)]
 class FileBackground extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**

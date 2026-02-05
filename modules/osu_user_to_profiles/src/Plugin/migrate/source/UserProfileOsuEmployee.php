@@ -88,8 +88,8 @@ class UserProfileOsuEmployee extends DrupalSqlBase {
     $building_name = $row->get('building_name');
     $address_line_1 = $row->get('location_address_one_value');
     $address_line_2 = $row->get('location_address_two_value');
-    // If we have a room number set and no address value two is set in the source
-    // combine building name and room number and set it to address one
+    // If we have a room number set and no address value two is set in the
+    // source, combine building name and room number and set it to address one
     // moving address one to address two.
     if (!empty($room_number) && empty($address_line_2)) {
       $building_room_with_name = $building_name . ' ' . $room_number;

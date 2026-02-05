@@ -2,7 +2,7 @@
 
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
-use Drupal\migrate\Annotation\MigrateProcessPlugin;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateException;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateExecutableInterface;
@@ -20,11 +20,10 @@ use Drupal\paragraphs_to_layout_builder\LayoutMigrationItem;
  *   plugin: layout_builder_layout
  *   source_field: field_paragraphs
  * @endcode
- *
- * @MigrateProcessPlugin(
- *   id = "paragraphs_layout"
- * )
  */
+#[MigrateProcess(
+  id: 'paragraphs_layout',
+)]
 class ParagraphsLayout extends LayoutBase {
 
   /**
@@ -85,14 +84,16 @@ class ParagraphsLayout extends LayoutBase {
             $migration_ids[$map[$type]] = "blb_region_col_1";
           }
           else {
-            throw new LayoutMigrationMissingParagraphToLayoutException($this->t('Missing custom paragraph migration for paragraph type @type.', ['@type' => $type]));
+            throw new LayoutMigrationMissingParagraphToLayoutException("Missing custom paragraph migration for paragraph type: $type.");
           }
-          // Iterate through migration_ids creating components for each block and attaching to section.
+          // Iterate through migration_ids creating components for each block
+          // and attaching to section.
           foreach ($migration_ids as $migration_id => $migration_row) {
             $migrationItem = new LayoutMigrationItem($type, $item['value'], $delta, $migration_id);
             $components = $this->createComponent($migrationItem, $section, $migration_row);
 
-            // Limitations on menu migrations means we don't know what section type to use until now.
+            // Limitations on menu migrations mean we don't know what section
+            // type to use until now.
             if ($components[0]->get('configuration')['id'] == 'inline_block:osu_menu_bar_item') {
               // Query old db to get the menu bg color option.
               $menu_style_query = $this->migrateDb->select('field_data_field_p_menu_styles', 'fdfpms');
@@ -152,6 +153,7 @@ class ParagraphsLayout extends LayoutBase {
    * Set the Menu bar section options.
    *
    * @param string $paragraph_style
+   *   The paragraph style.
    *
    * @return array
    *   Layout builder Section settings.

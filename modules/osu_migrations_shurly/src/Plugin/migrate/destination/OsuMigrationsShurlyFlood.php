@@ -32,7 +32,7 @@ class OsuMigrationsShurlyFlood extends DestinationBase implements ContainerFacto
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, ?MigrationInterface $migration = NULL): OsuMigrationsShurlyFlood|static {
     return new static(
@@ -45,14 +45,14 @@ class OsuMigrationsShurlyFlood extends DestinationBase implements ContainerFacto
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function getIds(): array {
     return ['fid' => ['type' => 'integer']];
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function import(Row $row, array $old_destination_id_values = []): bool|array {
     $record = [];
@@ -69,7 +69,7 @@ class OsuMigrationsShurlyFlood extends DestinationBase implements ContainerFacto
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function fields(): array {
     return [

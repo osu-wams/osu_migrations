@@ -3,20 +3,22 @@
 namespace Drupal\osu_migrate_content\Plugin\migrate\process;
 
 use Drupal\block\Plugin\migrate\process\BlockPluginId;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
 
 /**
- * @MigrateProcessPlugin(
- *   id = "osu_block_plugin_id"
- * )
+ * Custom plugin for handling block plugin ids from d7.
  */
+#[MigrateProcess(
+  id: 'osu_block_plugin_id'
+)]
 class OsuBlockPluginId extends BlockPluginId {
 
   /**
    * {@inheritDoc}
    *
-   * Run the parent transform but if that doesn't find a block look up our own
+   * Run the parent transform, but if that doesn't find a block, look up our own
    * block lookup plugin and get the uuid of the block.
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {

@@ -5,6 +5,7 @@ namespace Drupal\og_to_group\Plugin\migrate\process;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateException;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
@@ -12,11 +13,6 @@ use Drupal\migrate_plus\Plugin\migrate\process\EntityLookup;
 
 /**
  * This plugin looks for the taxonomy term by the title in the og_membership.
- *
- * @MigrateProcessPlugin(
- *   id = "og_entity_lookup",
- *   source_module = "og"
- * )
  *
  * To filter on a specific field name that the OG membership uses.
  *
@@ -26,6 +22,9 @@ use Drupal\migrate_plus\Plugin\migrate\process\EntityLookup;
  *   field_name: my_field_name
  * @endcode
  */
+#[MigrateProcess(
+  id: 'og_entity_lookup'
+)]
 class OgEntityLookup extends EntityLookup implements ContainerFactoryPluginInterface {
 
   /**

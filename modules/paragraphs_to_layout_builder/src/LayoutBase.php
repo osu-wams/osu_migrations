@@ -121,7 +121,7 @@ class LayoutBase extends ProcessPluginBase implements ContainerFactoryPluginInte
   }
 
   /**
-   * Maps paragraph bundle type to bootstrap layout builder section type.
+   * Maps a paragraph bundle type to bootstrap layout builder section type.
    *
    * @param string $paragraphType
    *   Name of the paragraph bundle.

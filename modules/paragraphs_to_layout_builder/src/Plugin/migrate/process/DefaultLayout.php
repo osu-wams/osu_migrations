@@ -2,6 +2,7 @@
 
 namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
 use Drupal\paragraphs_to_layout_builder\LayoutBase;
@@ -17,11 +18,10 @@ use Drupal\paragraphs_to_layout_builder\LayoutBase;
  *   plugin: default_layout
  *   bundle: page
  * @endcode
- *
- * @MigrateProcessPlugin(
- *   id = "default_layout"
- * )
  */
+#[MigrateProcess(
+  id: 'default_layout',
+)]
 class DefaultLayout extends LayoutBase {
 
   /**
