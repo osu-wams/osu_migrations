@@ -2,11 +2,12 @@
 
 namespace Drupal\osu_migrations_taxonomy\Plugin\migrate\source;
 
+use Drupal\migrate\Annotation\MigrateSource;
 use Drupal\migrate\Plugin\migrate\source\SqlBase;
 use Drupal\migrate\Row;
 
 /**
- * Drupal 7 taxonomy terms source from database.
+ * Drupal 7 taxonomy terms source from a database.
  *
  * @todo Support term_relation, term_synonym table if possible.
  *

@@ -5,9 +5,12 @@ namespace Drupal\osu_migrate_content\Plugin\migrate\source;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\field\Plugin\migrate\source\d7\FieldInstance;
+use Drupal\migrate\Annotation\MigrateSource;
 use Drupal\migrate\Plugin\MigrationInterface;
 
 /**
+ * Drupal 7 Migrate OSU Field Instance source.
+ *
  * @MigrateSource(
  *   id = "osu_d7_field_instance",
  *   source_module = "field"

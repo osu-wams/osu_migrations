@@ -2,6 +2,7 @@
 
 namespace Drupal\osu_migrations_taxonomy\Plugin\migrate\source;
 
+use Drupal\migrate\Annotation\MigrateSource;
 use Drupal\migrate\Plugin\migrate\source\SqlBase;
 
 /**
@@ -32,7 +33,7 @@ class Vocabulary extends SqlBase {
   }
 
   /**
-   * {@ihneritdoc}
+   * {@inheritDoc}
    */
   public function fields() {
     return [

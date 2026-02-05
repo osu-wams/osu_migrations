@@ -3,6 +3,7 @@
 namespace Drupal\osu_migrations\Plugin\migrate\process;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateLookupInterface;
 use Drupal\migrate\ProcessPluginBase;
@@ -11,11 +12,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'MigratedPathLookup' migrate process plugin.
- *
- * @MigrateProcessPlugin(
- *   id = "osu_migrate_path_lookup"
- * )
  */
+#[MigrateProcess(
+  id: 'osu_migrate_path_lookup',
+)]
 class OsuMigratePathLookup extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**

@@ -6,6 +6,7 @@ use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\group_content_menu\GroupContentMenuInterface;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateSkipRowException;
 use Drupal\migrate\ProcessPluginBase;
@@ -14,12 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Get the group menu name from a group.
- *
- * @MigrateProcessPlugin(
- *   id = "og_book_menu",
- *   source_module = "menu"
- * )
  */
+#[MigrateProcess(
+  id: 'og_book_menu'
+)]
 class OgBookMenu extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**

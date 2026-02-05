@@ -17,7 +17,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 class OsuMigrationsShurlyFlood extends DrupalSqlBase {
 
   /**
-   * {@iheritDoc}
+   * {@inheritDoc}
    */
   public function getIds(): array {
     return [
@@ -27,6 +27,9 @@ class OsuMigrationsShurlyFlood extends DrupalSqlBase {
     ];
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public function query(): SelectInterface {
     $query = $this->select('shurly_flood', 'shurly_flood');
     $query->fields('shurly_flood', [

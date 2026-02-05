@@ -3,9 +3,10 @@
 namespace Drupal\osu_migrations_media\Plugin\migrate\source;
 
 use Drupal\file\Plugin\migrate\source\d7\File;
+use Drupal\migrate\Annotation\MigrateSource;
 
 /**
- * Drupal 7 file source (optionally filtered by type) from database.
+ * Drupal 7 file source (optionally filtered by type) from a database.
  *
  * @MigrateSource(
  *  id = "d7_file_by_type",
@@ -22,9 +23,7 @@ class FileByType extends File {
 
     // Filter by file type, if configured.
     if (isset($this->configuration['type'])) {
-      // I don't think this will be sufficient.
-      // It seems to me, that we need a subroutine parsing through video assets to determine
-      // 1) local video, 2) remote video, and 3) Kalture|media.o.e.
+      // Filter on the file type.
       $query->condition('f.type', $this->configuration['type']);
     }
 

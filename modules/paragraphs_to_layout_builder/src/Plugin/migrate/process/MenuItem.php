@@ -4,18 +4,18 @@ namespace Drupal\paragraphs_to_layout_builder\Plugin\migrate\process;
 
 use Drupal\block_content\Entity\BlockContent;
 use Drupal\Component\Utility\UrlHelper;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\Row;
 use Drupal\paragraphs_to_layout_builder\LayoutBase;
 
 /**
  * Custom plugin for handling paragraph menu items from d7.
- *
- * @MigrateProcessPlugin(
- *   id = "menu_item",
- *   handle_multiples = TRUE
- * )
  */
+#[MigrateProcess(
+  id: 'menu_item',
+  handle_multiples: TRUE
+)]
 class MenuItem extends LayoutBase {
 
   /**
@@ -39,7 +39,8 @@ class MenuItem extends LayoutBase {
       $query->orderBy('p.entity_id');
       $results = $query->execute();
     }
-    // Use query results to build menu bar item blocks, save block ids for later use.
+    // Use query results to build menu bar item blocks, save block ids for later
+    // use.
     $block_ids = [];
     foreach ($results as $result) {
       // Check for valid urls. Make changes as necessary.
