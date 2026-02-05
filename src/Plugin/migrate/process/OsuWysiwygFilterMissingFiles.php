@@ -3,6 +3,7 @@
 namespace Drupal\osu_migrations\Plugin\migrate\process;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\migrate\Attribute\MigrateProcess;
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
@@ -11,11 +12,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Process Plugin to transform Drupal 7 embed to Drupal 9.
- *
- * @MigrateProcessPlugin(
- *   id = "osu_wysiwyg_filter_missing_files"
- * )
  */
+#[MigrateProcess(
+  id: 'osu_wysiwyg_filter_missing_files'
+)]
 class OsuWysiwygFilterMissingFiles extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**
