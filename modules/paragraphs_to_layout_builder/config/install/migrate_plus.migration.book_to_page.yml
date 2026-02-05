@@ -35,8 +35,9 @@ process:
       source: body
       process:
         value:
-          plugin: osu_media_wysiwyg_filter
-          source: value
+          - plugin: osu_wysiwyg_filter_missing_files
+            source: value
+          - plugin: osu_media_wysiwyg_filter
         summary: summary
         format:
           plugin: default_value

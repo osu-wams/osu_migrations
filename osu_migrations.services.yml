@@ -6,4 +6,8 @@ services:
 
   osu_migrations.osu_media_embed:
     class: Drupal\osu_migrations\OsuMediaEmbed
-    arguments: ['@migrate.lookup', '@entity_type.manager']
+    arguments: [ '@migrate.lookup', '@entity_type.manager' ]
+
+  osu_migrations.osu_migrate_missing_files:
+    class: Drupal\osu_migrations\OsuMigrateMissingFiles
+    arguments: [ '@logger.factory', '@entity_type.manager', '@file_system' ]
