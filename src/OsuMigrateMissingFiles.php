@@ -112,11 +112,9 @@ class OsuMigrateMissingFiles {
    *
    * @return void
    *   This method does not return a value.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   private function copyAndImportFile(string $relativePath, string $fileUri): void {
-    // Ensure Destination directory exists.
+    // Ensure the Destination directory exists.
     $containerDir = dirname($fileUri);
     if ($containerDir === '.') {
       $destinationDirUri = 'public://';
@@ -125,10 +123,12 @@ class OsuMigrateMissingFiles {
       $destinationDirUri = "public://{$containerDir}";
     }
     $this->fileSystem->prepareDirectory($destinationDirUri, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
-    $copiedFileUri = $this->fileSystem->copy(DRUPAL_ROOT . $relativePath, $destinationDirUri, FileExists::Replace);
-    if (!$copiedFileUri) {
+    try {
+      $copiedFileUri = $this->fileSystem->copy(DRUPAL_ROOT . $relativePath, $destinationDirUri, FileExists::Replace);
+    }
+    catch (\Exception $e) {
       $this->logger->get('osu_migrations')
-        ->warning("Could not copy file {$relativePath}");
+        ->warning("Could not copy file $relativePath");
       return;
     }
     $copiedFileObject = File::create(['uri' => $copiedFileUri, 'status' => 1]);
