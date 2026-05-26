@@ -72,7 +72,12 @@ class OsuWysiwygFilterMissingFiles extends ProcessPluginBase implements Containe
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
     $value_is_array = is_array($value);
     $text = (string) ($value_is_array ? $value['value'] : $value);
-    $this->osuMigrateMissingFiles->copyMissingFiles($text);
+    try {
+      $this->osuMigrateMissingFiles->copyMissingFiles($text);
+    }
+    catch (\Exception $e) {
+      $migrate_executable->saveMessage($e->getMessage());
+    }
 
     return $value;
   }
